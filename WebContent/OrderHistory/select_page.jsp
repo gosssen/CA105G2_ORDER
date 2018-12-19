@@ -15,6 +15,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-xs-12 col-sm-12"></div>
+			<h4><a href="select_page.jsp"><img src="images/LOGO1.png" width="70" height="50" border="0"><b>­º­¶</b></a></h4>
 			<div class="panel panel-info">
 					<div class="panel-heading">
 						<h3 class="panel-title">­q³æ¬ö¿ý¬d¸ß</h3>
