@@ -4,7 +4,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">	
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 	<title>訂單紀錄查詢</title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
@@ -72,9 +72,7 @@
 					<h3 class="panel-title">訂單管理</h3>
 				</div>
 				<div class="panel-body">
-					<ul>
-						<li><a href='addOrderHistory.jsp'>新增一筆訂單紀錄</a></li>
-					</ul>
+					<a href='addOrderHistory.jsp'>新增一筆訂單紀錄</a>
 				</div>
 			</div>
 		</div>

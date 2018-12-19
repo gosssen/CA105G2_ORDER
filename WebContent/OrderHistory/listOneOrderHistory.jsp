@@ -7,96 +7,86 @@
 <%
   OrderHistoryVO orderHistoryVO = (OrderHistoryVO) request.getAttribute("orderHistoryVO");
 %>
-
 <html>
-<head>
-<title>訂單紀錄 - ListOneOrderHistory.jsp</title>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+		<title>訂單紀錄</title>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+		<!--[if lt IE 9]>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
 
-<style>
-  table#table-1 {
-	background-color: #CCCCFF;
-    border: 2px solid black;
-    text-align: center;
-  }
-  table#table-1 h4 {
-    color: red;
-    display: block;
-    margin-bottom: 1px;
-  }
-  h4 {
-    color: blue;
-    display: inline;
-  }
-table {
-	width: 100%;
-	background-color: white;
-	margin-top: 5px;
-	margin-bottom: 5px;
-  }
-  table, th, td {
-    border: 1px solid #CCCCFF;
-  }
-  th, td {
-    padding: 5px;
-    text-align: center;
-  }
-</style>
+		<style>
+			table {
+	 			margin-top: 1px;
+				margin-bottom: 1px;
+				font-size: 10px;
+			}
 
-</head>
-<body bgcolor='white'>
+		</style>
+	</head>
+	<body>
 
-<h4>此頁暫練習採用 Script 的寫法取值:</h4>
-<table id="table-1">
-	<tr><td>
-		 <h3>員工資料 - ListOneOrderHistory.jsp</h3>
-		 <h4><a href="select_page.jsp"><img src="images/back1.gif" width="100" height="32" border="0">回首頁</a></h4>
-	</td></tr>
-</table>
 
-<table>
-	<tr>
-		<th>訂單編號</th>
-		<th>會員編號</th>
-		<th>訂單總金額</th>
-		<th>付款方式</th>
-		<th>出貨方式</th>
-		<th>訂購日期</th>
-		<th>出貨日期</th>
-		<th>取貨日期</th>
-		<th>送貨地址</th>
-		<th>收件人名稱</th>
-		<th>收件人電話</th>
-		<th>訂單狀態</th>
-	</tr>
-	
-	<tr>
-<%-- 		<td><%=orderHistoryVO.getOrderNo()%></td> --%>
-<%-- 		<td><%=orderHistoryVO.getMemberNo()%></td> --%>
-<%-- 		<td><%=orderHistoryVO.getOrderPrice()%></td> --%>
-<%-- 		<td><%=orderHistoryVO.getPayMethods()%></td> --%>
-<%-- 		<td><%=orderHistoryVO.getShippingMethods()%></td> --%>
-<%-- 		<td><%=orderHistoryVO.getOrderDate()%></td> --%>
-<%-- 		<td><%=orderHistoryVO.getOrderEtd()%></td> --%>
-<%-- 		<td><%=orderHistoryVO.getPickupDate()%></td> --%>
-<%-- 		<td><%=orderHistoryVO.getReceiverAdd()%></td> --%>
-<%-- 		<td><%=orderHistoryVO.getReceiverName()%></td>  --%>
-<%-- 		<td><%=orderHistoryVO.getReceiverTel()%></td> --%>
-<%-- 		<td><%=orderHistoryVO.getOrderStatus()%></td> --%>
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12 col-sm-12">
+					<h4><a href="select_page.jsp"><img src="images/LOGO1.png" width="70" height="50" border="0"><b>首頁</b></a></h4>
+					<div class="panel panel-info">
+						<div class="panel-heading">
+					  		<h3 class="panel-title">訂單紀錄</h3>
+						</div>
+
+							<table class="table table-bordered table-striped table-hover">
+
+								<thead>
+									<tr>
+										<th>訂單編號</th>
+										<th>會員編號</th>
+										<th>訂單總金額</th>
+										<th>付款方式</th>
+										<th>出貨方式</th>
+										<th>訂購日期</th>
+										<th>出貨日期</th>
+										<th>取貨日期</th>
+										<th>送貨地址</th>
+										<th>收件人名稱</th>
+										<th>收件人電話</th>
+										<th>訂單狀態</th>
+									</tr>
+								</thead>
 		
- 		<td>${orderHistoryVO.orderNo}</td>
-		<td>${orderHistoryVO.memberNo}</td>
-		<td>${orderHistoryVO.orderPrice}</td>
-		<td>${orderHistoryVO.payMethods}</td>
-		<td>${orderHistoryVO.shippingMethods}</td>
-		<td><fmt:formatDate value="${orderHistoryVO.orderDate}" pattern="yyyy-MM-dd"/></td>
-		<td><fmt:formatDate value="${orderHistoryVO.orderEtd}" pattern="yyyy-MM-dd"/></td>
-		<td><fmt:formatDate value="${orderHistoryVO.pickupDate}" pattern="yyyy-MM-dd"/></td>
-		<td>${orderHistoryVO.receiverAdd}</td>
-		<td>${orderHistoryVO.receiverName}</td> 
-		<td>${orderHistoryVO.receiverTel}</td>
-		<td>${orderHistoryVO.orderStatus}</td>  
-	</tr>
-</table>
+								<tbody>
 
-</body>
+									<tr>
+										
+								 		<td>${orderHistoryVO.orderNo}</td>
+										<td>${orderHistoryVO.memberNo}</td>
+										<td>${orderHistoryVO.orderPrice}</td>
+										<td>${orderHistoryVO.payMethods}</td>
+										<td>${orderHistoryVO.shippingMethods}</td>
+										<td><fmt:formatDate value="${orderHistoryVO.orderDate}" pattern="yyyy-MM-dd"/></td>
+										<td><fmt:formatDate value="${orderHistoryVO.orderEtd}" pattern="yyyy-MM-dd"/></td>
+										<td><fmt:formatDate value="${orderHistoryVO.pickupDate}" pattern="yyyy-MM-dd"/></td>
+										<td>${orderHistoryVO.receiverAdd}</td>
+										<td>${orderHistoryVO.receiverName}</td> 
+										<td>${orderHistoryVO.receiverTel}</td>
+										<td>${orderHistoryVO.orderStatus}</td>  
+									</tr>
+
+								</tbody>
+							</table>
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+		
+		<script src="https://code.jquery.com/jquery.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	</body>
 </html>
