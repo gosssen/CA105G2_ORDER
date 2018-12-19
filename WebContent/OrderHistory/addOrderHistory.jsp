@@ -86,18 +86,23 @@
 	
 	<tr>
 		<td>付款方式：<font color=red><b>*</b></font></td>
-		<td><select size="1" name="payMethods">
-			<c:forEach var="orderHistoryVO" items="${OrderHistorySvc.all}">
-				<option value="${orderHistoryVO.payMethods}">${orderHistoryVO.payMethods}
-			</c:forEach>
-		</select></td>
+		<td>
+			<select size="1" name="payMethods">
+				<option value='' selected>請選擇</option>
+				<option value="CREDITCARD">電子錢包</option>
+				<option value="EWALLET">信用卡</option>
+		   </select>
+		</td>
 	</tr>
 	<tr>
 		<td>出貨方式：<font color=red><b>*</b></font></td>
 		<td><select size="1" name="shippingMethods">
-			<c:forEach var="orderHistoryVO" items="${OrderHistorySvc.all}">
-				<option value="${orderHistoryVO.shippingMethods}" >${orderHistoryVO.shippingMethods}
-			</c:forEach>
+<%-- 			<c:forEach var="orderHistoryVO" items="${OrderHistorySvc.all}"> --%>
+<%-- 				<option value="${orderHistoryVO.shippingMethods}" >${orderHistoryVO.shippingMethods} --%>
+<%-- 			</c:forEach> --%>
+				<option value='' selected>請選擇</option>
+				<option value="STOREPICKUP">超商取貨</option>
+				<option value="HOMEDELIVERY">宅配</option>
 		</select></td>
 	</tr>
 	<tr>
@@ -130,9 +135,15 @@
 	<tr>
 		<td>訂單狀態：<font color=red><b>*</b></font></td>
 		<td><select size="1" name="orderStatus">
-			<c:forEach var="orderHistoryVO" items="${OrderHistorySvc.all}">
-				<option value="${orderHistoryVO.orderStatus}" >${orderHistoryVO.orderStatus}
-			</c:forEach>
+<%-- 			<c:forEach var="orderHistoryVO" items="${OrderHistorySvc.all}"> --%>
+<%-- 				<option value="${orderHistoryVO.orderStatus}" >${orderHistoryVO.orderStatus} --%>
+<%-- 			</c:forEach> --%>
+				<option value='' selected>請選擇</option>
+				<option value="PAYMENT1">已付款</option>
+				<option value="SHIPPING2">出貨中</option>
+				<option value="SHIPMENT3">已出貨</option>
+				<option value="COMPLETE4">已完成</option>
+				<option value="CANCEL5">已取消</option>
 		</select></td>
 	</tr>
 

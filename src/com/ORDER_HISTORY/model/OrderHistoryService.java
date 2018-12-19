@@ -25,6 +25,7 @@ public class OrderHistoryService {
 		orderHistoryVO.setOrderEtd(orderEtd);
 		orderHistoryVO.setPickupDate(pickupDate);
 		orderHistoryVO.setReceiverAdd(receiverAdd);
+		orderHistoryVO.setReceiverName(receiverName);
 		orderHistoryVO.setReceiverTel(receiverTel);
 		orderHistoryVO.setOrderStatus(orderStatus);
 		dao.insert(orderHistoryVO);
