@@ -2,11 +2,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.util.*"%>
-<%@ page import="com.ORDER_HISTORY.model.*"%>
+<%@ page import="com.ORDER_DETAIL.model.*"%>
 
 <%
-    OrderHistoryService orderHistorySvc = new OrderHistoryService();
-    List<OrderHistoryVO> list = orderHistorySvc.getAll();
+    OrderDetailService orderHistorySvc = new OrderDetailService();
+    List<OrderDetailVO> list = orderHistorySvc.getAll();
     pageContext.setAttribute("list",list);
 %>
 <html>
@@ -50,51 +50,40 @@
 					  		
 					  		<h3 class="panel-title">所有訂單紀錄查詢</h3><%@ include file="page1.file" %>
 						</div>
+
 						<table class="table table-bordered table-striped table-hover">
+
 							<thead>
 								<tr>
 									<th>訂單編號</th>
-									<th>會員編號</th>
-									<th>訂單總金額</th>
-									<th>付款方式</th>
-									<th>出貨方式</th>
-									<th>訂購日期</th>
-									<th>出貨日期</th>
-									<th>取貨日期</th>
-									<th>送貨地址</th>
-									<th>收件人名稱</th>
-									<th>收件人電話</th>
-									<th>訂單狀態</th>
+									<th>商品編號</th>
+									<th>實際交易金額</th>
+									<th>商品數量</th>
 									<th>修改</th>
 									<th>刪除</th>
 								</tr>
 							</thead>
+							
+								
 								
 								
 							<tbody>
-								<c:forEach var="orderHistoryVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">							
+								<c:forEach var="orderDetailVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">							
 									<tr>
-										<td>${orderHistoryVO.orderNo}</td>
-										<td>${orderHistoryVO.memberNo}</td>
-										<td>${orderHistoryVO.orderPrice}</td>
-										<td>${orderHistoryVO.payMethods}</td>
-										<td>${orderHistoryVO.shippingMethods}</td>
-										<td><fmt:formatDate value="${orderHistoryVO.orderDate}" pattern="yyyy-MM-dd"/></td>
-										<td><fmt:formatDate value="${orderHistoryVO.orderEtd}" pattern="yyyy-MM-dd"/></td>
-										<td><fmt:formatDate value="${orderHistoryVO.pickupDate}" pattern="yyyy-MM-dd"/></td>
-										<td>${orderHistoryVO.receiverAdd}</td>
-										<td>${orderHistoryVO.receiverName}</td> 
-										<td>${orderHistoryVO.receiverTel}</td>
-										<td>${orderHistoryVO.orderStatus}</td>
+										<td>${orderDetailVO.orderNo}</td>
+										<td>${orderDetailVO.goodsNo}</td>
+										<td>${orderDetailVO.goodsBonus}</td>
+										<td>${orderDetailVO.goodsPc}</td>
+			
 										
 										<td>
-										  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/OrderHistory/OrderHistory.do" style="margin-bottom: 0px;">
+										  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/OrderDetail/OrderDetail.do" style="margin-bottom: 0px;">
 										     <input type="submit" value="修改">
 										     <input type="hidden" name="orderNo"  value="${orderHistoryVO.orderNo}">
 										     <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
 										</td>
 										<td>
-										  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/OrderHistory/OrderHistory.do" style="margin-bottom: 0px;">
+										  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/OrderDetail/OrderDetail.do" style="margin-bottom: 0px;">
 										     <input type="submit" value="刪除">
 										     <input type="hidden" name="orderNo"  value="${orderHistoryVO.orderNo}">
 										     <input type="hidden" name="action" value="delete"></FORM>
@@ -102,8 +91,11 @@
 									</tr>
 								</c:forEach>
 							</tbody>
+							
 						</table>
+						
 					</div>
+					
 					<%@ include file="page2.file" %>
 				</div>
 			</div>

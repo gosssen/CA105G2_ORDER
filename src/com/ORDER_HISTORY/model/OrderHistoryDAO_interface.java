@@ -8,4 +8,6 @@ public interface OrderHistoryDAO_interface {
     public void delete(String orderNo);
     public OrderHistoryVO findByPrimaryKey(String orderNo);
     public List<OrderHistoryVO> getAll();
+    public List<String> getAllMemberNo();
+    public List<OrderHistoryVO> findByMemberNo(String memberNo);
 }

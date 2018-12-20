@@ -38,6 +38,10 @@ public class OrderHistoryDAO implements OrderHistoryDAO_interface {
 		"UPDATE ORDER_HISTORY SET MEMBER_NO=?, ORDER_PRICE=?, PAY_METHODS=?, SHIPPING_METHODS=?,"
 		+ " ORDER_DATE=?, ORDER_ETD=?, PICKUP_DATE=?, RECEIVER_ADD=?, RECEIVER_NAME=?, "
 		+ "RECEIVER_TEL=?, ORDER_STATUS=? WHERE ORDER_NO = ?";
+	private static final String GET_ALL_MEMBERNO = 
+		"SELECT DISTINCT MEMBER_NO FROM ORDER_HISTORY ORDER BY MEMBER_NO";
+	private static final String GET_ONE_MEMBERNO = 
+		"SELECT * FROM ORDER_HISTORY WHERE MEMBER_NO = ?";
 	
 	@Override
 	public void insert(OrderHistoryVO orderHistoryVO) {
@@ -65,8 +69,7 @@ public class OrderHistoryDAO implements OrderHistoryDAO_interface {
 			pstmt.executeUpdate();
 
 		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. "
-					+ se.getMessage());
+			throw new RuntimeException("A database error occured. " + se.getMessage());
 		} finally {
 			if (pstmt != null) {
 				try {
@@ -112,8 +115,7 @@ public class OrderHistoryDAO implements OrderHistoryDAO_interface {
 			pstmt.executeUpdate();
 
 		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. "
-					+ se.getMessage());
+			throw new RuntimeException("A database error occured. " + se.getMessage());
 		} finally {
 			if (pstmt != null) {
 				try {
@@ -147,8 +149,7 @@ public class OrderHistoryDAO implements OrderHistoryDAO_interface {
 			pstmt.executeUpdate();
 
 		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. "
-					+ se.getMessage());
+			throw new RuntimeException("A database error occured. " + se.getMessage());
 		} finally {
 			if (pstmt != null) {
 				try {
@@ -202,8 +203,7 @@ public class OrderHistoryDAO implements OrderHistoryDAO_interface {
 
 
 		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. "
-					+ se.getMessage());
+			throw new RuntimeException("A database error occured. " + se.getMessage());
 		} finally {
 			if (rs != null) {
 				try {
@@ -263,8 +263,7 @@ public class OrderHistoryDAO implements OrderHistoryDAO_interface {
 			}
 
 		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. "
-					+ se.getMessage());
+			throw new RuntimeException("A database error occured. " + se.getMessage());
 		} finally {
 			if (rs != null) {
 				try {
@@ -290,4 +289,111 @@ public class OrderHistoryDAO implements OrderHistoryDAO_interface {
 		}
 		return list;
 	}
+	
+	@Override
+	public List<String> getAllMemberNo() {
+		List<String> list = new ArrayList<String>();
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_ALL_MEMBERNO);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				list.add(rs.getString("MEMBER_NO")); 
+			}
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	}
+	
+	@Override
+	public List<OrderHistoryVO> findByMemberNo(String memberNo) {
+		
+		List<OrderHistoryVO> list = new ArrayList<OrderHistoryVO>();
+		OrderHistoryVO orderHistoryVO = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_ONE_MEMBERNO);
+			pstmt.setString(1, memberNo);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				orderHistoryVO = new OrderHistoryVO();
+				orderHistoryVO.setOrderNo(rs.getString("ORDER_NO"));
+				orderHistoryVO.setMemberNo(rs.getString("MEMBER_NO"));
+				orderHistoryVO.setOrderPrice(rs.getDouble("ORDER_PRICE"));
+				orderHistoryVO.setPayMethods(rs.getString("PAY_METHODS"));
+				orderHistoryVO.setShippingMethods(rs.getString("SHIPPING_METHODS"));
+				orderHistoryVO.setOrderDate(rs.getTimestamp("ORDER_DATE"));
+				orderHistoryVO.setOrderEtd(rs.getTimestamp("ORDER_ETD"));
+				orderHistoryVO.setPickupDate(rs.getTimestamp("PICKUP_DATE"));
+				orderHistoryVO.setReceiverAdd(rs.getString("RECEIVER_ADD"));
+				orderHistoryVO.setReceiverName(rs.getString("RECEIVER_NAME"));
+				orderHistoryVO.setReceiverTel(rs.getString("RECEIVER_TEL"));
+				orderHistoryVO.setOrderStatus(rs.getString("ORDER_STATUS"));
+				list.add(orderHistoryVO); 
+			}
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	}
+	
 }

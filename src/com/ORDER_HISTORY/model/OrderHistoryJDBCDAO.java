@@ -27,6 +27,10 @@ public class OrderHistoryJDBCDAO implements OrderHistoryDAO_interface {
 		"UPDATE ORDER_HISTORY SET MEMBER_NO=?, ORDER_PRICE=?, PAY_METHODS=?, SHIPPING_METHODS=?,"
 		+ " ORDER_DATE=?, ORDER_ETD=?, PICKUP_DATE=?, RECEIVER_ADD=?, RECEIVER_NAME=?, "
 		+ "RECEIVER_TEL=?, ORDER_STATUS=? WHERE ORDER_NO = ?";
+	private static final String GET_ALL_MEMBERNO = 
+		"SELECT DISTINCT MEMBER_NO FROM ORDER_HISTORY ORDER BY MEMBER_NO";
+	private static final String GET_ONE_MEMBERNO = 
+		"SELECT * FROM ORDER_HISTORY WHERE MEMBER_NO = ?";
 	
 	@Override
 	public void insert(OrderHistoryVO orderHistoryVO) {
@@ -295,25 +299,145 @@ public class OrderHistoryJDBCDAO implements OrderHistoryDAO_interface {
 		}
 		return list;
 	}
+	
+	@Override
+	public List<String> getAllMemberNo() {
+		List<String> list = new ArrayList<String>();
+		
+//		OrderHistoryVO orderHistoryVO = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(GET_ALL_MEMBERNO);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				list.add(rs.getString("MEMBER_NO")); 
+			}
+
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "	+ se.getMessage());
+
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	}
+	
+	@Override
+	public List<OrderHistoryVO> findByMemberNo(String memberNo) {
+		
+		List<OrderHistoryVO> list = new ArrayList<OrderHistoryVO>();
+		OrderHistoryVO orderHistoryVO = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(GET_ONE_MEMBERNO);
+			pstmt.setString(1, memberNo);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				orderHistoryVO = new OrderHistoryVO();
+				orderHistoryVO.setOrderNo(rs.getString("ORDER_NO"));
+				orderHistoryVO.setMemberNo(rs.getString("MEMBER_NO"));
+				orderHistoryVO.setOrderPrice(rs.getDouble("ORDER_PRICE"));
+				orderHistoryVO.setPayMethods(rs.getString("PAY_METHODS"));
+				orderHistoryVO.setShippingMethods(rs.getString("SHIPPING_METHODS"));
+				orderHistoryVO.setOrderDate(rs.getTimestamp("ORDER_DATE"));
+				orderHistoryVO.setOrderEtd(rs.getTimestamp("ORDER_ETD"));
+				orderHistoryVO.setPickupDate(rs.getTimestamp("PICKUP_DATE"));
+				orderHistoryVO.setReceiverAdd(rs.getString("RECEIVER_ADD"));
+				orderHistoryVO.setReceiverName(rs.getString("RECEIVER_NAME"));
+				orderHistoryVO.setReceiverTel(rs.getString("RECEIVER_TEL"));
+				orderHistoryVO.setOrderStatus(rs.getString("ORDER_STATUS"));
+				list.add(orderHistoryVO); 
+			}
+
+
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "	+ se.getMessage());
+
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	}
+	
 
 	public static void main(String[] args) {
 	
 		OrderHistoryJDBCDAO dao = new OrderHistoryJDBCDAO();
 
 		// 新增
-		OrderHistoryVO orderHistoryVO1 = new OrderHistoryVO();
-		orderHistoryVO1.setMemberNo("M000004");
-		orderHistoryVO1.setOrderPrice(new Double(80000));
-		orderHistoryVO1.setPayMethods("CREDITCARD");
-		orderHistoryVO1.setShippingMethods("HOMEDELIVERY");
-		orderHistoryVO1.setOrderDate(java.sql.Timestamp.valueOf("2018-11-25 09:48:34.524"));
-		orderHistoryVO1.setOrderEtd(new Timestamp(System.currentTimeMillis()));
-		orderHistoryVO1.setPickupDate(java.sql.Timestamp.valueOf("2018-11-30 12:40:51.435"));
-		orderHistoryVO1.setReceiverAdd("320桃園市中壢區中正路389號");
-		orderHistoryVO1.setReceiverName("NOVA資訊廣場");
-		orderHistoryVO1.setReceiverTel("034028686");
-		orderHistoryVO1.setOrderStatus("COMPLETE4");
-		dao.insert(orderHistoryVO1);
+//		OrderHistoryVO orderHistoryVO1 = new OrderHistoryVO();
+//		orderHistoryVO1.setMemberNo("M000004");
+//		orderHistoryVO1.setOrderPrice(new Double(80000));
+//		orderHistoryVO1.setPayMethods("CREDITCARD");
+//		orderHistoryVO1.setShippingMethods("HOMEDELIVERY");
+//		orderHistoryVO1.setOrderDate(java.sql.Timestamp.valueOf("2018-11-25 09:48:34.524"));
+//		orderHistoryVO1.setOrderEtd(new Timestamp(System.currentTimeMillis()));
+//		orderHistoryVO1.setPickupDate(java.sql.Timestamp.valueOf("2018-11-30 12:40:51.435"));
+//		orderHistoryVO1.setReceiverAdd("320桃園市中壢區中正路389號");
+//		orderHistoryVO1.setReceiverName("NOVA資訊廣場");
+//		orderHistoryVO1.setReceiverTel("034028686");
+//		orderHistoryVO1.setOrderStatus("COMPLETE4");
+//		dao.insert(orderHistoryVO1);
 
 		// 修改
 //		OrderHistoryVO orderHistoryVO2 = new OrderHistoryVO();
@@ -366,8 +490,32 @@ public class OrderHistoryJDBCDAO implements OrderHistoryDAO_interface {
 //			System.out.println("收件人名稱：" + aOrder.getReceiverName());
 //			System.out.println("收件人電話：" + aOrder.getReceiverTel());
 //			System.out.println("訂單狀態：　" + aOrder.getOrderStatus());
-//		System.out.println("-------------------------------------------");			
+//			System.out.println("-------------------------------------------");			
 //		}
 		
+		// 查詢會員列表(重覆不顯示)
+//		List<String> list = dao.getAllMemberNo();
+//		for (String aMemberNo : list) {
+//			System.out.println(aMemberNo);
+//		}
+
+		// 查詢單一會員的訂單
+//		List<OrderHistoryVO> list = dao.findByMemberNo("M000001");
+//		for (OrderHistoryVO aOrder : list) {
+//			System.out.println("訂單編號：　" + aOrder.getOrderNo());
+//			System.out.println("會員編號：　" + aOrder.getMemberNo());
+//			System.out.println("訂單總金額：" + aOrder.getOrderPrice());
+//			System.out.println("付款方式：　" + aOrder.getPayMethods());
+//			System.out.println("出貨方式：　" + aOrder.getShippingMethods());
+//			System.out.println("訂購日期：　" + aOrder.getOrderDate());
+//			System.out.println("出貨日期：　" + aOrder.getOrderEtd());
+//			System.out.println("取貨日期：　" + aOrder.getPickupDate());
+//			System.out.println("送貨地址：　" + aOrder.getReceiverAdd());
+//			System.out.println("收件人名稱：" + aOrder.getReceiverName());
+//			System.out.println("收件人電話：" + aOrder.getReceiverTel());
+//			System.out.println("訂單狀態：　" + aOrder.getOrderStatus());
+//			System.out.println("-------------------------------------------");
+//		}	
+	
 	}
 }

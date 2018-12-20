@@ -15,6 +15,7 @@
     <res-type>javax.sql.DataSource</res-type>
     <res-auth>Container</res-auth>
   </resource-ref>
+  
   <servlet>
     <servlet-name>OrderHistoryServlet</servlet-name>
     <servlet-class>com.ORDER_HISTORY.controller.OrderHistoryServlet</servlet-class>
@@ -23,4 +24,14 @@
     <servlet-name>OrderHistoryServlet</servlet-name>
     <url-pattern>/OrderHistory/OrderHistory.do</url-pattern>
   </servlet-mapping>
+  
+    <servlet>
+    <servlet-name>OrderDetailServlet</servlet-name>
+    <servlet-class>com.ORDER_DETAIL.controller.OrderDetailServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>OrderDetailServlet</servlet-name>
+    <url-pattern>/OrderDetail/OrderDetail.do</url-pattern>
+  </servlet-mapping>
+  
 </web-app>

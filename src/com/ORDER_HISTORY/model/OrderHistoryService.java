@@ -68,4 +68,12 @@ public class OrderHistoryService {
 		return dao.getAll();
 	}
 	
+	public List<String> getAllMemberNo() {
+		return dao.getAllMemberNo();
+	}
+	
+	public List<OrderHistoryVO> findByMemberNo(String memberNo) {
+		return dao.findByMemberNo(memberNo);
+	}
+	
 }
