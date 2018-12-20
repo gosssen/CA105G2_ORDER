@@ -62,6 +62,7 @@
 					<input type="hidden" name="action" value="getOne_For_MemAllOrd">
 					<input type="submit" value="°e¥X">
 				</FORM>
+				<p>${OrderHistoryVO}</p>
 				</div>
 			</div>
 		</div>

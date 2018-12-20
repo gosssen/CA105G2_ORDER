@@ -28,7 +28,7 @@ public class OrderHistoryServlet extends HttpServlet {
 			try {
 				String str = req.getParameter("memberNo");
 				if (str == null || (str.trim()).length() == 0) {
-					errorMsgs.add("請輸入訂單編號");
+					errorMsgs.add("請輸入會員編號");
 				}
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req.getRequestDispatcher("/OrderHistory/select_page.jsp");
@@ -39,7 +39,7 @@ public class OrderHistoryServlet extends HttpServlet {
 				try {
 					memberNo = new String(str);				
 				} catch (Exception e) {
-					errorMsgs.add("訂單編號格式不正確");
+					errorMsgs.add("會員編號格式不正確");
 				}
 				
 				if (!errorMsgs.isEmpty()) {
@@ -49,7 +49,7 @@ public class OrderHistoryServlet extends HttpServlet {
 				}
 				
 				OrderHistoryService orderHistorySvc = new OrderHistoryService();
-				OrderHistoryVO orderHistoryVO = orderHistorySvc.getOneOrderHistory(memberNo);
+				List<OrderHistoryVO> orderHistoryVO = (List<OrderHistoryVO>) orderHistorySvc.findByMemberNo(memberNo);
 				if (orderHistoryVO == null) {
 					errorMsgs.add("查無資料");
 				}
@@ -61,7 +61,7 @@ public class OrderHistoryServlet extends HttpServlet {
 				}
 				
 				req.setAttribute("orderHistoryVO", orderHistoryVO);
-				String url = "/OrderHistory/listOneOrderHistory.jsp";
+				String url = "/OrderHistory/oneMemberIsOrder.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 				
