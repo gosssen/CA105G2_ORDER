@@ -5,8 +5,9 @@
 <%@ page import="com.ORDER_HISTORY.model.*"%>
 
 <%
+	OrderHistoryVO orderHistoryVO = (OrderHistoryVO) request.getAttribute("orderHistoryVO");
     OrderHistoryService orderHistorySvc = new OrderHistoryService();
-    List<String> list = orderHistorySvc.getAllMemberNo();
+    List<OrderHistoryVO> list = (List<OrderHistoryVO>)orderHistorySvc.findByMemberNo(orderHistoryVO.getMemberNo());
     pageContext.setAttribute("list",list);
 %>
 <html>
@@ -47,9 +48,8 @@
 					<h4><a href="select_page.jsp"><img src="images/LOGO1.png" width="70" height="50" border="0"><b>首頁</b></a></h4>
 					<div class="panel panel-info">
 						<div class="panel-heading">
-					  		<jsp:useBean id="OrderHistorySvc" scope="page" class="com.ORDER_HISTORY.model.OrderHistoryService" />
-					  		
-					  		<h3 class="panel-title">${OrderHistoryVO}的訂單紀錄查詢</h3><%@ include file="page1.file" %>
+				  		
+					  		<h3 class="panel-title">訂單紀錄查詢</h3><%@ include file="page1.file" %>
 						</div>
 						<table class="table table-bordered table-striped table-hover">
 							<thead>
@@ -69,9 +69,10 @@
 								</tr>
 							</thead>
 								
-								
+	
+											
 							<tbody>
-								<c:forEach var="orderHistoryVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">							
+									<c:forEach var="orderHistoryVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 									<tr>
 										<td>${orderHistoryVO.orderNo}</td>
 										<td>${orderHistoryVO.memberNo}</td>
@@ -95,7 +96,7 @@
 				</div>
 			</div>
 		</div>
-		
+		<%System.out.println(); %>>
 		<script src="https://code.jquery.com/jquery.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	</body>

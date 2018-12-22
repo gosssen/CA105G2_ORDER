@@ -27,38 +27,39 @@ public class OrderHistoryServlet extends HttpServlet {
 			
 			try {
 				String str = req.getParameter("memberNo");
-				if (str == null || (str.trim()).length() == 0) {
-					errorMsgs.add("請輸入會員編號");
-				}
-				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/OrderHistory/select_page.jsp");
-					failureView.forward(req, res);
-					return;
-				}
-				String memberNo = null;
-				try {
-					memberNo = new String(str);				
-				} catch (Exception e) {
-					errorMsgs.add("會員編號格式不正確");
-				}
-				
-				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/OrderHistory/select_page.jsp");
-					failureView.forward(req, res);
-					return;
-				}
+//				if (str == null || (str.trim()).length() == 0) {
+//					errorMsgs.add("請輸入會員編號");
+//				}
+//				if (!errorMsgs.isEmpty()) {
+//					RequestDispatcher failureView = req.getRequestDispatcher("/OrderHistory/select_page.jsp");
+//					failureView.forward(req, res);
+//					return;
+//				}
+//				String memberNo = null;
+//				try {
+//					memberNo = new String(str);				
+//				} catch (Exception e) {
+//					errorMsgs.add("會員編號格式不正確");
+//				}
+//				
+//				if (!errorMsgs.isEmpty()) {
+//					RequestDispatcher failureView = req.getRequestDispatcher("/OrderHistory/select_page.jsp");
+//					failureView.forward(req, res);
+//					return;
+//				}
 				
 				OrderHistoryService orderHistorySvc = new OrderHistoryService();
-				List<OrderHistoryVO> orderHistoryVO = (List<OrderHistoryVO>) orderHistorySvc.findByMemberNo(memberNo);
-				if (orderHistoryVO == null) {
-					errorMsgs.add("查無資料");
-				}
-				
-				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/OrderHistory/select_page.jsp");
-					failureView.forward(req, res);
-					return;
-				}
+				List<OrderHistoryVO> orderHistoryVO = (List<OrderHistoryVO>) orderHistorySvc.findByMemberNo(str);
+
+//				if (orderHistoryVO == null) {
+//					errorMsgs.add("查無資料");
+//				}
+//				
+//				if (!errorMsgs.isEmpty()) {
+//					RequestDispatcher failureView = req.getRequestDispatcher("/OrderHistory/select_page.jsp");
+//					failureView.forward(req, res);
+//					return;
+//				}
 				
 				req.setAttribute("orderHistoryVO", orderHistoryVO);
 				String url = "/OrderHistory/oneMemberIsOrder.jsp";
@@ -315,6 +316,8 @@ public class OrderHistoryServlet extends HttpServlet {
 				orderHistoryVO.setReceiverName(receiverName);
 				orderHistoryVO.setReceiverTel(receiverTel);
 				orderHistoryVO.setOrderStatus(orderStatus);
+				
+
 				
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("orderHistoryVO", orderHistoryVO); 
