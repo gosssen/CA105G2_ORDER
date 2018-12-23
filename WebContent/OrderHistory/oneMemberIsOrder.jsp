@@ -5,11 +5,10 @@
 <%@ page import="com.ORDER_HISTORY.model.*"%>
 
 <%
-	OrderHistoryVO orderHistoryVO = (OrderHistoryVO) request.getAttribute("orderHistoryVO");
-    OrderHistoryService orderHistorySvc = new OrderHistoryService();
-    List<OrderHistoryVO> list = (List<OrderHistoryVO>)orderHistorySvc.findByMemberNo(orderHistoryVO.getMemberNo());
-    pageContext.setAttribute("list",list);
+List<OrderHistoryVO> list = (List<OrderHistoryVO>)request.getAttribute("orderHistoryVO");
+pageContext.setAttribute("list",list);
 %>
+
 <html>
 	<head>
 		<meta charset="utf-8">
@@ -66,10 +65,10 @@
 									<th>收件人名稱</th>
 									<th>收件人電話</th>
 									<th>訂單狀態</th>
+									<th>修改</th>
+									<th>刪除</th>
 								</tr>
 							</thead>
-								
-	
 											
 							<tbody>
 									<c:forEach var="orderHistoryVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
@@ -86,7 +85,19 @@
 										<td>${orderHistoryVO.receiverName}</td> 
 										<td>${orderHistoryVO.receiverTel}</td>
 										<td>${orderHistoryVO.orderStatus}</td>
-										
+												
+										<td>
+										  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/OrderHistory/OrderHistory.do" style="margin-bottom: 0px;">
+										     <input type="submit" value="修改">
+										     <input type="hidden" name="orderNo"  value="${orderHistoryVO.orderNo}">
+										     <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
+										</td>
+										<td>
+										  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/OrderHistory/OrderHistory.do" style="margin-bottom: 0px;">
+										     <input type="submit" value="刪除">
+										     <input type="hidden" name="orderNo"  value="${orderHistoryVO.orderNo}">
+										     <input type="hidden" name="action" value="delete"></FORM>
+										</td>
 									</tr>
 								</c:forEach>
 							</tbody>
