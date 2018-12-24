@@ -1,6 +1,6 @@
 package com.ORDER_HISTORY.model;
 
-import java.util.List;
+import java.util.*;
 
 public interface OrderHistoryDAO_interface {
 	public void insert(OrderHistoryVO orderHistoryVO);
@@ -10,4 +10,5 @@ public interface OrderHistoryDAO_interface {
     public List<OrderHistoryVO> getAll();
     public List<String> getAllMemberNo();
     public List<OrderHistoryVO> findByMemberNo(String memberNo);
+    public List<OrderHistoryVO> getAll(Map<String, String[]> map);    
 }

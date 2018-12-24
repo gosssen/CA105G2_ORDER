@@ -7,6 +7,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+import jdbc.util.CompositeQuery.jdbcUtil_CompositeQuery_OrderHistory;
 
 public class OrderHistoryDAO implements OrderHistoryDAO_interface {
 	
@@ -396,4 +397,66 @@ public class OrderHistoryDAO implements OrderHistoryDAO_interface {
 		return list;
 	}
 	
+	@Override
+	public List<OrderHistoryVO> getAll(Map<String, String[]> map) {
+		List<OrderHistoryVO> list = new ArrayList<OrderHistoryVO>();
+		OrderHistoryVO orderHistoryVO = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+	
+		try {
+			
+			con = ds.getConnection();
+			String finalSQL = "SELECT * FROM ORDER_HISTORY "
+		          + jdbcUtil_CompositeQuery_OrderHistory.get_WhereCondition(map)
+		          + " ORDER BY ORDER_NO";
+			pstmt = con.prepareStatement(finalSQL);
+			System.out.println("●●finalSQL(by DAO) = "+finalSQL);
+			rs = pstmt.executeQuery();
+	
+			while (rs.next()) {
+				orderHistoryVO = new OrderHistoryVO();
+				orderHistoryVO.setOrderNo(rs.getString("ORDER_NO"));
+				orderHistoryVO.setMemberNo(rs.getString("MEMBER_NO"));
+				orderHistoryVO.setOrderPrice(rs.getDouble("ORDER_PRICE"));
+				orderHistoryVO.setPayMethods(rs.getString("PAY_METHODS"));
+				orderHistoryVO.setShippingMethods(rs.getString("SHIPPING_METHODS"));
+				orderHistoryVO.setOrderDate(rs.getTimestamp("ORDER_DATE"));
+				orderHistoryVO.setOrderEtd(rs.getTimestamp("ORDER_ETD"));
+				orderHistoryVO.setPickupDate(rs.getTimestamp("PICKUP_DATE"));
+				orderHistoryVO.setReceiverAdd(rs.getString("RECEIVER_ADD"));
+				orderHistoryVO.setReceiverName(rs.getString("RECEIVER_NAME"));
+				orderHistoryVO.setReceiverTel(rs.getString("RECEIVER_TEL"));
+				orderHistoryVO.setOrderStatus(rs.getString("ORDER_STATUS"));
+				list.add(orderHistoryVO); 
+			}
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	}	
 }

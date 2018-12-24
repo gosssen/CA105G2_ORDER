@@ -48,7 +48,7 @@
 					<div class="panel panel-info">
 						<div class="panel-heading">
 					  		
-					  		<h3 class="panel-title">所有訂單紀錄查詢</h3><%@ include file="page1.file" %>
+					  		<h3 class="panel-title">所有訂單紀錄查詢</h3><%@ include file="pages/page1.file" %>
 						</div>
 						<table class="table table-bordered table-striped table-hover">
 							<thead>
@@ -104,7 +104,7 @@
 							</tbody>
 						</table>
 					</div>
-					<%@ include file="page2.file" %>
+					<%@ include file="pages/page2.file" %>
 				</div>
 			</div>
 		</div>
