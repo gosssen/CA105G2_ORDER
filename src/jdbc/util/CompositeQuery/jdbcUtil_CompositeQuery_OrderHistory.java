@@ -14,15 +14,16 @@ public class jdbcUtil_CompositeQuery_OrderHistory {
 
 		String aCondition = null;
 
-		if ("ORDER_PRICE".equals(columnName)) // 用於其他
+		if ("order_price".equals(columnName)) // 用於其他
 			aCondition = columnName + "=" + value;
-		else if ("ORDER_ON".equals(columnName) || "MEMBER_NO".equals(columnName) || "PAY_METHODS".equals(columnName) 
-			|| "SHIPPING_METHODS".equals(columnName) || "RECEIVER_ADD".equals(columnName) || "RECEVIER_NAME".equals(columnName) 
-			|| "RECEIVER_TEL".equals(columnName) || "ORDER_STATUS".equals(columnName)) // 用於varchar
+		else if ("order_no".equals(columnName) || "member_no".equals(columnName) || "pay_methods".equals(columnName) 
+			|| "shipping_methods".equals(columnName) || "receiver_add".equals(columnName) || "receiver_name".equals(columnName) 
+			|| "receiver_tel".equals(columnName) || "order_status".equals(columnName)) // 用於varchar
 			aCondition = columnName + " like '%" + value + "%'";
-		else if ("ORDER_DATE".equals(columnName) || "ORDER_ETD".equals(columnName) || "PICKUP_DATE".equals(columnName))	// 用於Oracle的date
+		else if ("order_date".equals(columnName) || "order_etd".equals(columnName) || "pickup_date".equals(columnName))	// 用於Oracle的date
 			aCondition = "TO_CHAR(" + columnName + ",'yyyy-mm-dd')='" + value + "'";
-
+		
+		System.out.println(aCondition);
 		return aCondition + " ";
 	}
 
@@ -37,9 +38,9 @@ public class jdbcUtil_CompositeQuery_OrderHistory {
 				String aCondition = get_aCondition_For_Oracle(key, value.trim());
 
 				if (count == 1)
-					whereCondition.append(" where " + aCondition);
+					whereCondition.append("where " + aCondition);
 				else
-					whereCondition.append(" and " + aCondition);
+					whereCondition.append("and " + aCondition);
 
 				System.out.println("有送出查詢資料的欄位數count = " + count);
 			}

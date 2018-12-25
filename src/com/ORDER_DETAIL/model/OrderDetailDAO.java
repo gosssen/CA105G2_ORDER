@@ -48,10 +48,10 @@ public class OrderDetailDAO implements OrderDetailDAO_interface {
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(INSERT_STMT);
 			
-			pstmt.setString(1, orderDetailVO.getOrderNo());
-			pstmt.setString(2, orderDetailVO.getGoodsNo());
-			pstmt.setDouble(3, orderDetailVO.getGoodsBonus());
-			pstmt.setDouble(4, orderDetailVO.getGoodsPc());
+			pstmt.setString(1, orderDetailVO.getOrder_no());
+			pstmt.setString(2, orderDetailVO.getGoods_no());
+			pstmt.setDouble(3, orderDetailVO.getGoods_bonus());
+			pstmt.setDouble(4, orderDetailVO.getGoods_pc());
 
 			pstmt.executeUpdate();
 
@@ -87,10 +87,10 @@ public class OrderDetailDAO implements OrderDetailDAO_interface {
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(UPDATE);
 
-			pstmt.setString(1, orderDetailVO.getGoodsNo());
-			pstmt.setDouble(2, orderDetailVO.getGoodsBonus());
-			pstmt.setDouble(3, orderDetailVO.getGoodsPc());
-			pstmt.setString(4, orderDetailVO.getOrderNo());
+			pstmt.setString(1, orderDetailVO.getGoods_no());
+			pstmt.setDouble(2, orderDetailVO.getGoods_bonus());
+			pstmt.setDouble(3, orderDetailVO.getGoods_pc());
+			pstmt.setString(4, orderDetailVO.getOrder_no());
 
 			pstmt.executeUpdate();
 
@@ -117,7 +117,7 @@ public class OrderDetailDAO implements OrderDetailDAO_interface {
 	}
 
 	@Override
-	public void delete(String orderNo) {
+	public void delete(String order_no) {
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -126,7 +126,7 @@ public class OrderDetailDAO implements OrderDetailDAO_interface {
 
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(DELETE);
-			pstmt.setString(1, orderNo);
+			pstmt.setString(1, order_no);
 			pstmt.executeUpdate();
 
 
@@ -152,7 +152,7 @@ public class OrderDetailDAO implements OrderDetailDAO_interface {
 	}
 
 	@Override
-	public OrderDetailVO findByPrimaryKey(String orderNo) {
+	public OrderDetailVO findByPrimaryKey(String order_no) {
 
 		OrderDetailVO orderDetailVO = null;
 		Connection con = null;
@@ -163,16 +163,16 @@ public class OrderDetailDAO implements OrderDetailDAO_interface {
 
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ONE_STMT);
-			pstmt.setString(1, orderNo);
+			pstmt.setString(1, order_no);
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
 
 				orderDetailVO = new OrderDetailVO();
-				orderDetailVO.setOrderNo(rs.getString("ORDER_NO"));
-				orderDetailVO.setGoodsNo(rs.getString("GOODS_NO"));
-				orderDetailVO.setGoodsBonus(rs.getDouble("GOODS_BONUS"));
-				orderDetailVO.setGoodsPc(rs.getDouble("GOODS_PC"));
+				orderDetailVO.setOrder_no(rs.getString("ORDER_NO"));
+				orderDetailVO.setGoods_no(rs.getString("GOODS_NO"));
+				orderDetailVO.setGoods_bonus(rs.getDouble("GOODS_BONUS"));
+				orderDetailVO.setGoods_pc(rs.getDouble("GOODS_PC"));
 
 			}
 
@@ -223,10 +223,10 @@ public class OrderDetailDAO implements OrderDetailDAO_interface {
 
 			while (rs.next()) {
 				orderDetailVO = new OrderDetailVO();
-				orderDetailVO.setOrderNo(rs.getString("ORDER_NO"));
-				orderDetailVO.setGoodsNo(rs.getString("GOODS_NO"));
-				orderDetailVO.setGoodsBonus(rs.getDouble("GOODS_BONUS"));
-				orderDetailVO.setGoodsPc(rs.getDouble("GOODS_PC"));
+				orderDetailVO.setOrder_no(rs.getString("ORDER_NO"));
+				orderDetailVO.setGoods_no(rs.getString("GOODS_NO"));
+				orderDetailVO.setGoods_bonus(rs.getDouble("GOODS_BONUS"));
+				orderDetailVO.setGoods_pc(rs.getDouble("GOODS_PC"));
 				list.add(orderDetailVO); // Store the row in the list
 			}
 
@@ -265,18 +265,18 @@ public class OrderDetailDAO implements OrderDetailDAO_interface {
 //
 //		// 新增
 //		OrderDetailVO orderDetailVO1 = new OrderDetailVO();
-//		orderDetailVO1.setOrderNo("O2018121610003");
-//		orderDetailVO1.setGoodsNo("P0000007");
-//		orderDetailVO1.setGoodsBonus(new Double(44444));
-//		orderDetailVO1.setGoodsPc(new Double(1));
+//		orderDetailVO1.setOrder_no("O2018121610003");
+//		orderDetailVO1.setGoods_no("P0000007");
+//		orderDetailVO1.setGoods_bonus(new Double(44444));
+//		orderDetailVO1.setGoods_pc(new Double(1));
 //		dao.insert(orderDetailVO1);
 //
 //		// 修改
 //		OrderDetailVO orderDetailVO2 = new OrderDetailVO();
-//		orderDetailVO2.setOrderNo("O2018121610002");
-//		orderDetailVO2.setGoodsNo("P0000002");
-//		orderDetailVO2.setGoodsBonus(new Double(765474));
-//		orderDetailVO2.setGoodsPc(new Double(8));
+//		orderDetailVO2.setOrder_no("O2018121610002");
+//		orderDetailVO2.setGoods_no("P0000002");
+//		orderDetailVO2.setGoods_bonus(new Double(765474));
+//		orderDetailVO2.setGoods_pc(new Double(8));
 //		dao.update(orderDetailVO2);
 //
 //		// 刪除
@@ -284,19 +284,19 @@ public class OrderDetailDAO implements OrderDetailDAO_interface {
 //
 //		// 查詢
 //		OrderDetailVO orderDetailVO3 = dao.findByPrimaryKey("O2018121610002");
-//		System.out.println("訂單編號：　　" + orderDetailVO3.getOrderNo());
-//		System.out.println("商品編號：　　" + orderDetailVO3.getGoodsNo());
-//		System.out.println("實際交易單價：" + orderDetailVO3.getGoodsBonus());
-//		System.out.println("商品數量：　　" + orderDetailVO3.getGoodsPc());
+//		System.out.println("訂單編號：　　" + orderDetailVO3.getOrder_no());
+//		System.out.println("商品編號：　　" + orderDetailVO3.getGoods_no());
+//		System.out.println("實際交易單價：" + orderDetailVO3.getGoods_bonus());
+//		System.out.println("商品數量：　　" + orderDetailVO3.getGoods_pc());
 //		System.out.println("------------------------------------");
 
 		// 查詢列表
 //		List<OrderDetailVO> list = dao.getAll();
 //		for (OrderDetailVO aOrder : list) {
-//			System.out.println("訂單編號：　　" + aOrder.getOrderNo());
-//			System.out.println("商品編號：　　" + aOrder.getGoodsNo());
-//			System.out.println("實際交易單價：" + aOrder.getGoodsBonus());
-//			System.out.println("商品數量：　　" + aOrder.getGoodsPc());
+//			System.out.println("訂單編號：　　" + aOrder.getOrder_no());
+//			System.out.println("商品編號：　　" + aOrder.getGoods_no());
+//			System.out.println("實際交易單價：" + aOrder.getGoods_bonus());
+//			System.out.println("商品數量：　　" + aOrder.getGoods_pc());
 //			System.out.println("------------------------------------");
 //		}
 //		

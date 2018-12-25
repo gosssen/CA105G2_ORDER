@@ -55,17 +55,17 @@ public class OrderHistoryDAO implements OrderHistoryDAO_interface {
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(INSERT_STMT);
 
-			pstmt.setString(1, orderHistoryVO.getMemberNo());
-			pstmt.setDouble(2, orderHistoryVO.getOrderPrice());
-			pstmt.setString(3, orderHistoryVO.getPayMethods());
-			pstmt.setString(4, orderHistoryVO.getShippingMethods());
-			pstmt.setTimestamp(5, orderHistoryVO.getOrderDate());
-			pstmt.setTimestamp(6, orderHistoryVO.getOrderEtd());
-			pstmt.setTimestamp(7, orderHistoryVO.getPickupDate());
-			pstmt.setString(8, orderHistoryVO.getReceiverAdd());
-			pstmt.setString(9, orderHistoryVO.getReceiverName());
-			pstmt.setString(10, orderHistoryVO.getReceiverTel());
-			pstmt.setString(11, orderHistoryVO.getOrderStatus());
+			pstmt.setString(1, orderHistoryVO.getMember_no());
+			pstmt.setDouble(2, orderHistoryVO.getOrder_price());
+			pstmt.setString(3, orderHistoryVO.getPay_methods());
+			pstmt.setString(4, orderHistoryVO.getShipping_methods());
+			pstmt.setTimestamp(5, orderHistoryVO.getOrder_date());
+			pstmt.setTimestamp(6, orderHistoryVO.getOrder_etd());
+			pstmt.setTimestamp(7, orderHistoryVO.getPickup_date());
+			pstmt.setString(8, orderHistoryVO.getReceiver_add());
+			pstmt.setString(9, orderHistoryVO.getReceiver_name());
+			pstmt.setString(10, orderHistoryVO.getReceiver_tel());
+			pstmt.setString(11, orderHistoryVO.getOrder_status());
 
 			pstmt.executeUpdate();
 
@@ -100,18 +100,18 @@ public class OrderHistoryDAO implements OrderHistoryDAO_interface {
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(UPDATE);
 
-			pstmt.setString(1, orderHistoryVO.getMemberNo());
-			pstmt.setDouble(2, orderHistoryVO.getOrderPrice());
-			pstmt.setString(3, orderHistoryVO.getPayMethods());
-			pstmt.setString(4, orderHistoryVO.getShippingMethods());
-			pstmt.setTimestamp(5, orderHistoryVO.getOrderDate());
-			pstmt.setTimestamp(6, orderHistoryVO.getOrderEtd());
-			pstmt.setTimestamp(7, orderHistoryVO.getPickupDate());
-			pstmt.setString(8, orderHistoryVO.getReceiverAdd());
-			pstmt.setString(9, orderHistoryVO.getReceiverName());
-			pstmt.setString(10, orderHistoryVO.getReceiverTel());
-			pstmt.setString(11, orderHistoryVO.getOrderStatus());
-			pstmt.setString(12, orderHistoryVO.getOrderNo());
+			pstmt.setString(1, orderHistoryVO.getMember_no());
+			pstmt.setDouble(2, orderHistoryVO.getOrder_price());
+			pstmt.setString(3, orderHistoryVO.getPay_methods());
+			pstmt.setString(4, orderHistoryVO.getShipping_methods());
+			pstmt.setTimestamp(5, orderHistoryVO.getOrder_date());
+			pstmt.setTimestamp(6, orderHistoryVO.getOrder_etd());
+			pstmt.setTimestamp(7, orderHistoryVO.getPickup_date());
+			pstmt.setString(8, orderHistoryVO.getReceiver_add());
+			pstmt.setString(9, orderHistoryVO.getReceiver_name());
+			pstmt.setString(10, orderHistoryVO.getReceiver_tel());
+			pstmt.setString(11, orderHistoryVO.getOrder_status());
+			pstmt.setString(12, orderHistoryVO.getOrder_no());
 
 			pstmt.executeUpdate();
 
@@ -137,7 +137,7 @@ public class OrderHistoryDAO implements OrderHistoryDAO_interface {
 	}
 
 	@Override
-	public void delete(String orderNo) {
+	public void delete(String order_no) {
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -146,7 +146,7 @@ public class OrderHistoryDAO implements OrderHistoryDAO_interface {
 
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(DELETE);
-			pstmt.setString(1, orderNo);
+			pstmt.setString(1, order_no);
 			pstmt.executeUpdate();
 
 		} catch (SQLException se) {
@@ -170,7 +170,7 @@ public class OrderHistoryDAO implements OrderHistoryDAO_interface {
 	}
 
 	@Override
-	public OrderHistoryVO findByPrimaryKey(String orderNo) {
+	public OrderHistoryVO findByPrimaryKey(String order_no) {
 
 		OrderHistoryVO orderHistoryVO = null;
 		Connection con = null;
@@ -182,24 +182,24 @@ public class OrderHistoryDAO implements OrderHistoryDAO_interface {
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ONE_STMT);
 
-			pstmt.setString(1, orderNo);
+			pstmt.setString(1, order_no);
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
 
 				orderHistoryVO = new OrderHistoryVO();
-				orderHistoryVO.setOrderNo(rs.getString("ORDER_NO"));
-				orderHistoryVO.setMemberNo(rs.getString("MEMBER_NO"));
-				orderHistoryVO.setOrderPrice(rs.getDouble("ORDER_PRICE"));
-				orderHistoryVO.setPayMethods(rs.getString("PAY_METHODS"));
-				orderHistoryVO.setShippingMethods(rs.getString("SHIPPING_METHODS"));
-				orderHistoryVO.setOrderDate(rs.getTimestamp("ORDER_DATE"));
-				orderHistoryVO.setOrderEtd(rs.getTimestamp("ORDER_ETD"));
-				orderHistoryVO.setPickupDate(rs.getTimestamp("PICKUP_DATE"));
-				orderHistoryVO.setReceiverAdd(rs.getString("RECEIVER_ADD"));
-				orderHistoryVO.setReceiverName(rs.getString("RECEIVER_NAME"));
-				orderHistoryVO.setReceiverTel(rs.getString("RECEIVER_TEL"));
-				orderHistoryVO.setOrderStatus(rs.getString("ORDER_STATUS"));
+				orderHistoryVO.setOrder_no(rs.getString("ORDER_NO"));
+				orderHistoryVO.setMember_no(rs.getString("MEMBER_NO"));
+				orderHistoryVO.setOrder_price(rs.getDouble("ORDER_PRICE"));
+				orderHistoryVO.setPay_methods(rs.getString("PAY_METHODS"));
+				orderHistoryVO.setShipping_methods(rs.getString("SHIPPING_METHODS"));
+				orderHistoryVO.setOrder_date(rs.getTimestamp("ORDER_DATE"));
+				orderHistoryVO.setOrder_etd(rs.getTimestamp("ORDER_ETD"));
+				orderHistoryVO.setPickup_date(rs.getTimestamp("PICKUP_DATE"));
+				orderHistoryVO.setReceiver_add(rs.getString("RECEIVER_ADD"));
+				orderHistoryVO.setReceiver_name(rs.getString("RECEIVER_NAME"));
+				orderHistoryVO.setReceiver_tel(rs.getString("RECEIVER_TEL"));
+				orderHistoryVO.setOrder_status(rs.getString("ORDER_STATUS"));
 			}
 
 
@@ -248,18 +248,18 @@ public class OrderHistoryDAO implements OrderHistoryDAO_interface {
 
 			while (rs.next()) {
 				orderHistoryVO = new OrderHistoryVO();
-				orderHistoryVO.setOrderNo(rs.getString("ORDER_NO"));
-				orderHistoryVO.setMemberNo(rs.getString("MEMBER_NO"));
-				orderHistoryVO.setOrderPrice(rs.getDouble("ORDER_PRICE"));
-				orderHistoryVO.setPayMethods(rs.getString("PAY_METHODS"));
-				orderHistoryVO.setShippingMethods(rs.getString("SHIPPING_METHODS"));
-				orderHistoryVO.setOrderDate(rs.getTimestamp("ORDER_DATE"));
-				orderHistoryVO.setOrderEtd(rs.getTimestamp("ORDER_ETD"));
-				orderHistoryVO.setPickupDate(rs.getTimestamp("PICKUP_DATE"));
-				orderHistoryVO.setReceiverAdd(rs.getString("RECEIVER_ADD"));
-				orderHistoryVO.setReceiverName(rs.getString("RECEIVER_NAME"));
-				orderHistoryVO.setReceiverTel(rs.getString("RECEIVER_TEL"));
-				orderHistoryVO.setOrderStatus(rs.getString("ORDER_STATUS"));
+				orderHistoryVO.setOrder_no(rs.getString("ORDER_NO"));
+				orderHistoryVO.setMember_no(rs.getString("MEMBER_NO"));
+				orderHistoryVO.setOrder_price(rs.getDouble("ORDER_PRICE"));
+				orderHistoryVO.setPay_methods(rs.getString("PAY_METHODS"));
+				orderHistoryVO.setShipping_methods(rs.getString("SHIPPING_METHODS"));
+				orderHistoryVO.setOrder_date(rs.getTimestamp("ORDER_DATE"));
+				orderHistoryVO.setOrder_etd(rs.getTimestamp("ORDER_ETD"));
+				orderHistoryVO.setPickup_date(rs.getTimestamp("PICKUP_DATE"));
+				orderHistoryVO.setReceiver_add(rs.getString("RECEIVER_ADD"));
+				orderHistoryVO.setReceiver_name(rs.getString("RECEIVER_NAME"));
+				orderHistoryVO.setReceiver_tel(rs.getString("RECEIVER_TEL"));
+				orderHistoryVO.setOrder_status(rs.getString("ORDER_STATUS"));
 				list.add(orderHistoryVO); 
 			}
 
@@ -337,7 +337,7 @@ public class OrderHistoryDAO implements OrderHistoryDAO_interface {
 	}
 	
 	@Override
-	public List<OrderHistoryVO> findByMemberNo(String memberNo) {
+	public List<OrderHistoryVO> findByMemberNo(String member_no) {
 		
 		List<OrderHistoryVO> list = new ArrayList<OrderHistoryVO>();
 		OrderHistoryVO orderHistoryVO = null;
@@ -349,23 +349,23 @@ public class OrderHistoryDAO implements OrderHistoryDAO_interface {
 
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ONE_MEMBERNO);
-			pstmt.setString(1, memberNo);
+			pstmt.setString(1, member_no);
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
 				orderHistoryVO = new OrderHistoryVO();
-				orderHistoryVO.setOrderNo(rs.getString("ORDER_NO"));
-				orderHistoryVO.setMemberNo(rs.getString("MEMBER_NO"));
-				orderHistoryVO.setOrderPrice(rs.getDouble("ORDER_PRICE"));
-				orderHistoryVO.setPayMethods(rs.getString("PAY_METHODS"));
-				orderHistoryVO.setShippingMethods(rs.getString("SHIPPING_METHODS"));
-				orderHistoryVO.setOrderDate(rs.getTimestamp("ORDER_DATE"));
-				orderHistoryVO.setOrderEtd(rs.getTimestamp("ORDER_ETD"));
-				orderHistoryVO.setPickupDate(rs.getTimestamp("PICKUP_DATE"));
-				orderHistoryVO.setReceiverAdd(rs.getString("RECEIVER_ADD"));
-				orderHistoryVO.setReceiverName(rs.getString("RECEIVER_NAME"));
-				orderHistoryVO.setReceiverTel(rs.getString("RECEIVER_TEL"));
-				orderHistoryVO.setOrderStatus(rs.getString("ORDER_STATUS"));
+				orderHistoryVO.setOrder_no(rs.getString("ORDER_NO"));
+				orderHistoryVO.setMember_no(rs.getString("MEMBER_NO"));
+				orderHistoryVO.setOrder_price(rs.getDouble("ORDER_PRICE"));
+				orderHistoryVO.setPay_methods(rs.getString("PAY_METHODS"));
+				orderHistoryVO.setShipping_methods(rs.getString("SHIPPING_METHODS"));
+				orderHistoryVO.setOrder_date(rs.getTimestamp("ORDER_DATE"));
+				orderHistoryVO.setOrder_etd(rs.getTimestamp("ORDER_ETD"));
+				orderHistoryVO.setPickup_date(rs.getTimestamp("PICKUP_DATE"));
+				orderHistoryVO.setReceiver_add(rs.getString("RECEIVER_ADD"));
+				orderHistoryVO.setReceiver_name(rs.getString("RECEIVER_NAME"));
+				orderHistoryVO.setReceiver_tel(rs.getString("RECEIVER_TEL"));
+				orderHistoryVO.setOrder_status(rs.getString("ORDER_STATUS"));
 				list.add(orderHistoryVO); 
 			}
 
@@ -417,18 +417,18 @@ public class OrderHistoryDAO implements OrderHistoryDAO_interface {
 	
 			while (rs.next()) {
 				orderHistoryVO = new OrderHistoryVO();
-				orderHistoryVO.setOrderNo(rs.getString("ORDER_NO"));
-				orderHistoryVO.setMemberNo(rs.getString("MEMBER_NO"));
-				orderHistoryVO.setOrderPrice(rs.getDouble("ORDER_PRICE"));
-				orderHistoryVO.setPayMethods(rs.getString("PAY_METHODS"));
-				orderHistoryVO.setShippingMethods(rs.getString("SHIPPING_METHODS"));
-				orderHistoryVO.setOrderDate(rs.getTimestamp("ORDER_DATE"));
-				orderHistoryVO.setOrderEtd(rs.getTimestamp("ORDER_ETD"));
-				orderHistoryVO.setPickupDate(rs.getTimestamp("PICKUP_DATE"));
-				orderHistoryVO.setReceiverAdd(rs.getString("RECEIVER_ADD"));
-				orderHistoryVO.setReceiverName(rs.getString("RECEIVER_NAME"));
-				orderHistoryVO.setReceiverTel(rs.getString("RECEIVER_TEL"));
-				orderHistoryVO.setOrderStatus(rs.getString("ORDER_STATUS"));
+				orderHistoryVO.setOrder_no(rs.getString("ORDER_NO"));
+				orderHistoryVO.setMember_no(rs.getString("MEMBER_NO"));
+				orderHistoryVO.setOrder_price(rs.getDouble("ORDER_PRICE"));
+				orderHistoryVO.setPay_methods(rs.getString("PAY_METHODS"));
+				orderHistoryVO.setShipping_methods(rs.getString("SHIPPING_METHODS"));
+				orderHistoryVO.setOrder_date(rs.getTimestamp("ORDER_DATE"));
+				orderHistoryVO.setOrder_etd(rs.getTimestamp("ORDER_ETD"));
+				orderHistoryVO.setPickup_date(rs.getTimestamp("PICKUP_DATE"));
+				orderHistoryVO.setReceiver_add(rs.getString("RECEIVER_ADD"));
+				orderHistoryVO.setReceiver_name(rs.getString("RECEIVER_NAME"));
+				orderHistoryVO.setReceiver_tel(rs.getString("RECEIVER_TEL"));
+				orderHistoryVO.setOrder_status(rs.getString("ORDER_STATUS"));
 				list.add(orderHistoryVO); 
 			}
 

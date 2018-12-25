@@ -26,7 +26,7 @@ public class OrderDetailServlet extends HttpServlet {
 			req.setAttribute("errorMsgs", errorMsgs);
 			
 			try {
-				String str = req.getParameter("orderNo");
+				String str = req.getParameter("order_no");
 				if (str == null || (str.trim()).length() == 0) {
 					errorMsgs.add("請輸入訂單編號");
 				}
@@ -35,9 +35,9 @@ public class OrderDetailServlet extends HttpServlet {
 					failureView.forward(req, res);
 					return;
 				}
-				String orderNo = null;
+				String order_no = null;
 				try {
-					orderNo = new String(str);				
+					order_no = new String(str);				
 				} catch (Exception e) {
 					errorMsgs.add("訂單編號格式不正確");
 				}
@@ -49,7 +49,7 @@ public class OrderDetailServlet extends HttpServlet {
 				}
 				
 				OrderDetailService orderDetailSvc = new OrderDetailService();
-				OrderDetailVO orderDetailVO = orderDetailSvc.getOneOrderDetail(orderNo);
+				OrderDetailVO orderDetailVO = orderDetailSvc.getOneOrderDetail(order_no);
 				if (orderDetailVO == null) {
 					errorMsgs.add("查無資料");
 				}
@@ -77,10 +77,10 @@ public class OrderDetailServlet extends HttpServlet {
 			req.setAttribute("errorMsgs", errorMsgs);
 			
 			try {
-				String orderNo = new  String(req.getParameter("orderNo"));
+				String order_no = new  String(req.getParameter("order_no"));
 				
 				OrderDetailService orderDetailSvc = new OrderDetailService();
-				OrderDetailVO orderDetailVO = orderDetailSvc.getOneOrderDetail(orderNo);
+				OrderDetailVO orderDetailVO = orderDetailSvc.getOneOrderDetail(order_no);
 				
 				req.setAttribute("orderDetailVO", orderDetailVO);
 				String url = "/OrderDetail/update_OrderDetailVO_input.jsp";
@@ -99,29 +99,29 @@ public class OrderDetailServlet extends HttpServlet {
 			req.setAttribute("errorMsgs", errorMsgs);
 			
 			try {
-				String orderNo = new String(req.getParameter("orderNo").trim());
-				String goodsNo = new String(req.getParameter("goodsNo").trim());
-				Double goodsBonus = null;
+				String order_no = new String(req.getParameter("order_no").trim());
+				String goods_no = new String(req.getParameter("goods_no").trim());
+				Double goods_bonus = null;
 				try {
-					goodsBonus = new Double(req.getParameter("goodsBonus").trim());
+					goods_bonus = new Double(req.getParameter("goods_bonus").trim());
 				} catch (NumberFormatException e) {
-					goodsBonus = 0.0;
+					goods_bonus = 0.0;
 					errorMsgs.add("請填入實際交易金額。");
 				}
-				Double goodsPc = null;
+				Double goods_pc = null;
 				try {
-					goodsPc = new Double(req.getParameter("goodsBonus").trim());
+					goods_pc = new Double(req.getParameter("goods_bonus").trim());
 				} catch (NumberFormatException e) {
-					goodsPc = 0.0;
+					goods_pc = 0.0;
 					errorMsgs.add("請填入商品數量。");
 				}
 				
 								
 				OrderDetailVO orderDetailVO = new OrderDetailVO();
-				orderDetailVO.setOrderNo(orderNo);
-				orderDetailVO.setGoodsNo(goodsNo);
-				orderDetailVO.setGoodsBonus(goodsBonus);
-				orderDetailVO.setGoodsPc(goodsPc);;
+				orderDetailVO.setOrder_no(order_no);
+				orderDetailVO.setGoods_no(goods_no);
+				orderDetailVO.setGoods_bonus(goods_bonus);
+				orderDetailVO.setGoods_pc(goods_pc);;
 	
 				
 				if (!errorMsgs.isEmpty()) {
@@ -132,7 +132,7 @@ public class OrderDetailServlet extends HttpServlet {
 				}
 				
 				OrderDetailService orderDetailSvc = new OrderDetailService();
-				orderDetailVO = orderDetailSvc.updateOrderDetail(goodsNo, goodsBonus, goodsPc);
+				orderDetailVO = orderDetailSvc.updateOrderDetail(goods_no, goods_bonus, goods_pc);
 			
 				req.setAttribute("orderDetailVO", orderDetailVO); 
 				String url = "/OrderDetailVO/listOrderDetail.jsp";
@@ -151,28 +151,28 @@ public class OrderDetailServlet extends HttpServlet {
 			req.setAttribute("errorMsgs", errorMsgs);
 			
 			try {
-				String orderNo = new String(req.getParameter("orderNo").trim());
-				String goodsNo = new String(req.getParameter("goodsNo").trim());
+				String order_no = new String(req.getParameter("order_no").trim());
+				String goods_no = new String(req.getParameter("goods_no").trim());
 				
-				Double goodsBonus = null;
+				Double goods_bonus = null;
 				try {
-					goodsBonus = new Double(req.getParameter("goodsBonus").trim());
+					goods_bonus = new Double(req.getParameter("goods_bonus").trim());
 				} catch (NumberFormatException e) {
-					goodsBonus = 0.0;
+					goods_bonus = 0.0;
 					errorMsgs.add("請填入實際交易金額。");
 				}
-				Double goodsPc = null;
+				Double goods_pc = null;
 				try {
-					goodsPc = new Double(req.getParameter("goodsPc").trim());
+					goods_pc = new Double(req.getParameter("goods_pc").trim());
 				} catch (NumberFormatException e) {
-					goodsPc = 0.0;
+					goods_pc = 0.0;
 					errorMsgs.add("請填入商品數量。");
 				}
 				
 				OrderDetailVO orderDetailVO = new OrderDetailVO();
-				orderDetailVO.setGoodsNo(goodsNo);
-				orderDetailVO.setGoodsBonus(goodsBonus);
-				orderDetailVO.setGoodsPc(goodsPc);;
+				orderDetailVO.setGoods_no(goods_no);
+				orderDetailVO.setGoods_bonus(goods_bonus);
+				orderDetailVO.setGoods_pc(goods_pc);;
 				
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("orderDetailVO", orderDetailVO); 
@@ -182,7 +182,7 @@ public class OrderDetailServlet extends HttpServlet {
 				}
 				
 				OrderDetailService orderDetailSvc = new OrderDetailService();
-				orderDetailVO = orderDetailSvc.addOrderDetail(orderNo, goodsNo, goodsBonus, goodsPc);
+				orderDetailVO = orderDetailSvc.addOrderDetail(order_no, goods_no, goods_bonus, goods_pc);
 				
 				
 				String url = "/OrderDetail/listAllOrderDetail.jsp";
@@ -201,9 +201,9 @@ public class OrderDetailServlet extends HttpServlet {
 			req.setAttribute("errorMsgs", errorMsgs);
 		
 			try {
-				String orderNo = new String(req.getParameter("orderNo"));
+				String order_no = new String(req.getParameter("order_no"));
 				OrderDetailService orderDetailSvc = new OrderDetailService();
-				orderDetailSvc.deleteOrderDetail(orderNo);
+				orderDetailSvc.deleteOrderDetail(order_no);
 				
 				String url = "/OrderDetail/listAllOrderDetail.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);

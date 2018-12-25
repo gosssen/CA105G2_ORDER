@@ -12,7 +12,6 @@
 
 <div>                   
 	<c:import url="/navbar_back-end.html" charEncoding="UTF-8"/>
-
 </div>
 
 <body>
@@ -37,29 +36,29 @@
 	
 						<a href='listAllOrderHistory.jsp'>查詢全部訂單紀錄</a><br><br>  						
 	
-				<FORM METHOD="post" ACTION="OrderHistory.do" >
+				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/OrderHistory/OrderHistory.do" >
 				    <b>輸入訂單編號 (如O2018121710001):</b>
-				    <input type="text" name="orderNo">
+				    <input type="text" name="order_no">
 				    <input type="hidden" name="action" value="getOne_For_Display">
 				    <input type="submit" value="送出">
 				</FORM>
 	
 				<jsp:useBean id="OrderHistorySvc" scope="page" class="com.ORDER_HISTORY.model.OrderHistoryService" />
 				
-				<FORM METHOD="post" ACTION="OrderHistory.do" >
+				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/OrderHistory/OrderHistory.do" >
 				  <b>選擇訂單編號:</b>
-					<select size="1" name="orderNo">
+					<select size="1" name="order_no">
 						<c:forEach var="OrderHistoryVO" items="${OrderHistorySvc.all}" > 
-							<option value="${OrderHistoryVO.orderNo}">${OrderHistoryVO.orderNo}
+							<option value="${OrderHistoryVO.order_no}">${OrderHistoryVO.order_no}
 						</c:forEach>   
 					</select>
 					<input type="hidden" name="action" value="getOne_For_Display">
 					<input type="submit" value="送出">
 				</FORM>
 	
-				<FORM METHOD="post" ACTION="OrderHistory.do" >
+				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/OrderHistory/OrderHistory.do" >
 					<b>選擇會員編號:</b>
-					<select size="1" name="memberNo">
+					<select size="1" name="member_no">
 						<c:forEach var="OrderHistoryVO" items="${OrderHistorySvc.allMemberNo}" > 
 							<option value="${OrderHistoryVO}">${OrderHistoryVO}
 						</c:forEach>   
@@ -67,11 +66,47 @@
 					<input type="hidden" name="action" value="getOne_For_MemAllOrd">
 					<input type="submit" value="送出">
 				</FORM>
+				
+				<%-- 萬用複合查詢-以下欄位-可隨意增減 --%>
+ 
+				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/OrderHistory/OrderHistory.do" name="form1">
+					<b><font color=blue>萬用複合查詢：</font></b><br>
+					<b>輸入訂單編號：</b>
+					<input type="text" name="order_no" value="O2018122410001"><br><br>
+				    
+				    <b>選擇會員編號：</b>
+					<select size="1" name="member_no">
+						<c:forEach var="OrderHistoryVO" items="${OrderHistorySvc.allMemberNo}" > 
+							<option value="${OrderHistoryVO}">${OrderHistoryVO}
+						</c:forEach>   
+					</select><br><br>
+				    
+					<b>訂購日期：</b>
+					<input name="order_date" id="f_date1" type="text" size="10"><br><br>
+				    
+					<b>出貨日期：</b>
+					<input name="order_etd" id="f_date2" type="text" size="10"><br><br>
+			
+					<b>取貨日期：</b>
+					<input name="pickup_date" id="f_date3" type="text" size="10"><br><br>
+					
+				   	<b>輸入送貨地址：</b>
+					<input type="text" name="receiver_add" size="40" value="320桃園市中壢區福德一路177巷60弄2號"><br><br>
+				    
+					<b>輸入收件人名稱：</b>
+					<input type="text" name="receiver_name" size="8" value="Peter"><br><br>
+				
+					<b>輸入收件人電話：</b>
+					<input type="text" name="receiver_tel" size="8" value="0912345678"><br><br>
+				      
+				    <input type="submit" value="送出">
+				    <input type="hidden" name="action" value="listOrderHistory_ByCompositeQuery">
+				 </FORM>
+				
 				</div>
 			</div>
 		</div>
-
-		
+	
 		<div class="row">			
 			<div class="panel panel-info">
 				<div class="panel-heading">
@@ -85,9 +120,108 @@
 		
 	</div>
 
-
-	
 	<script src="https://code.jquery.com/jquery.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
+
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/OrderHistory/datetimepicker/jquery.datetimepicker.css" />
+<script src="<%=request.getContextPath()%>/OrderHistory/datetimepicker/jquery.js"></script>
+<script src="<%=request.getContextPath()%>/OrderHistory/datetimepicker/jquery.datetimepicker.full.js"></script>
+
+<style>
+  .xdsoft_datetimepicker .xdsoft_datepicker {
+           width:  300px;   /* width:  300px; */
+  }
+  .xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box {
+           height: 151px;   /* height:  151px; */
+  }
+</style>
+
+<script>
+        $.datetimepicker.setLocale('zh');
+        $('#f_date1').datetimepicker({
+           theme: '',              //theme: 'dark',
+ 	       timepicker:false,       //timepicker:true,
+ 	       step: 1,                //step: 60 (這是timepicker的預設間隔60分鐘)
+ 	       format:'Y-m-d',         //format:'Y-m-d H:i:s',
+ 		   value: '', // value:   new Date(),
+           //disabledDates:        ['2017/06/08','2017/06/09','2017/06/10'], // 去除特定不含
+           //startDate:	            '2017/07/10',  // 起始日
+           //minDate:               '-1970-01-01', // 去除今日(不含)之前
+           //maxDate:               '+1970-01-01'  // 去除今日(不含)之後
+        });
+
+        $('#f_date2').datetimepicker({
+           theme: '',              //theme: 'dark',
+           timepicker:false,       //timepicker:true,
+ 	       step: 1,                //step: 60 (這是timepicker的預設間隔60分鐘)
+ 	       format:'Y-m-d',         //format:'Y-m-d H:i:s',
+ 		   value: '', // value:   new Date(),
+           //disabledDates:        ['2017/06/08','2017/06/09','2017/06/10'], // 去除特定不含
+           //startDate:	            '2017/07/10',  // 起始日
+           //minDate:               '-1970-01-01', // 去除今日(不含)之前
+           //maxDate:               '+1970-01-01'  // 去除今日(不含)之後
+        });
+        
+        $('#f_date3').datetimepicker({
+           theme: '',              //theme: 'dark',
+           timepicker:false,       //timepicker:true,
+ 	       step: 1,                //step: 60 (這是timepicker的預設間隔60分鐘)
+ 	       format:'Y-m-d',         //format:'Y-m-d H:i:s',
+ 		   value: '', // value:   new Date(),
+           //disabledDates:        ['2017/06/08','2017/06/09','2017/06/10'], // 去除特定不含
+           //startDate:	            '2017/07/10',  // 起始日
+           //minDate:               '-1970-01-01', // 去除今日(不含)之前
+           //maxDate:               '+1970-01-01'  // 去除今日(不含)之後
+        });
+   
+        // ----------------------------------------------------------以下用來排定無法選擇的日期-----------------------------------------------------------
+
+        //      1.以下為某一天之前的日期無法選擇
+        //      var somedate1 = new Date('2017-06-15');
+        //      $('#f_date1').datetimepicker({
+        //          beforeShowDay: function(date) {
+        //        	  if (  date.getYear() <  somedate1.getYear() || 
+        //		           (date.getYear() == somedate1.getYear() && date.getMonth() <  somedate1.getMonth()) || 
+        //		           (date.getYear() == somedate1.getYear() && date.getMonth() == somedate1.getMonth() && date.getDate() < somedate1.getDate())
+        //              ) {
+        //                   return [false, ""]
+        //              }
+        //              return [true, ""];
+        //      }});
+
+        
+        //      2.以下為某一天之後的日期無法選擇
+        //      var somedate2 = new Date('2017-06-15');
+        //      $('#f_date1').datetimepicker({
+        //          beforeShowDay: function(date) {
+        //        	  if (  date.getYear() >  somedate2.getYear() || 
+        //		           (date.getYear() == somedate2.getYear() && date.getMonth() >  somedate2.getMonth()) || 
+        //		           (date.getYear() == somedate2.getYear() && date.getMonth() == somedate2.getMonth() && date.getDate() > somedate2.getDate())
+        //              ) {
+        //                   return [false, ""]
+        //              }
+        //              return [true, ""];
+        //      }});
+
+
+        //      3.以下為兩個日期之外的日期無法選擇 (也可按需要換成其他日期)
+        //      var somedate1 = new Date('2017-06-15');
+        //      var somedate2 = new Date('2017-06-25');
+        //      $('#f_date1').datetimepicker({
+        //          beforeShowDay: function(date) {
+        //        	  if (  date.getYear() <  somedate1.getYear() || 
+        //		           (date.getYear() == somedate1.getYear() && date.getMonth() <  somedate1.getMonth()) || 
+        //		           (date.getYear() == somedate1.getYear() && date.getMonth() == somedate1.getMonth() && date.getDate() < somedate1.getDate())
+        //		             ||
+        //		            date.getYear() >  somedate2.getYear() || 
+        //		           (date.getYear() == somedate2.getYear() && date.getMonth() >  somedate2.getMonth()) || 
+        //		           (date.getYear() == somedate2.getYear() && date.getMonth() == somedate2.getMonth() && date.getDate() > somedate2.getDate())
+        //              ) {
+        //                   return [false, ""]
+        //              }
+        //              return [true, ""];
+        //      }});
+        
+</script>
 </html>

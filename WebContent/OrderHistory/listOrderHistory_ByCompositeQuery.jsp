@@ -1,5 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page import="java.util.*"%>
 <%@ page import="com.ORDER_HISTORY.model.*"%>
 
 <%-- 萬用複合查詢-可由客戶端select_page.jsp隨意增減任何想查詢的欄位 --%>
@@ -10,106 +12,103 @@
 
 
 <html>
-<head><title>複合查詢 - listOrderHistory_ByCompositeQuery.jsp</title>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+		<title>萬用複合查詢</title>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+		<!--[if lt IE 9]>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+		
+		<div>                   
+			<c:import url="/navbar_back-end.html" charEncoding="UTF-8"/>
+		</div>
+		
+		<style>
+			table {
+	 			margin-top: 1px;
+				margin-bottom: 1px;
+				font-size: 10px;
+				table-layout: auto;
+			}
+		</style>	
+	</head>
+	<body bgcolor='white'>
 
-<style>
-  table#table-1 {
-	background-color: #CCCCFF;
-    border: 2px solid black;
-    text-align: center;
-  }
-  table#table-1 h4 {
-    color: red;
-    display: block;
-    margin-bottom: 1px;
-  }
-  h4 {
-    color: blue;
-    display: inline;
-  }
-</style>
+	
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12 col-sm-12">
+					<h4><a href="select_page.jsp"><img src="images/LOGO1.png" width="70" height="50" border="0"><b>首頁</b></a></h4>
+					<div class="panel panel-info">
+						<div class="panel-heading">
+							<h3 class="panel-title">萬用複合查詢</h3><font color=red>已增加分頁、送出修改、刪除之功能</font>
+					  		<%@ include file="pages/page1_ByCompositeQuery.file" %>
+						</div>
+						<table class="table table-bordered table-striped table-hover">
+							<thead>
+								<tr>
+									<th>訂單編號</th>
+									<th>會員編號</th>
+									<th>訂單總金額</th>
+									<th>付款方式</th>
+									<th>出貨方式</th>
+									<th>訂購日期</th>
+									<th>出貨日期</th>
+									<th>取貨日期</th>
+									<th>送貨地址</th>
+									<th>收件人名稱</th>
+									<th>收件人電話</th>
+									<th>訂單狀態</th>
+									<th>修改</th>
+									<th>刪除</th>
+								</tr>
+							</thead>
+								
+							<tbody>
+								<c:forEach var="orderHistoryVO" items="${listOrderHistory_ByCompositeQuery}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
+									<tr align='center' valign='middle' ${(orderHistoryVO.order_no==param.order_no) ? 'bgcolor=#CCCCFF':''}><!--將修改的那一筆加入對比色而已-->
+								 		<td>${orderHistoryVO.order_no}</td>
+										<td>${orderHistoryVO.member_no}</td>
+										<td>${orderHistoryVO.order_price}</td>
+										<td>${orderHistoryVO.pay_methods}</td>
+										<td>${orderHistoryVO.shipping_methods}</td>
+										<td><fmt:formatDate value="${orderHistoryVO.order_date}" pattern="yyyy-MM-dd"/></td>
+										<td><fmt:formatDate value="${orderHistoryVO.order_etd}" pattern="yyyy-MM-dd"/></td>
+										<td><fmt:formatDate value="${orderHistoryVO.pickup_date}" pattern="yyyy-MM-dd"/></td>
+										<td>${orderHistoryVO.receiver_add}</td>
+										<td>${orderHistoryVO.receiver_name}</td> 
+										<td>${orderHistoryVO.receiver_tel}</td>
+										<td>${orderHistoryVO.order_status}</td> 			
 
-<style>
-  table {
-	width: 800px;
-	background-color: white;
-	margin-top: 5px;
-	margin-bottom: 5px;
-  }
-  table, th, td {
-    border: 1px solid #CCCCFF;
-  }
-  th, td {
-    padding: 5px;
-    text-align: center;
-  }
-</style>
-
-</head>
-<body bgcolor='white'>
-
-<h4>
-☆萬用複合查詢  - 可由客戶端 select_page.jsp 隨意增減任何想查詢的欄位<br>
-☆此頁作為複合查詢時之結果練習，<font color=red>已增加分頁、送出修改、刪除之功能</font></h4>
-<table id="table-1">
-	<tr><td>
-		 <h3>所有訂單資料 - listAllEmp.jsp</h3>
-		 <h4><a href="<%=request.getContextPath()%>/select_page.jsp"><img src="images/back1.gif" width="100" height="32" border="0">回首頁</a></h4>
-	</td></tr>
-</table>
-
-
-<table>
-	<tr>
-		<th>員工編號</th>
-		<th>員工姓名</th>
-		<th>職位</th>
-		<th>雇用日期</th>
-		<th>薪水</th>
-		<th>獎金</th>
-		<th>部門</th>
-		<th>修改</th>
-		<th>刪除</th>
-	</tr>
-	<%@ include file="pages/page1_ByCompositeQuery.file" %>
-	<c:forEach var="empVO" items="${listEmps_ByCompositeQuery}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
-		<tr align='center' valign='middle' ${(empVO.empno==param.empno) ? 'bgcolor=#CCCCFF':''}><!--將修改的那一筆加入對比色而已-->
-			<td>${empVO.empno}</td>
-			<td>${empVO.ename}</td>
-			<td>${empVO.job}</td>
-			<td>${empVO.hiredate}</td>
-			<td>${empVO.sal}</td>
-			<td>${empVO.comm}</td>			
-			<td><c:forEach var="deptVO" items="${deptSvc.all}">
-                    <c:if test="${empVO.deptno==deptVO.deptno}">
-	                    ${deptVO.deptno}【${deptVO.dname} - ${deptVO.loc}】
-                    </c:if>
-                </c:forEach>
-			</td>
-						<td>
-			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/emp/emp.do" style="margin-bottom: 0px;">
-			     <input type="submit" value="修改"> 
-			     <input type="hidden" name="empno"      value="${empVO.empno}">
-			     <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller-->
-			     <input type="hidden" name="whichPage"	value="<%=whichPage%>">               <!--送出當前是第幾頁給Controller-->
-			     <input type="hidden" name="action"	    value="getOne_For_Update"></FORM>
-			</td>
-			<td>
-			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/emp/emp.do" style="margin-bottom: 0px;">
-			     <input type="submit" value="刪除">
-			     <input type="hidden" name="empno"      value="${empVO.empno}">
-			     <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller-->
-			     <input type="hidden" name="whichPage"	value="<%=whichPage%>">               <!--送出當前是第幾頁給Controller-->
-			     <input type="hidden" name="action"     value="delete"></FORM>
-			</td>
-		</tr>
-	</c:forEach>
-</table>
-<%@ include file="pages/page2_ByCompositeQuery.file" %>
-
-<br>本網頁的路徑:<br><b>
-   <font color=blue>request.getServletPath():</font> <%=request.getServletPath()%><br>
-   <font color=blue>request.getRequestURI(): </font> <%=request.getRequestURI()%> </b>
+										<td>
+										  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/OrderHistory/OrderHistory.do" style="margin-bottom: 0px;">
+										     <input type="submit" value="修改"> 
+										     <input type="hidden" name="order_no"      value="${orderHistoryVO.order_no}">
+										     <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller-->
+										     <input type="hidden" name="whichPage"	value="<%=whichPage%>">               <!--送出當前是第幾頁給Controller-->
+										     <input type="hidden" name="action"	    value="getOne_For_Update"></FORM>
+										</td>
+										<td>
+										  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/OrderHistory/OrderHistory.do" style="margin-bottom: 0px;">
+										     <input type="submit" value="刪除">
+										     <input type="hidden" name="order_no"      value="${orderHistoryVO.order_no}">
+										     <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller-->
+										     <input type="hidden" name="whichPage"	value="<%=whichPage%>">               <!--送出當前是第幾頁給Controller-->
+										     <input type="hidden" name="action"     value="delete"></FORM>
+										</td>
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
+					</div>
+					<%@ include file="pages/page2_ByCompositeQuery.file" %>
+				</div>
+			</div>
+		</div>
 
 </body>
 </html>

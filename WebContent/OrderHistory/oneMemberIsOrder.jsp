@@ -71,31 +71,31 @@ pageContext.setAttribute("list",list);
 							</thead>
 											
 							<tbody>
-									<c:forEach var="orderHistoryVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
+								<c:forEach var="orderHistoryVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 									<tr>
-										<td>${orderHistoryVO.orderNo}</td>
-										<td>${orderHistoryVO.memberNo}</td>
-										<td>${orderHistoryVO.orderPrice}</td>
-										<td>${orderHistoryVO.payMethods}</td>
-										<td>${orderHistoryVO.shippingMethods}</td>
-										<td><fmt:formatDate value="${orderHistoryVO.orderDate}" pattern="yyyy-MM-dd"/></td>
-										<td><fmt:formatDate value="${orderHistoryVO.orderEtd}" pattern="yyyy-MM-dd"/></td>
-										<td><fmt:formatDate value="${orderHistoryVO.pickupDate}" pattern="yyyy-MM-dd"/></td>
-										<td>${orderHistoryVO.receiverAdd}</td>
-										<td>${orderHistoryVO.receiverName}</td> 
-										<td>${orderHistoryVO.receiverTel}</td>
-										<td>${orderHistoryVO.orderStatus}</td>
+										<td>${orderHistoryVO.order_no}</td>
+										<td>${orderHistoryVO.member_no}</td>
+										<td>${orderHistoryVO.order_price}</td>
+										<td>${orderHistoryVO.pay_methods}</td>
+										<td>${orderHistoryVO.shipping_methods}</td>
+										<td><fmt:formatDate value="${orderHistoryVO.order_date}" pattern="yyyy-MM-dd"/></td>
+										<td><fmt:formatDate value="${orderHistoryVO.order_etd}" pattern="yyyy-MM-dd"/></td>
+										<td><fmt:formatDate value="${orderHistoryVO.pickup_date}" pattern="yyyy-MM-dd"/></td>
+										<td>${orderHistoryVO.receiver_add}</td>
+										<td>${orderHistoryVO.receiver_name}</td> 
+										<td>${orderHistoryVO.receiver_tel}</td>
+										<td>${orderHistoryVO.order_status}</td>
 												
 										<td>
 										  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/OrderHistory/OrderHistory.do" style="margin-bottom: 0px;">
 										     <input type="submit" value="修改">
-										     <input type="hidden" name="orderNo"  value="${orderHistoryVO.orderNo}">
+										     <input type="hidden" name="order_no"  value="${orderHistoryVO.order_no}">
 										     <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
 										</td>
 										<td>
 										  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/OrderHistory/OrderHistory.do" style="margin-bottom: 0px;">
 										     <input type="submit" value="刪除">
-										     <input type="hidden" name="orderNo"  value="${orderHistoryVO.orderNo}">
+										     <input type="hidden" name="order_no"  value="${orderHistoryVO.order_no}">
 										     <input type="hidden" name="action" value="delete"></FORM>
 										</td>
 									</tr>
@@ -107,7 +107,6 @@ pageContext.setAttribute("list",list);
 				</div>
 			</div>
 		</div>
-		<%System.out.println(); %>>
 		<script src="https://code.jquery.com/jquery.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	</body>
