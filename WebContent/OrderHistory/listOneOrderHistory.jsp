@@ -27,13 +27,17 @@
 			}
 
 		</style>
+		
+		<div>                   
+			<c:import url="/navbar_back-end.html" charEncoding="UTF-8"/>
+		</div>
 	</head>
 	<body>
-
-		<div class="container">
+		<div class="container-fluid">
+			<div class="col-xs-12 col-sm-1"></div>
 			<div class="row">
-				<div class="col-xs-12 col-sm-12">
-					<h4><a href="select_page.jsp"><img src="images/LOGO1.png" width="70" height="50" border="0"><b>首頁</b></a></h4>
+				<div class="col-xs-12 col-sm-10">
+<!-- 					<h4><a href="select_page.jsp"><img src="images/LOGO1.png" width="70" height="50" border="0"><b>首頁</b></a></h4> -->
 					<div class="panel panel-info">
 						<div class="panel-heading">
 					  		<h3 class="panel-title">訂單紀錄</h3>

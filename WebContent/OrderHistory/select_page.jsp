@@ -16,11 +16,12 @@
 
 <body>
 
-	<div class="container">
+	<div class="container-fluid">
+		<div class="col-xs-12 col-sm-1"></div>
 		<div class="row">
-			<div class="col-xs-12 col-sm-12"></div>
-			<h4><a href="select_page.jsp"><img src="images/LOGO1.png" width="70" height="50" border="0"><b>首頁</b></a></h4>
-			<div class="panel panel-info">
+			<div class="col-xs-12 col-sm-10">
+<!-- 			<h4><a href="select_page.jsp"><img src="images/LOGO1.png" width="70" height="50" border="0"><b>首頁</b></a></h4> -->
+				<div class="panel panel-info">
 					<div class="panel-heading">
 						<h3 class="panel-title">訂單紀錄查詢</h3>
 					</div>
@@ -105,15 +106,19 @@
 				
 				</div>
 			</div>
+			</div>		
 		</div>
-	
-		<div class="row">			
-			<div class="panel panel-info">
-				<div class="panel-heading">
-					<h3 class="panel-title">訂單管理</h3>
-				</div>
-				<div class="panel-body">
-					<a href='addOrderHistory.jsp'>新增一筆訂單紀錄</a>
+		
+		<div class="col-xs-12 col-sm-1"></div>
+		<div class="row">	
+			<div class="col-xs-12 col-sm-10">				
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title">訂單管理</h3>
+					</div>
+					<div class="panel-body">
+						<a href='addOrderHistory.jsp'>新增一筆訂單紀錄</a>
+					</div>
 				</div>
 			</div>
 		</div>

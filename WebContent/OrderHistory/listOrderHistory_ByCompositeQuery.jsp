@@ -36,13 +36,14 @@
 			}
 		</style>	
 	</head>
-	<body bgcolor='white'>
-
+	<body>
 	
-		<div class="container">
+		<div class="container-fluid">
+		
+		<div class="col-xs-12 col-sm-1"></div>
 			<div class="row">
-				<div class="col-xs-12 col-sm-12">
-					<h4><a href="select_page.jsp"><img src="images/LOGO1.png" width="70" height="50" border="0"><b>首頁</b></a></h4>
+				<div class="col-xs-12 col-sm-10">
+<!-- 					<h4><a href="select_page.jsp"><img src="images/LOGO1.png" width="70" height="50" border="0"><b>首頁</b></a></h4> -->
 					<div class="panel panel-info">
 						<div class="panel-heading">
 							<h3 class="panel-title">萬用複合查詢</h3><font color=red>已增加分頁、送出修改、刪除之功能</font>
