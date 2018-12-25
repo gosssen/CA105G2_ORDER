@@ -87,7 +87,7 @@
 
 										<td>
 										  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/OrderHistory/OrderHistory.do" style="margin-bottom: 0px;">
-										     <input type="submit" value="修改"> 
+										     <input type="submit" value="修改" class="btn btn-warning"> 
 										     <input type="hidden" name="order_no"      value="${orderHistoryVO.order_no}">
 										     <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller-->
 										     <input type="hidden" name="whichPage"	value="<%=whichPage%>">               <!--送出當前是第幾頁給Controller-->
@@ -95,7 +95,7 @@
 										</td>
 										<td>
 										  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/OrderHistory/OrderHistory.do" style="margin-bottom: 0px;">
-										     <input type="submit" value="刪除">
+										     <input type="submit" value="刪除" class="btn btn-danger">
 										     <input type="hidden" name="order_no"      value="${orderHistoryVO.order_no}">
 										     <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller-->
 										     <input type="hidden" name="whichPage"	value="<%=whichPage%>">               <!--送出當前是第幾頁給Controller-->

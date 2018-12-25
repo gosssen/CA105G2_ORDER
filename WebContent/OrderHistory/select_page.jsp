@@ -41,7 +41,7 @@
 				    <b>輸入訂單編號 (如O2018121710001):</b>
 				    <input type="text" name="order_no">
 				    <input type="hidden" name="action" value="getOne_For_Display">
-				    <input type="submit" value="送出">
+				    <input type="submit" value="送出" class="btn btn-info">
 				</FORM>
 	
 				<jsp:useBean id="OrderHistorySvc" scope="page" class="com.ORDER_HISTORY.model.OrderHistoryService" />
@@ -54,7 +54,7 @@
 						</c:forEach>   
 					</select>
 					<input type="hidden" name="action" value="getOne_For_Display">
-					<input type="submit" value="送出">
+					<input type="submit" value="送出" class="btn btn-info">
 				</FORM>
 	
 				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/OrderHistory/OrderHistory.do" >
@@ -65,7 +65,7 @@
 						</c:forEach>   
 					</select>
 					<input type="hidden" name="action" value="getOne_For_MemAllOrd">
-					<input type="submit" value="送出">
+					<input type="submit" value="送出" class="btn btn-info">
 				</FORM>
 				
 				<%-- 萬用複合查詢-以下欄位-可隨意增減 --%>
@@ -100,7 +100,7 @@
 					<b>輸入收件人電話：</b>
 					<input type="text" name="receiver_tel" size="8" value="0912345678"><br><br>
 				      
-				    <input type="submit" value="送出">
+				    <input type="submit" value="送出" class="btn btn-info">
 				    <input type="hidden" name="action" value="listOrderHistory_ByCompositeQuery">
 				 </FORM>
 				

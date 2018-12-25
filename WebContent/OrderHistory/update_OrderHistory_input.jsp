@@ -125,7 +125,7 @@
 								<input type="hidden" name="action" value="update">
 								<input type="hidden" name="order_no" value="<%=orderHistoryVO.getOrder_no()%>">
 								<input type="hidden" name="member_no" value="<%=orderHistoryVO.getMember_no()%>">
-								<input type="submit" value="送出修改">
+								<input type="submit" value="送出修改" class="btn btn-primary">
 							</FORM>
 						</div>
 					</div>
