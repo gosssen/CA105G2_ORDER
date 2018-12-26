@@ -206,6 +206,9 @@ public class OrderHistoryServlet extends HttpServlet {
 				}
 				
 				String order_status = new String(req.getParameter("order_status").trim());
+				if (order_status == null || order_status.trim().length() == 0) {
+					errorMsgs.add("請選擇訂單狀態。");
+				}
 				
 				OrderHistoryVO orderHistoryVO = new OrderHistoryVO();
 				orderHistoryVO.setOrder_no(order_no);
