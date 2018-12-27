@@ -8,6 +8,6 @@ public interface OrderDetailDAO_interface {
     public void delete(String order_no);
     public OrderDetailVO findByPrimaryKey(String order_no);
     public List<OrderDetailVO> getAll();
-//    public void insertOrderNo (OrderDetailVO orderDetailVO, java.sql.Connection con);
+    public void insertOrderHistory (OrderDetailVO orderDetailVO, java.sql.Connection con);
     
 }

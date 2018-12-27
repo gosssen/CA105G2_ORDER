@@ -259,51 +259,48 @@ public class OrderDetailJDBCDAO implements OrderDetailDAO_interface {
 		return list;
 	}
 
-//	@Override
-//	public void insertOrderNo (OrderDetailVO orderDetailVO , Connection con) {
-//
-//		PreparedStatement pstmt = null;
-//
-//		try {
-//
-//     		pstmt = con.prepareStatement(INSERT_STMT);
-//
-//			pstmt.setString(1, empVO.getEname());
-//			pstmt.setString(2, empVO.getJob());
-//			pstmt.setDate(3, empVO.getHiredate());
-//			pstmt.setDouble(4, empVO.getSal());
-//			pstmt.setDouble(5, empVO.getComm());
-//			pstmt.setInt(6, empVO.getDeptno());
-//
-//			pstmt.executeUpdate();
-//
-//			// Handle any SQL errors
-//		} catch (SQLException se) {
-//			if (con != null) {
-//				try {
-//					// 3●設定於當有exception發生時之catch區塊內
-//					System.err.print("Transaction is being ");
-//					System.err.println("rolled back-由-emp");
-//					con.rollback();
-//				} catch (SQLException excep) {
-//					throw new RuntimeException("rollback error occured. "
-//							+ excep.getMessage());
-//				}
-//			}
-//			throw new RuntimeException("A database error occured. "
-//					+ se.getMessage());
-//			// Clean up JDBC resources
-//		} finally {
-//			if (pstmt != null) {
-//				try {
-//					pstmt.close();
-//				} catch (SQLException se) {
-//					se.printStackTrace(System.err);
-//				}
-//			}
-//		}
-//
-//	}
+	@Override
+	public void insertOrderHistory (OrderDetailVO orderDetailVO , Connection con) {
+
+		PreparedStatement pstmt = null;
+
+		try {
+
+     		pstmt = con.prepareStatement(INSERT_STMT);
+
+			pstmt.setString(1, orderDetailVO.getOrder_no());
+			pstmt.setString(2, orderDetailVO.getGoods_no());
+			pstmt.setDouble(3, orderDetailVO.getGoods_bonus());
+			pstmt.setDouble(4, orderDetailVO.getGoods_pc());
+
+			pstmt.executeUpdate();
+
+			// Handle any SQL errors
+		} catch (SQLException se) {
+			if (con != null) {
+				try {
+					// 3●設定於當有exception發生時之catch區塊內
+					System.err.print("Transaction is being ");
+					System.err.println("rolled back-由-emp");
+					con.rollback();
+				} catch (SQLException excep) {
+					throw new RuntimeException("rollback error occured. "
+							+ excep.getMessage());
+				}
+			}
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+		}
+	}
 	
 	public static void main(String[] args) {
 
