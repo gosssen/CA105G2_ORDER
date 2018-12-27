@@ -26,10 +26,8 @@ public class OrderHistoryJDBCDAO implements OrderHistoryDAO_interface {
 		"SELECT ORDER_NO, MEMBER_NO, ORDER_PRICE, PAY_METHODS, SHIPPING_METHODS, ORDER_DATE, ORDER_ETD,"
 		+ " PICKUP_DATE, RECEIVER_ADD, RECEIVER_NAME, RECEIVER_TEL, ORDER_STATUS "
 		+ "FROM ORDER_HISTORY WHERE ORDER_NO = ?";
-	
 	private static final String GET_ORDERDETAIL_BY_ORDERNO_STMT = 
 		"SELECT ORDER_NO, GOODS_NO, GOODS_BONUS, GOODS_PC FROM ORDER_DETAIL WHERE ORDER_NO = ? ORDER BY ORDER_NO";
-	
 	private static final String DELETE = 
 		"DELETE FROM ORDER_HISTORY WHERE ORDER_NO = ?";
 	private static final String UPDATE =
@@ -556,7 +554,7 @@ public class OrderHistoryJDBCDAO implements OrderHistoryDAO_interface {
 	}
 
 	@Override
-	public void insertWithDetail (OrderHistoryVO orderHistoryVO, List<OrderHistoryVO> list) {
+	public void insertWithDetail (OrderHistoryVO orderHistoryVO, List<OrderDetailVO> list) {
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -583,14 +581,13 @@ public class OrderHistoryJDBCDAO implements OrderHistoryDAO_interface {
 			pstmt.setString(9, orderHistoryVO.getReceiver_name());
 			pstmt.setString(10, orderHistoryVO.getReceiver_tel());
 			pstmt.setString(11, orderHistoryVO.getOrder_status());
-
 			pstmt.executeUpdate();
 			//掘取對應的自增主鍵值
-			String next_deptno = null;
+			String next_order_no = null;
 			ResultSet rs = pstmt.getGeneratedKeys();
 			if (rs.next()) {
-				next_deptno = rs.getString(1);
-				System.out.println("自增主鍵值= " + next_deptno +"(剛新增成功的部門編號)");
+				next_order_no = rs.getString(1);
+				System.out.println("自增主鍵值= " + next_order_no +"(剛新增成功的訂單編號)");
 			} else {
 				System.out.println("未取得自增主鍵值");
 			}
@@ -600,15 +597,15 @@ public class OrderHistoryJDBCDAO implements OrderHistoryDAO_interface {
 			System.out.println("list.size()-A=" + list.size());
 			for (OrderDetailVO aOrderDetail : list) {
 				aOrderDetail.setOrder_no(new String(next_order_no)) ;
-				dao.insertOrderHistory(aOrderDetail,con);
+				dao.insertOrderHistory(aOrderDetail, con);
 			}
 
 			// 2●設定於 pstm.executeUpdate()之後
 			con.commit();
 			con.setAutoCommit(true);
 			System.out.println("list.size()-B="+list.size());
-			System.out.println("新增部門編號" + next_deptno + "時,共有員工" + list.size()
-					+ "人同時被新增");
+			System.out.println("新增訂單編號" + next_order_no + "時,共有" + list.size()
+					+ "筆訂單明細同時被新增");
 			
 			// Handle any driver errors
 		} catch (ClassNotFoundException e) {
@@ -620,7 +617,7 @@ public class OrderHistoryJDBCDAO implements OrderHistoryDAO_interface {
 				try {
 					// 3●設定於當有exception發生時之catch區塊內
 					System.err.print("Transaction is being ");
-					System.err.println("rolled back-由-dept");
+					System.err.println("rolled back-由-OrderHistory");
 					con.rollback();
 				} catch (SQLException excep) {
 					throw new RuntimeException("rollback error occured. "
@@ -654,6 +651,36 @@ public class OrderHistoryJDBCDAO implements OrderHistoryDAO_interface {
 	
 		OrderHistoryJDBCDAO dao = new OrderHistoryJDBCDAO();
 
+		OrderHistoryVO orderHistoryVO = new OrderHistoryVO();
+		orderHistoryVO.setMember_no("M000013");
+		orderHistoryVO.setOrder_price(new Double(1280));
+		orderHistoryVO.setPay_methods("CREDITCARD");
+		orderHistoryVO.setShipping_methods("HOMEDELIVERY");
+		orderHistoryVO.setOrder_date(java.sql.Timestamp.valueOf("2018-12-11 09:48:34.524"));
+		orderHistoryVO.setOrder_etd(java.sql.Timestamp.valueOf("2018-12-16 09:48:34.524"));
+		orderHistoryVO.setPickup_date(java.sql.Timestamp.valueOf("2018-12-21 12:40:51.435"));
+		orderHistoryVO.setReceiver_add("330桃園市桃園區民生路124號");
+		orderHistoryVO.setReceiver_name("佳樂精緻蛋糕專賣店");
+		orderHistoryVO.setReceiver_tel("033335339");
+		orderHistoryVO.setOrder_status("COMPLETE4");
+		
+		List<OrderDetailVO> testList = new ArrayList<OrderDetailVO>(); // 準備置入明細
+		OrderDetailVO Detail01 = new OrderDetailVO(); //明細01
+		Detail01.setGoods_no("P0000013");
+		Detail01.setGoods_bonus(new Double(180));
+		Detail01.setGoods_pc(new Double(1));
+
+		OrderDetailVO Detail02 = new OrderDetailVO(); //明細02
+		Detail02.setGoods_no("P0000018");
+		Detail02.setGoods_bonus(new Double(1100));
+		Detail02.setGoods_pc(new Double(1));
+
+		testList.add(Detail01);
+		testList.add(Detail02);
+		
+		dao.insertWithDetail(orderHistoryVO , testList);
+		
+		
 		// 新增
 //		OrderHistoryVO orderHistoryVO1 = new OrderHistoryVO();
 //		orderHistoryVO1.setMember_no("M000004");

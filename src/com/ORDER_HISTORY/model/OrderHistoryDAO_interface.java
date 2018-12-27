@@ -15,6 +15,6 @@ public interface OrderHistoryDAO_interface {
     public List<OrderHistoryVO> getAll(Map<String, String[]> map); 
     
     public Set<OrderDetailVO> getOrdersDetailByOrderHistory(String order_no);
-    public void insertWithDetail (OrderDetailVO orderDetailVO, List<OrderHistoryVO> list);
+    public void insertWithDetail (OrderHistoryVO orderHistoryVO, List<OrderDetailVO> list);
     
 }

@@ -9,6 +9,9 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 import jdbc.util.CompositeQuery.jdbcUtil_CompositeQuery_OrderHistory;
 
+import com.ORDER_DETAIL.model.OrderDetailJDBCDAO;
+import com.ORDER_DETAIL.model.OrderDetailVO;
+
 public class OrderHistoryDAO implements OrderHistoryDAO_interface {
 	
 	private static DataSource ds = null;
@@ -33,6 +36,8 @@ public class OrderHistoryDAO implements OrderHistoryDAO_interface {
 		"SELECT ORDER_NO, MEMBER_NO, ORDER_PRICE, PAY_METHODS, SHIPPING_METHODS, ORDER_DATE, ORDER_ETD,"
 		+ " PICKUP_DATE, RECEIVER_ADD, RECEIVER_NAME, RECEIVER_TEL, ORDER_STATUS "
 		+ "FROM ORDER_HISTORY WHERE ORDER_NO = ?";
+	private static final String GET_ORDERDETAIL_BY_ORDERNO_STMT = 
+		"SELECT ORDER_NO, GOODS_NO, GOODS_BONUS, GOODS_PC FROM ORDER_DETAIL WHERE ORDER_NO = ? ORDER BY ORDER_NO";
 	private static final String DELETE = 
 		"DELETE FROM ORDER_HISTORY WHERE ORDER_NO = ?";
 	private static final String UPDATE =
@@ -459,4 +464,147 @@ public class OrderHistoryDAO implements OrderHistoryDAO_interface {
 		}
 		return list;
 	}	
+	
+	@Override
+	public Set<OrderDetailVO> getOrdersDetailByOrderHistory(String order_no) {
+		Set<OrderDetailVO> set = new HashSet<OrderDetailVO>();
+		OrderDetailVO orderDetailVO = null;
+	
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+	
+		try {
+	
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_ORDERDETAIL_BY_ORDERNO_STMT);
+			pstmt.setString(1, order_no);
+			rs = pstmt.executeQuery();
+	
+			while (rs.next()) {
+				orderDetailVO = new OrderDetailVO();
+				orderDetailVO.setOrder_no(rs.getString("ORDER_NO"));
+				orderDetailVO.setGoods_no(rs.getString("GOODS_NO"));
+				orderDetailVO.setGoods_bonus(rs.getDouble("GOODS_BONUS"));
+				orderDetailVO.setGoods_pc(rs.getDouble("GOODS_PC"));
+				set.add(orderDetailVO); // Store the row in the vector
+			}
+	
+			// Handle any driver errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return set;
+	}
+
+	@Override
+	public void insertWithDetail (OrderHistoryVO orderHistoryVO, List<OrderDetailVO> list) {
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+
+			con = ds.getConnection();
+			
+			// 1●設定於 pstm.executeUpdate()之前
+    		con.setAutoCommit(false);
+			
+    		// 先新增訂單紀錄
+			String cols[] = {"ORDER_NO"};
+			pstmt = con.prepareStatement(INSERT_STMT , cols);			
+			pstmt.setString(1, orderHistoryVO.getMember_no());
+			pstmt.setDouble(2, orderHistoryVO.getOrder_price());
+			pstmt.setString(3, orderHistoryVO.getPay_methods());
+			pstmt.setString(4, orderHistoryVO.getShipping_methods());
+			pstmt.setTimestamp(5, orderHistoryVO.getOrder_date());
+			pstmt.setTimestamp(6, orderHistoryVO.getOrder_etd());
+			pstmt.setTimestamp(7, orderHistoryVO.getPickup_date());
+			pstmt.setString(8, orderHistoryVO.getReceiver_add());
+			pstmt.setString(9, orderHistoryVO.getReceiver_name());
+			pstmt.setString(10, orderHistoryVO.getReceiver_tel());
+			pstmt.setString(11, orderHistoryVO.getOrder_status());
+			pstmt.executeUpdate();
+			//掘取對應的自增主鍵值
+			String next_order_no = null;
+			ResultSet rs = pstmt.getGeneratedKeys();
+			if (rs.next()) {
+				next_order_no = rs.getString(1);
+				System.out.println("自增主鍵值= " + next_order_no +"(剛新增成功的訂單編號)");
+			} else {
+				System.out.println("未取得自增主鍵值");
+			}
+			rs.close();
+			// 再同時新增明細
+			OrderDetailJDBCDAO dao = new OrderDetailJDBCDAO();
+			System.out.println("list.size()-A=" + list.size());
+			for (OrderDetailVO aOrderDetail : list) {
+				aOrderDetail.setOrder_no(new String(next_order_no)) ;
+				dao.insertOrderHistory(aOrderDetail, con);
+			}
+
+			// 2●設定於 pstm.executeUpdate()之後
+			con.commit();
+			con.setAutoCommit(true);
+			System.out.println("list.size()-B="+list.size());
+			System.out.println("新增訂單編號" + next_order_no + "時,共有" + list.size()
+					+ "筆訂單明細同時被新增");
+			
+			// Handle any driver errors
+		} catch (SQLException se) {
+			if (con != null) {
+				try {
+					// 3●設定於當有exception發生時之catch區塊內
+					System.err.print("Transaction is being ");
+					System.err.println("rolled back-由-OrderHistory");
+					con.rollback();
+				} catch (SQLException excep) {
+					throw new RuntimeException("rollback error occured. "
+							+ excep.getMessage());
+				}
+			}
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+
+	}
 }
