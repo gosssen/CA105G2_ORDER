@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <html>
@@ -6,23 +6,28 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">	
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-	<title>­q³æ©ú²Ó¬d¸ß</title>
+	<title>è¨‚å–®æ˜Žç´°æŸ¥è©¢</title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 
+<div>                   
+	<c:import url="/navbar_back-end.html" charEncoding="UTF-8"/>
+</div>
+
 <body>
 
-	<div class="container">
+	<div class="container-fluid">
+		<div class="col-xs-12 col-sm-1"></div>
 		<div class="row">
-			<div class="col-xs-12 col-sm-12"></div>
-			<h4><a href="select_page.jsp"><img src="images/LOGO1.png" width="70" height="50" border="0"><b>­º­¶</b></a></h4>
-			<div class="panel panel-info">
+			<div class="col-xs-12 col-sm-10">
+<!-- 			<h4><a href="select_page.jsp"><img src="images/LOGO1.png" width="70" height="50" border="0"><b>é¦–é </b></a></h4> -->
+				<div class="panel panel-info">
 					<div class="panel-heading">
-						<h3 class="panel-title">­q³æ©ú²Ó¬d¸ß</h3>
+						<h3 class="panel-title">è¨‚å–®æ˜Žç´°æŸ¥è©¢</h3>
 					</div>
 				<div class="panel-body">
 				<c:if test="${not empty errorMsgs}">
-					<font style="color:red">½Ð­×¥¿¥H¤U¿ù»~:</font>
+					<font style="color:red">è«‹ä¿®æ­£ä»¥ä¸‹éŒ¯èª¤:</font>
 						<ul>
 						    <c:forEach var="message" items="${errorMsgs}">
 								<li style="color:red">${message}</li>
@@ -30,58 +35,60 @@
 						</ul>
 				</c:if>
 	
-						<a href='listAllOrderDetail.jsp'>¬d¸ß¥þ³¡­q³æ©ú²Ó</a><br><br>  						
+						<a href='listAllOrderDetail.jsp'>æŸ¥è©¢å…¨éƒ¨è¨‚å–®æ˜Žç´°</a><br><br>  						
 	
-				<FORM METHOD="post" ACTION="OrderDetail.do" >
-				    <b>¿é¤J­q³æ½s¸¹ (¦pO2018121710001):</b>
-				    <input type="text" name="orderNo">
+				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/OrderDetail/OrderDetail.do" >
+				    <b>è¼¸å…¥è¨‚å–®ç·¨è™Ÿ (å¦‚O2018121710001):</b>
+				    <input type="text" name="order_no">
 				    <input type="hidden" name="action" value="getOne_For_Display">
-				    <input type="submit" value="°e¥X">
+				    <input type="submit" value="é€å‡º" class="btn btn-info">
 				</FORM>
 	
-				<jsp:useBean id="OrderDetailSvc" scope="page" class="com.ORDER_DETAIL.model.OrderDetailService" />
-	
-				<FORM METHOD="post" ACTION="OrderDetail.do" >
-				  <b>¿ï¾Ü­q³æ½s¸¹:</b>
-					<select size="1" name="orderNo">
-						<c:forEach var="OrderDetailVO" items="${OrderDetailSvc.all}" > 
-							<option value="${OrderDetailVO.orderNo}">${OrderDetailVO.orderNo}
+				<jsp:useBean id="OrderHistorySvc" scope="page" class="com.ORDER_DETAIL.model.OrderDetailService" />
+				
+				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/OrderDetail/OrderDetail.do" >
+				  <b>é¸æ“‡å•†å“ç·¨è™Ÿ:</b>
+					<select size="1" name="order_no">
+						<c:forEach var="OrderDetailVO" items="${OrderHistorySvc.all}" > 
+							<option value="${OrderDetailVO.goods_no}">${OrderDetailVO.goods_no}
 						</c:forEach>   
 					</select>
 					<input type="hidden" name="action" value="getOne_For_Display">
-					<input type="submit" value="°e¥X">
+					<input type="submit" value="é€å‡º" class="btn btn-info">
 				</FORM>
 	
-				<FORM METHOD="post" ACTION="OrderDetail.do" >
-					<b>¿ï¾Ü°Ó«~½s¸¹:</b>
-					<select size="1" name="goodsNo">
-						<c:forEach var="OrderDetailVO" items="${OrderDetailSvc.all}" > 
-							<option value="${OrderDetailVO.orderNo}">${OrderDetailVO.goodsNo}
-						</c:forEach>   
-					</select>
-					<input type="hidden" name="action" value="getOne_For_Display">
-					<input type="submit" value="°e¥X">
-				</FORM>
+<%-- 				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/OrderDetail/OrderDetail.do" > --%>
+<!-- 					<b>é¸æ“‡æœƒå“¡ç·¨è™Ÿ:</b> -->
+<!-- 					<select size="1" name="member_no"> -->
+<%-- 						<c:forEach var="OrderHistoryVO" items="${OrderHistorySvc.allMemberNo}" >  --%>
+<%-- 							<option value="${OrderDetailVO}">${OrderDetailVO} --%>
+<%-- 						</c:forEach>    --%>
+<!-- 					</select> -->
+<!-- 					<input type="hidden" name="action" value="getOne_For_MemAllOrd"> -->
+<!-- 					<input type="submit" value="é€å‡º" class="btn btn-info"> -->
+<!-- 				</FORM> -->
+			
 				</div>
 			</div>
+			</div>		
 		</div>
-
 		
-		<div class="row">			
-			<div class="panel panel-info">
-				<div class="panel-heading">
-					<h3 class="panel-title">­q³æ©ú²ÓºÞ²z</h3>
-				</div>
-				<div class="panel-body">
-					<a href='addOrderHistory.jsp'>·s¼W¤@µ§­q³æ©ú²Ó</a>
+		<div class="col-xs-12 col-sm-1"></div>
+		<div class="row">	
+			<div class="col-xs-12 col-sm-10">				
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title">è¨‚å–®ç®¡ç†</h3>
+					</div>
+					<div class="panel-body">
+						<a href='addOrderHistory.jsp'>æ–°å¢žä¸€ç­†è¨‚å–®ç´€éŒ„</a>
+					</div>
 				</div>
 			</div>
 		</div>
 		
 	</div>
 
-
-	
 	<script src="https://code.jquery.com/jquery.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>

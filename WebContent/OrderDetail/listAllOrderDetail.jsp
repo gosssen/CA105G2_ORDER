@@ -28,7 +28,12 @@
 				font-size: 10px;
 			}
 
-		</style>	
+		</style>
+		
+		<div>                   
+			<c:import url="/navbar_back-end.html" charEncoding="UTF-8"/>
+		</div>
+				
 	</head>
 	<body>
 	
@@ -70,22 +75,22 @@
 							<tbody>
 								<c:forEach var="orderDetailVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">							
 									<tr>
-										<td>${orderDetailVO.orderNo}</td>
-										<td>${orderDetailVO.goodsNo}</td>
-										<td>${orderDetailVO.goodsBonus}</td>
-										<td>${orderDetailVO.goodsPc}</td>
+										<td>${orderDetailVO.order_no}</td>
+										<td>${orderDetailVO.goods_no}</td>
+										<td>${orderDetailVO.goods_bonus}</td>
+										<td>${orderDetailVO.goods_pc}</td>
 			
 										
 										<td>
 										  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/OrderDetail/OrderDetail.do" style="margin-bottom: 0px;">
 										     <input type="submit" value="修改">
-										     <input type="hidden" name="orderNo"  value="${orderHistoryVO.orderNo}">
+										     <input type="hidden" name="orderNo"  value="${orderDetailVO.order_no}">
 										     <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
 										</td>
 										<td>
 										  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/OrderDetail/OrderDetail.do" style="margin-bottom: 0px;">
 										     <input type="submit" value="刪除">
-										     <input type="hidden" name="orderNo"  value="${orderHistoryVO.orderNo}">
+										     <input type="hidden" name="orderNo"  value="${orderDetailVO.order_no}">
 										     <input type="hidden" name="action" value="delete"></FORM>
 										</td>
 									</tr>

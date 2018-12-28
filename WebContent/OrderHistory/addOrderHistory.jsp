@@ -61,8 +61,7 @@
 											<td>付款方式：</td>
 											<td>
 												<select size="1" name="pay_methods">
-													<option value='' selected>請選擇</option>
-													<option value="CREDITCARD">電子錢包</option>
+													<option value="CREDITCARD" selected>電子錢包</option>
 													<option value="EWALLET">信用卡</option>
 											   </select>
 											</td>
@@ -70,8 +69,7 @@
 										<tr>
 											<td>出貨方式：</td>
 											<td><select size="1" name="shipping_methods">
-													<option value='' selected>請選擇</option>
-													<option value="STOREPICKUP">超商取貨</option>
+													<option value="STOREPICKUP" selected>超商取貨</option>
 													<option value="HOMEDELIVERY">宅配</option>
 											</select></td>
 										</tr>
@@ -105,8 +103,7 @@
 										<tr>
 											<td>訂單狀態：</td>
 											<td><select size="1" name="order_status">
-													<option value='' selected>請選擇</option>
-													<option value="PAYMENT1">已付款</option>
+													<option value="PAYMENT1" selected>已付款</option>
 													<option value="SHIPPING2">出貨中</option>
 													<option value="SHIPMENT3">已出貨</option>
 													<option value="COMPLETE4">已完成</option>

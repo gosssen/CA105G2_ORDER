@@ -27,6 +27,10 @@ OrderDetailVO orderDetailVO = (OrderDetailVO) request.getAttribute("orderDetailV
 			}
 
 		</style>
+		
+		<div>                   
+			<c:import url="/navbar_back-end.html" charEncoding="UTF-8"/>
+		</div>
 	</head>
 	<body>
 
@@ -56,10 +60,10 @@ OrderDetailVO orderDetailVO = (OrderDetailVO) request.getAttribute("orderDetailV
 
 									<tr>
 										
-								 		<td>${orderDetailVO.orderNo}</td>
-										<td>${orderDetailVO.goodsNo}</td>
-										<td>${orderDetailVO.goodsBonus}</td>
-										<td>${orderDetailVO.goodsPc}</td>
+								 		<td>${orderDetailVO.order_no}</td>
+										<td>${orderDetailVO.goods_no}</td>
+										<td>${orderDetailVO.goods_bonus}</td>
+										<td>${orderDetailVO.goods_pc}</td>
  
 									</tr>
 
