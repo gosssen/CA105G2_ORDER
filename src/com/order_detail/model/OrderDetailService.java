@@ -1,4 +1,4 @@
-package com.ORDER_DETAIL.model;
+package com.order_detail.model;
 
 import java.sql.Timestamp;
 import java.util.List;

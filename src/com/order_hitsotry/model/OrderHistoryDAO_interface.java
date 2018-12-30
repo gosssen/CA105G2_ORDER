@@ -1,8 +1,8 @@
-package com.ORDER_HISTORY.model;
+package com.order_hitsotry.model;
 
 import java.util.*;
 
-import com.ORDER_DETAIL.model.OrderDetailVO;
+import com.order_detail.model.OrderDetailVO;
 
 public interface OrderHistoryDAO_interface {
 	public void insert(OrderHistoryVO orderHistoryVO);

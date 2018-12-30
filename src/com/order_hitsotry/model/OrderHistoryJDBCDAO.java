@@ -1,10 +1,10 @@
-package com.ORDER_HISTORY.model;
+package com.order_hitsotry.model;
 
 import java.sql.*;
 import java.util.*;
 
-import com.ORDER_DETAIL.model.OrderDetailJDBCDAO;
-import com.ORDER_DETAIL.model.OrderDetailVO;
+import com.order_detail.model.OrderDetailJDBCDAO;
+import com.order_detail.model.OrderDetailVO;
 
 import jdbc.util.CompositeQuery.jdbcUtil_CompositeQuery_OrderHistory;
 

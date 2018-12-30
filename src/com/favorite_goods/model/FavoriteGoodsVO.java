@@ -1,4 +1,4 @@
-package com.FAVORITE_GOODS.model;
+package com.favorite_goods.model;
 
 public class FavoriteGoodsVO implements java.io.Serializable {
 

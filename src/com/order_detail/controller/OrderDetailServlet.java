@@ -1,4 +1,4 @@
-package com.ORDER_DETAIL.controller;
+package com.order_detail.controller;
 
 import java.io.*;
 import java.util.*;
@@ -6,7 +6,7 @@ import java.util.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
-import com.ORDER_DETAIL.model.*;
+import com.order_detail.model.*;
 
 public class OrderDetailServlet extends HttpServlet {
 	

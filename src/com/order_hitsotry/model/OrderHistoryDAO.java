@@ -1,4 +1,4 @@
-package com.ORDER_HISTORY.model;
+package com.order_hitsotry.model;
 
 import java.sql.*;
 import java.util.*;
@@ -7,10 +7,11 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
-import jdbc.util.CompositeQuery.jdbcUtil_CompositeQuery_OrderHistory;
 
-import com.ORDER_DETAIL.model.OrderDetailJDBCDAO;
-import com.ORDER_DETAIL.model.OrderDetailVO;
+import com.order_detail.model.OrderDetailJDBCDAO;
+import com.order_detail.model.OrderDetailVO;
+
+import jdbc.util.CompositeQuery.jdbcUtil_CompositeQuery_OrderHistory;
 
 public class OrderHistoryDAO implements OrderHistoryDAO_interface {
 	
@@ -18,7 +19,7 @@ public class OrderHistoryDAO implements OrderHistoryDAO_interface {
 	static {
 		try {
 			Context ctx = new InitialContext();
-			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/ETIckeTsDB");
+			ds = (DataSource) ctx.lookup(com.utility.Util.JNDI_DATABASE_NAME);
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}

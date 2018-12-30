@@ -2,13 +2,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.util.*"%>
-<%@ page import="com.ORDER_HISTORY.model.*"%>
+<%@ page import="com.order_hitsotry.model.*"%>
 
 <%-- 萬用複合查詢-可由客戶端select_page.jsp隨意增減任何想查詢的欄位 --%>
 <%-- 此頁只作為複合查詢時之結果練習，可視需要再增加分頁、送出修改、刪除之功能--%>
 
 <jsp:useBean id="listOrderHistory_ByCompositeQuery" scope="request" type="java.util.List<OrderHistoryVO>" /> <!-- 於EL此行可省略 -->
-<jsp:useBean id="OrderHistorySvc" scope="page" class="com.ORDER_HISTORY.model.OrderHistoryService" />
+<jsp:useBean id="OrderHistorySvc" scope="page" class="com.order_hitsotry.model.OrderHistoryService" />
 
 
 <html>

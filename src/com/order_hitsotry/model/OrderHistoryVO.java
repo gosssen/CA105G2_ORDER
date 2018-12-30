@@ -1,4 +1,4 @@
-package com.ORDER_HISTORY.model;
+package com.order_hitsotry.model;
 
 import java.sql.Timestamp;
 

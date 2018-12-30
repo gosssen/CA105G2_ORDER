@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="com.ORDER_HISTORY.model.*"%>
+<%@ page import="com.order_hitsotry.model.*"%>
 
 <%
 	OrderHistoryVO orderHistoryVO = (OrderHistoryVO) request.getAttribute("orderHistoryVO");
@@ -47,15 +47,15 @@
 										<tr>
 											<td>會員編號：</td>
 											<td><input type="TEXT" name="member_no" size="15" 
-												 value="<%= (orderHistoryVO==null)? "M000001" : orderHistoryVO.getMember_no()%>" /></td>
+												 value="<%=(orderHistoryVO==null)? "M000001" : orderHistoryVO.getMember_no()%>" /></td>
 										</tr>
 										<tr>
 											<td>訂單總金額：</td>
 											<td><input type="TEXT" name="order_price" size="15"
-												 value="<%= (orderHistoryVO==null)? "1000000" : orderHistoryVO.getOrder_price()%>" /></td>
+												 value="<%=(orderHistoryVO==null)? "1000000" : orderHistoryVO.getOrder_price()%>" /></td>
 										</tr>
 										
-										<jsp:useBean id="OrderHistorySvc" scope="page" class="com.ORDER_HISTORY.model.OrderHistoryService" />
+										<jsp:useBean id="OrderHistorySvc" scope="page" class="com.order_hitsotry.model.OrderHistoryService" />
 										
 										<tr>
 											<td>付款方式：</td>

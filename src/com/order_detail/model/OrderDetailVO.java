@@ -1,4 +1,4 @@
-package com.ORDER_DETAIL.model;
+package com.order_detail.model;
 
 public class OrderDetailVO implements java.io.Serializable {
 

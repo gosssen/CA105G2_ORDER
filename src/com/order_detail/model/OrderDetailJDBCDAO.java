@@ -1,24 +1,13 @@
-package com.ORDER_DETAIL.model;
+package com.order_detail.model;
 
 import java.sql.*;
 import java.util.*;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
-
-public class OrderDetailDAO implements OrderDetailDAO_interface {
-	
-	private static DataSource ds = null;
-	static {
-		try {
-			Context ctx = new InitialContext();
-			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/ETIckeTsDB");
-		} catch (NamingException e) {
-			e.printStackTrace();
-		}
-	}
+public class OrderDetailJDBCDAO implements OrderDetailDAO_interface {
+	String driver = "oracle.jdbc.driver.OracleDriver";
+	String url = "jdbc:oracle:thin:@localhost:1521:XE";
+	String userid = "CA105G2";
+	String passwd = "123456";
 
 	private static final String INSERT_STMT = 
 		"INSERT INTO ORDER_DETAIL (ORDER_NO, GOODS_NO, GOODS_BONUS, GOODS_PC) "
@@ -40,7 +29,8 @@ public class OrderDetailDAO implements OrderDetailDAO_interface {
 
 		try {
 
-			con = ds.getConnection();
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(INSERT_STMT);
 			
 			pstmt.setString(1, orderDetailVO.getOrder_no());
@@ -50,9 +40,10 @@ public class OrderDetailDAO implements OrderDetailDAO_interface {
 
 			pstmt.executeUpdate();
 
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
 		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. "
-					+ se.getMessage());
+			throw new RuntimeException("A database error occured. "	+ se.getMessage());
 		} finally {
 			if (pstmt != null) {
 				try {
@@ -69,6 +60,7 @@ public class OrderDetailDAO implements OrderDetailDAO_interface {
 				}
 			}
 		}
+
 	}
 
 	@Override
@@ -79,7 +71,8 @@ public class OrderDetailDAO implements OrderDetailDAO_interface {
 
 		try {
 
-			con = ds.getConnection();
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(UPDATE);
 
 			pstmt.setString(1, orderDetailVO.getGoods_no());
@@ -89,6 +82,9 @@ public class OrderDetailDAO implements OrderDetailDAO_interface {
 
 			pstmt.executeUpdate();
 
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. "
+					+ e.getMessage());
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
@@ -119,15 +115,17 @@ public class OrderDetailDAO implements OrderDetailDAO_interface {
 
 		try {
 
-			con = ds.getConnection();
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(DELETE);
 			pstmt.setString(1, order_no);
 			pstmt.executeUpdate();
 
 
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
 		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. "
-					+ se.getMessage());
+			throw new RuntimeException("A database error occured. "	+ se.getMessage());
 		} finally {
 			if (pstmt != null) {
 				try {
@@ -144,6 +142,7 @@ public class OrderDetailDAO implements OrderDetailDAO_interface {
 				}
 			}
 		}
+
 	}
 
 	@Override
@@ -156,7 +155,8 @@ public class OrderDetailDAO implements OrderDetailDAO_interface {
 
 		try {
 
-			con = ds.getConnection();
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(GET_ONE_STMT);
 			pstmt.setString(1, order_no);
 			rs = pstmt.executeQuery();
@@ -172,9 +172,10 @@ public class OrderDetailDAO implements OrderDetailDAO_interface {
 			}
 
 
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
 		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. "
-					+ se.getMessage());
+			throw new RuntimeException("A database error occured. "	+ se.getMessage());
 		} finally {
 			if (rs != null) {
 				try {
@@ -212,7 +213,8 @@ public class OrderDetailDAO implements OrderDetailDAO_interface {
 
 		try {
 
-			con = ds.getConnection();
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(GET_ALL_STMT);
 			rs = pstmt.executeQuery();
 
@@ -225,9 +227,12 @@ public class OrderDetailDAO implements OrderDetailDAO_interface {
 				list.add(orderDetailVO); // Store the row in the list
 			}
 
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+
 		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. "
-					+ se.getMessage());
+			throw new RuntimeException("A database error occured. "	+ se.getMessage());
+
 		} finally {
 			if (rs != null) {
 				try {
@@ -253,18 +258,21 @@ public class OrderDetailDAO implements OrderDetailDAO_interface {
 		}
 		return list;
 	}
-	
+
 	@Override
 	public void insertOrderHistory (OrderDetailVO orderDetailVO , Connection con) {
+
 		PreparedStatement pstmt = null;
 
 		try {
+
      		pstmt = con.prepareStatement(INSERT_STMT);
 
 			pstmt.setString(1, orderDetailVO.getOrder_no());
 			pstmt.setString(2, orderDetailVO.getGoods_no());
 			pstmt.setDouble(3, orderDetailVO.getGoods_bonus());
 			pstmt.setDouble(4, orderDetailVO.getGoods_pc());
+
 			pstmt.executeUpdate();
 
 			// Handle any SQL errors
@@ -293,31 +301,31 @@ public class OrderDetailDAO implements OrderDetailDAO_interface {
 			}
 		}
 	}
+	
+	public static void main(String[] args) {
 
-//	public static void main(String[] args) {
-//
-//		OrderDetailJDBCDAO dao = new OrderDetailJDBCDAO();
-//
-//		// 新增
+		OrderDetailJDBCDAO dao = new OrderDetailJDBCDAO();
+
+		// 新增
 //		OrderDetailVO orderDetailVO1 = new OrderDetailVO();
 //		orderDetailVO1.setOrder_no("O2018121610003");
 //		orderDetailVO1.setGoods_no("P0000007");
 //		orderDetailVO1.setGoods_bonus(new Double(44444));
 //		orderDetailVO1.setGoods_pc(new Double(1));
 //		dao.insert(orderDetailVO1);
-//
-//		// 修改
+
+		// 修改
 //		OrderDetailVO orderDetailVO2 = new OrderDetailVO();
 //		orderDetailVO2.setOrder_no("O2018121610002");
 //		orderDetailVO2.setGoods_no("P0000002");
 //		orderDetailVO2.setGoods_bonus(new Double(765474));
 //		orderDetailVO2.setGoods_pc(new Double(8));
 //		dao.update(orderDetailVO2);
-//
-//		// 刪除
+
+		// 刪除
 //		dao.delete("O2018121110004");
-//
-//		// 查詢
+
+		// 查詢
 //		OrderDetailVO orderDetailVO3 = dao.findByPrimaryKey("O2018121610002");
 //		System.out.println("訂單編號：　　" + orderDetailVO3.getOrder_no());
 //		System.out.println("商品編號：　　" + orderDetailVO3.getGoods_no());
@@ -334,7 +342,6 @@ public class OrderDetailDAO implements OrderDetailDAO_interface {
 //			System.out.println("商品數量：　　" + aOrder.getGoods_pc());
 //			System.out.println("------------------------------------");
 //		}
-//		
-//	}
-	
+		
+	}
 }

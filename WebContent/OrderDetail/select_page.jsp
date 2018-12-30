@@ -44,7 +44,7 @@
 				    <input type="submit" value="送出" class="btn btn-info">
 				</FORM>
 	
-				<jsp:useBean id="OrderHistorySvc" scope="page" class="com.ORDER_DETAIL.model.OrderDetailService" />
+				<jsp:useBean id="OrderHistorySvc" scope="page" class="com.order_detail.model.OrderDetailService" />
 				
 				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/OrderDetail/OrderDetail.do" >
 				  <b>選擇商品編號:</b>
