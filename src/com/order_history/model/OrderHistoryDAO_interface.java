@@ -1,4 +1,4 @@
-package com.order_hitsotry.model;
+package com.order_history.model;
 
 import java.util.*;
 

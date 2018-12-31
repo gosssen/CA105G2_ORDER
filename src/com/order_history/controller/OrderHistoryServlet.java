@@ -1,4 +1,4 @@
-package com.order_hitsotry.controller;
+package com.order_history.controller;
 
 import java.io.*;
 import java.util.*;
@@ -6,7 +6,7 @@ import java.util.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
-import com.order_hitsotry.model.*;
+import com.order_history.model.*;
 
 public class OrderHistoryServlet extends HttpServlet {
 	

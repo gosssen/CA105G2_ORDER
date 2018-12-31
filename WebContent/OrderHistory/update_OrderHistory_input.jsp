@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="com.order_hitsotry.model.*"%>
+<%@ page import="com.order_history.model.*"%>
 
 <%
 	OrderHistoryVO orderHistoryVO = (OrderHistoryVO) request.getAttribute("orderHistoryVO");
@@ -59,7 +59,7 @@
 										<td><input type="TEXT" name="order_price" size="15"	value="<%=orderHistoryVO.getOrder_price()%>" /></td>
 									</tr>
 									
-									<jsp:useBean id="orderHistorySvc" scope="page" class="com.order_hitsotry.model.OrderHistoryService" />
+									<jsp:useBean id="orderHistorySvc" scope="page" class="com.order_history.model.OrderHistoryService" />
 									
 									<tr>
 										<td>付款方式：</td>

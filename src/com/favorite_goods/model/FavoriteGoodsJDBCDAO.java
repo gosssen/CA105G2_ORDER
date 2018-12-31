@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.order_hitsotry.model.OrderHistoryVO;
+import com.order_history.model.OrderHistoryVO;
 
 public class FavoriteGoodsJDBCDAO implements FavoriteGoodsDAO_interface {
 	String driver = "oracle.jdbc.driver.OracleDriver";
