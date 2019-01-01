@@ -29,14 +29,14 @@ public class FavoriteGoodsService {
 		return favoriteGoodsVO;
 	}
 	
-	public void deleteFavoriteGoods(String member_no, String goods_no) {
-		dao.delete(member_no, goods_no);
-	}
-	
 	public FavoriteGoodsVO getOneFavoriteGoods(String member_no) {
 		return dao.findByPrimaryKey(member_no);
 	}
 	
+	public void deleteFavoriteGoods(String member_no, String goods_no) {
+		dao.delete(member_no, goods_no);
+	}
+		
 	public List<FavoriteGoodsVO> getAll() {
 		return dao.getAll();
 	}
@@ -47,5 +47,13 @@ public class FavoriteGoodsService {
 	
 	public List<FavoriteGoodsVO> findByMemberNo(String member_no) {
 		return dao.findByMemberNo(member_no);
+	}
+	
+	public List<String> getAllGoodsNo() {
+		return dao.getAllGoodsNo();
+	}
+	
+	public List<FavoriteGoodsVO> findByGoodsNo(String goods_no) {
+		return dao.findByGoodsNo(goods_no);
 	}
 }

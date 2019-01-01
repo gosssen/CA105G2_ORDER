@@ -10,4 +10,6 @@ public interface FavoriteGoodsDAO_interface {
     public List<FavoriteGoodsVO> getAll();
     public List<String> getAllMemberNo();
     public List<FavoriteGoodsVO> findByMemberNo(String member_no);
+    public List<String> getAllGoodsNo();
+    public List<FavoriteGoodsVO> findByGoodsNo(String goods_no);
 }

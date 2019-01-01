@@ -30,6 +30,10 @@ public class FavoriteGoodsJDBCDAO implements FavoriteGoodsDAO_interface {
 		"SELECT DISTINCT MEMBER_NO FROM FAVORITE_GOODS ORDER BY MEMBER_NO";
 	private static final String GET_ALL_GOODS_OF_A_MEMBERN = 
 		"SELECT * FROM FAVORITE_GOODS WHERE MEMBER_NO = ?";
+	private static final String GET_ALL_GOODSNO = 
+		"SELECT DISTINCT GOODS_NO FROM FAVORITE_GOODS ORDER BY GOODS_NO";
+	private static final String GET_ALL_MEMBERN_OF_A_GOODS = 
+		"SELECT * FROM FAVORITE_GOODS WHERE GOODS_NO = ?";
 	
 	
 	@Override
@@ -150,9 +154,8 @@ public class FavoriteGoodsJDBCDAO implements FavoriteGoodsDAO_interface {
 				}
 			}
 		}
-
 	}
-
+	
 	@Override
 	public FavoriteGoodsVO findByPrimaryKey(String member_no) {
 
@@ -162,7 +165,6 @@ public class FavoriteGoodsJDBCDAO implements FavoriteGoodsDAO_interface {
 		ResultSet rs = null;
 
 		try {
-
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(GET_ONE_STMT);
@@ -170,11 +172,9 @@ public class FavoriteGoodsJDBCDAO implements FavoriteGoodsDAO_interface {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-
 				favoriteGoodsVO = new FavoriteGoodsVO();
 				favoriteGoodsVO.setMember_no(rs.getString("MEMBER_NO"));
 				favoriteGoodsVO.setGoods_no(rs.getString("GOODS_NO"));
-
 			}
 
 		} catch (ClassNotFoundException e) {
@@ -182,13 +182,6 @@ public class FavoriteGoodsJDBCDAO implements FavoriteGoodsDAO_interface {
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "	+ se.getMessage());
 		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
 			if (pstmt != null) {
 				try {
 					pstmt.close();
@@ -203,7 +196,7 @@ public class FavoriteGoodsJDBCDAO implements FavoriteGoodsDAO_interface {
 					e.printStackTrace(System.err);
 				}
 			}
-		}
+		}	
 		return favoriteGoodsVO;
 	}
 
@@ -328,6 +321,114 @@ public class FavoriteGoodsJDBCDAO implements FavoriteGoodsDAO_interface {
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(GET_ALL_GOODS_OF_A_MEMBERN);
 			pstmt.setString(1, member_no);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				favoriteGoodsVO = new FavoriteGoodsVO();
+				favoriteGoodsVO.setMember_no(rs.getString("MEMBER_NO"));
+				favoriteGoodsVO.setGoods_no(rs.getString("GOODS_NO"));
+				list.add(favoriteGoodsVO); 
+			}
+
+
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "	+ se.getMessage());
+
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	}
+	
+	@Override
+	public List<String> getAllGoodsNo() {
+		List<String> list = new ArrayList<String>();
+	
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(GET_ALL_GOODSNO);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				list.add(rs.getString("GOODS_NO")); 
+			}
+
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "	+ se.getMessage());
+
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	}
+	
+	@Override
+	public List<FavoriteGoodsVO> findByGoodsNo(String goods_no) {
+		
+		List<FavoriteGoodsVO> list = new ArrayList<FavoriteGoodsVO>();
+		FavoriteGoodsVO favoriteGoodsVO = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(GET_ALL_MEMBERN_OF_A_GOODS);
+			pstmt.setString(1, goods_no);
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {

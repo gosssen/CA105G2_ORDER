@@ -71,6 +71,57 @@ public class FavoriteGoodsServlet extends HttpServlet {
 			}
 		}
 		
+		if ("getAll_Member_Of_A_Goods".equals(action)) {
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+			
+			try {
+				String str = req.getParameter("goods_no");
+				if (str == null || (str.trim()).length() == 0) {
+					errorMsgs.add("請輸入商品編號");
+				}
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req.getRequestDispatcher("/FavoriteGoods/select_page.jsp");
+					failureView.forward(req, res);
+					return;
+				}
+				String goods_no = null;
+				try {
+					goods_no = new String(str);				
+				} catch (Exception e) {
+					errorMsgs.add("商品編號格式不正確");
+				}
+				
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req.getRequestDispatcher("/FavoriteGoods/select_page.jsp");
+					failureView.forward(req, res);
+					return;
+				}
+				
+				FavoriteGoodsService favoriteGoodsSvc = new FavoriteGoodsService();
+				List<FavoriteGoodsVO> favoriteGoodsVO = (List<FavoriteGoodsVO>) favoriteGoodsSvc.findByGoodsNo(goods_no);
+
+				if (favoriteGoodsVO == null) {
+					errorMsgs.add("查無資料");
+				}
+				
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req.getRequestDispatcher("/FavoriteGoods/select_page.jsp");
+					failureView.forward(req, res);
+					return;
+				}
+				
+				req.setAttribute("favoriteGoodsVO", favoriteGoodsVO);
+				String url = "/FavoriteGoods/AllMemberOfAGoods.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url);
+				successView.forward(req, res);
+				
+			}  catch (Exception e) {
+				errorMsgs.add("無法取得資料：" + e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher("/FavoriteGoods/select_page.jsp");
+				failureView.forward(req, res);
+			}
+		}
 				
 		if ("getOne_For_Display".equals(action)) {
 			List<String> errorMsgs = new LinkedList<String>();

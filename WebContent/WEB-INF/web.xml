@@ -25,7 +25,7 @@
     <url-pattern>/OrderHistory/OrderHistory.do</url-pattern>
   </servlet-mapping>
   
-    <servlet>
+  <servlet>
     <servlet-name>OrderDetailServlet</servlet-name>
     <servlet-class>com.order_detail.controller.OrderDetailServlet</servlet-class>
   </servlet>
@@ -34,7 +34,7 @@
     <url-pattern>/OrderDetail/OrderDetail.do</url-pattern>
   </servlet-mapping>
   
-      <servlet>
+  <servlet>
     <servlet-name>FavoriteGoodsServlet</servlet-name>
     <servlet-class>com.favorite_goods.controller.FavoriteGoodsServlet</servlet-class>
   </servlet>
@@ -43,4 +43,14 @@
     <url-pattern>/FavoriteGoods/FavoriteGoods.do</url-pattern>
   </servlet-mapping>
   
+  	<servlet>
+		<servlet-name>GoodsImgServlet1</servlet-name>
+		<servlet-class>com.goods.controller.GoodsImgServlet1</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GoodsImgServlet1</servlet-name>
+		<url-pattern>/goods/goodsImg1.do</url-pattern>
+	</servlet-mapping>
+	
+	
 </web-app>

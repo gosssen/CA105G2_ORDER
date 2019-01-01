@@ -48,7 +48,7 @@
 				
 				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/OrderDetail/OrderDetail.do" >
 				  <b>選擇商品編號:</b>
-					<select size="1" name="order_no">
+					<select size="1" name="goods_no">
 						<c:forEach var="OrderDetailVO" items="${OrderHistorySvc.all}" > 
 							<option value="${OrderDetailVO.goods_no}">${OrderDetailVO.goods_no}
 						</c:forEach>   

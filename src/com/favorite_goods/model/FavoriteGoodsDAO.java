@@ -35,9 +35,13 @@ public class FavoriteGoodsDAO implements FavoriteGoodsDAO_interface {
 	private static final String UPDATE =
 		"UPDATE FAVORITE_GOODS SET GOODS_NO = ? WHERE MEMBER_NO = ?";
 	private static final String GET_ALL_MEMBERNO = 
-			"SELECT DISTINCT MEMBER_NO FROM FAVORITE_GOODS ORDER BY MEMBER_NO";
+		"SELECT DISTINCT MEMBER_NO FROM FAVORITE_GOODS ORDER BY MEMBER_NO";
 	private static final String GET_ALL_GOODS_OF_A_MEMBERN = 
-			"SELECT * FROM FAVORITE_GOODS WHERE MEMBER_NO = ?";
+		"SELECT * FROM FAVORITE_GOODS WHERE MEMBER_NO = ?";
+	private static final String GET_ALL_GOODSNO = 
+		"SELECT DISTINCT GOODS_NO FROM FAVORITE_GOODS ORDER BY GOODS_NO";
+	private static final String GET_ALL_MEMBERN_OF_A_GOODS = 
+		"SELECT * FROM FAVORITE_GOODS WHERE GOODS_NO = ?";
 	
 	@Override
 	public void insert(FavoriteGoodsVO favoriteGoodsVO) {
@@ -206,7 +210,7 @@ public class FavoriteGoodsDAO implements FavoriteGoodsDAO_interface {
 				favoriteGoodsVO = new FavoriteGoodsVO();
 				favoriteGoodsVO.setMember_no(rs.getString("MEMBER_NO"));
 				favoriteGoodsVO.setGoods_no(rs.getString("GOODS_NO"));
-				list.add(favoriteGoodsVO); // Store the row in the list
+				list.add(favoriteGoodsVO); 
 			}
 
 		} catch (SQLException se) {
@@ -303,7 +307,6 @@ public class FavoriteGoodsDAO implements FavoriteGoodsDAO_interface {
 				favoriteGoodsVO.setGoods_no(rs.getString("GOODS_NO"));
 				list.add(favoriteGoodsVO); 
 			}
-
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 		} finally {
@@ -332,4 +335,97 @@ public class FavoriteGoodsDAO implements FavoriteGoodsDAO_interface {
 		return list;
 	}
 	
+	@Override
+	public List<String> getAllGoodsNo() {
+		List<String> list = new ArrayList<String>();
+	
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_ALL_GOODSNO);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				list.add(rs.getString("GOODS_NO")); 
+			}
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "	+ se.getMessage());
+
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	}
+	
+	@Override
+	public List<FavoriteGoodsVO> findByGoodsNo(String goods_no) {
+		
+		List<FavoriteGoodsVO> list = new ArrayList<FavoriteGoodsVO>();
+		FavoriteGoodsVO favoriteGoodsVO = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_ALL_MEMBERN_OF_A_GOODS);
+			pstmt.setString(1, goods_no);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				favoriteGoodsVO = new FavoriteGoodsVO();
+				favoriteGoodsVO.setMember_no(rs.getString("MEMBER_NO"));
+				favoriteGoodsVO.setGoods_no(rs.getString("GOODS_NO"));
+				list.add(favoriteGoodsVO); 
+			}
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "	+ se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	}
 }
