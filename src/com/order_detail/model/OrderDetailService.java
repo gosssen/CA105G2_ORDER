@@ -1,6 +1,5 @@
 package com.order_detail.model;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 public class OrderDetailService {
@@ -38,8 +37,8 @@ public class OrderDetailService {
 		return orderDetailVO;
 	}
 	
-	public void deleteOrderDetail(String order_no) {
-		dao.delete(order_no);
+	public void deleteOrderDetail(String order_no, String goods_no) {
+		dao.delete(order_no, goods_no);
 	}
 	
 	public OrderDetailVO getOneOrderDetail(String order_no) {
@@ -50,4 +49,11 @@ public class OrderDetailService {
 		return dao.getAll();
 	}
 	
+	public List<String> getAllOrderNo() {
+		return dao.getAllOrderNo();
+	}
+	
+	public List<OrderDetailVO> findByOrderNo(String order_no) {
+		return dao.findByOrderNo(order_no);
+	}
 }

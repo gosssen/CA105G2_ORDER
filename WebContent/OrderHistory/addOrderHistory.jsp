@@ -46,13 +46,11 @@
 									<table>
 										<tr>
 											<td>會員編號：</td>
-											<td><input type="TEXT" name="member_no" size="15" 
-												 value="<%=(orderHistoryVO==null)? "M000001" : orderHistoryVO.getMember_no()%>" /></td>
+											<td><input type="TEXT" name="member_no" size="10" value="<%=(orderHistoryVO==null)? "M000001" : orderHistoryVO.getMember_no()%>" /></td>
 										</tr>
 										<tr>
 											<td>訂單總金額：</td>
-											<td><input type="TEXT" name="order_price" size="15"
-												 value="<%=(orderHistoryVO==null)? "1000000" : orderHistoryVO.getOrder_price()%>" /></td>
+											<td><input type="TEXT" name="order_price" size="10" value="<%=(orderHistoryVO==null)? "1000000" : orderHistoryVO.getOrder_price()%>" /></td>
 										</tr>
 										
 										<jsp:useBean id="OrderHistorySvc" scope="page" class="com.order_history.model.OrderHistoryService" />
@@ -92,12 +90,12 @@
 										</tr>
 										<tr>
 											<td>收件人名稱：</td>
-											<td><input type="TEXT" name="receiver_name" size="15" 
+											<td><input type="TEXT" name="receiver_name" size="10" 
 												 value="<%= (orderHistoryVO==null)? "Peter1" : orderHistoryVO.getReceiver_name()%>" /></td>
 										</tr>
 										<tr>
 											<td>收件人電話：</td>
-											<td><input type="TEXT" name="receiver_tel" size="15" 
+											<td><input type="TEXT" name="receiver_tel" size="10" 
 												 value="<%= (orderHistoryVO==null)? "0912345678" : orderHistoryVO.getReceiver_tel()%>" /></td>
 										</tr>
 										<tr>

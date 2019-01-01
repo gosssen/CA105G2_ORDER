@@ -8,6 +8,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import com.order_history.model.OrderHistoryVO;
+
 public class OrderDetailDAO implements OrderDetailDAO_interface {
 	
 	private static DataSource ds = null;
@@ -28,9 +30,14 @@ public class OrderDetailDAO implements OrderDetailDAO_interface {
 	private static final String GET_ONE_STMT = 
 		"SELECT ORDER_NO, GOODS_NO, GOODS_BONUS, GOODS_PC FROM ORDER_DETAIL WHERE ORDER_NO = ?";
 	private static final String DELETE = 
-		"DELETE FROM ORDER_DETAIL WHERE ORDER_NO = ?";
+		"DELETE FROM ORDER_DETAIL WHERE ORDER_NO = ? AND GOODS_NO = ?";
 	private static final String UPDATE =
 		"UPDATE ORDER_DETAIL SET GOODS_NO = ?, GOODS_BONUS = ?, GOODS_PC = ? WHERE ORDER_NO = ?";
+	private static final String GET_ALL_ORDERNO = 
+		"SELECT DISTINCT ORDER_NO FROM ORDER_DETAIL ORDER BY ORDER_NO";
+	private static final String GET_ONE_ORDERNO = 
+		"SELECT * FROM ORDER_DETAIL WHERE ORDER_NO = ?";
+	
 	
 	@Override
 	public void insert(OrderDetailVO orderDetailVO) {
@@ -112,7 +119,7 @@ public class OrderDetailDAO implements OrderDetailDAO_interface {
 	}
 
 	@Override
-	public void delete(String order_no) {
+	public void delete(String order_no, String goods_no) {
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -122,6 +129,7 @@ public class OrderDetailDAO implements OrderDetailDAO_interface {
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(DELETE);
 			pstmt.setString(1, order_no);
+			pstmt.setString(2, goods_no);
 			pstmt.executeUpdate();
 
 
@@ -294,6 +302,106 @@ public class OrderDetailDAO implements OrderDetailDAO_interface {
 		}
 	}
 
+	@Override
+	public List<String> getAllOrderNo() {
+		List<String> list = new ArrayList<String>();
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_ALL_ORDERNO);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				list.add(rs.getString("ORDER_NO")); 
+			}
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	}
+	
+	@Override
+	public List<OrderDetailVO> findByOrderNo(String order_no) {
+		
+		List<OrderDetailVO> list = new ArrayList<OrderDetailVO>();
+		OrderDetailVO orderDetailVO = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_ONE_ORDERNO);
+			pstmt.setString(1, order_no);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				orderDetailVO = new OrderDetailVO();
+				orderDetailVO.setOrder_no(rs.getString("ORDER_NO"));
+				orderDetailVO.setGoods_no(rs.getString("GOODS_NO"));
+				orderDetailVO.setGoods_bonus(rs.getDouble("GOODS_BONUS"));
+				orderDetailVO.setGoods_pc(rs.getDouble("GOODS_PC"));
+
+
+				list.add(orderDetailVO); 
+			}
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	}
+	
 //	public static void main(String[] args) {
 //
 //		OrderDetailJDBCDAO dao = new OrderDetailJDBCDAO();

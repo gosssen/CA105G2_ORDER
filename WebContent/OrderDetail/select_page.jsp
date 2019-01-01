@@ -35,7 +35,7 @@
 						</ul>
 				</c:if>
 	
-						<a href='listAllOrderDetail.jsp'>查詢全部訂單明細</a><br><br>  						
+				<a href='listAllOrderDetail.jsp'>查詢全部訂單明細</a><br><br>  						
 	
 				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/OrderDetail/OrderDetail.do" >
 				    <b>輸入訂單編號 (如O2018121710001):</b>
@@ -44,16 +44,16 @@
 				    <input type="submit" value="送出" class="btn btn-info">
 				</FORM>
 	
-				<jsp:useBean id="OrderHistorySvc" scope="page" class="com.order_detail.model.OrderDetailService" />
+				<jsp:useBean id="OrderDetailSvc" scope="page" class="com.order_detail.model.OrderDetailService" />
 				
 				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/OrderDetail/OrderDetail.do" >
-				  <b>選擇商品編號:</b>
-					<select size="1" name="goods_no">
-						<c:forEach var="OrderDetailVO" items="${OrderHistorySvc.all}" > 
-							<option value="${OrderDetailVO.goods_no}">${OrderDetailVO.goods_no}
+				  <b>選擇訂單編號:</b>
+					<select size="1" name="order_no">
+						<c:forEach var="OrderDetailVO" items="${OrderDetailSvc.allOrderNo}" > 
+							<option value="${OrderDetailVO}">${OrderDetailVO}
 						</c:forEach>   
 					</select>
-					<input type="hidden" name="action" value="getOne_For_Display">
+					<input type="hidden" name="action" value="getAll_OrderDetail_For_A_OrderNo">
 					<input type="submit" value="送出" class="btn btn-info">
 				</FORM>
 	
@@ -81,7 +81,7 @@
 						<h3 class="panel-title">訂單管理</h3>
 					</div>
 					<div class="panel-body">
-						<a href='addOrderHistory.jsp'>新增一筆訂單紀錄</a>
+						<a href='addOrderDetail.jsp'>新增一筆訂單紀錄</a>
 					</div>
 				</div>
 			</div>

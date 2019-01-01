@@ -7,6 +7,8 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 
 import com.order_detail.model.*;
+import com.order_history.model.OrderHistoryService;
+import com.order_history.model.OrderHistoryVO;
 
 public class OrderDetailServlet extends HttpServlet {
 	
@@ -20,6 +22,58 @@ public class OrderDetailServlet extends HttpServlet {
 		
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
+		
+		if ("getAll_OrderDetail_For_A_OrderNo".equals(action)) {
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+			
+			try {
+				String str = req.getParameter("order_no");
+				if (str == null || (str.trim()).length() == 0) {
+					errorMsgs.add("請輸入訂單編號");
+				}
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req.getRequestDispatcher("/OrderDetail/select_page.jsp");
+					failureView.forward(req, res);
+					return;
+				}
+				String order_no = null;
+				try {
+					order_no = new String(str);				
+				} catch (Exception e) {
+					errorMsgs.add("訂單編號格式不正確");
+				}
+				
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req.getRequestDispatcher("/OrderDetail/select_page.jsp");
+					failureView.forward(req, res);
+					return;
+				}
+				
+				OrderDetailService orderDetailSvc = new OrderDetailService();
+				List<OrderDetailVO> orderDetailVO = (List<OrderDetailVO>) orderDetailSvc.findByOrderNo(order_no);
+
+				if (orderDetailVO == null) {
+					errorMsgs.add("查無資料");
+				}
+				
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req.getRequestDispatcher("/OrderDetail/select_page.jsp");
+					failureView.forward(req, res);
+					return;
+				}
+				
+				req.setAttribute("orderDetailVO", orderDetailVO);
+				String url = "/OrderDetail/AllOrderDetailOfAOrderNo.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url);
+				successView.forward(req, res);
+				
+			}  catch (Exception e) {
+				errorMsgs.add("無法取得資料：" + e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher("/OrderDetail/select_page.jsp");
+				failureView.forward(req, res);
+			}
+		}
 		
 		if ("getOne_For_Display".equals(action)) {
 			List<String> errorMsgs = new LinkedList<String>();
@@ -83,7 +137,7 @@ public class OrderDetailServlet extends HttpServlet {
 				OrderDetailVO orderDetailVO = orderDetailSvc.getOneOrderDetail(order_no);
 				
 				req.setAttribute("orderDetailVO", orderDetailVO);
-				String url = "/OrderDetail/update_OrderDetailVO_input.jsp";
+				String url = "/OrderDetail/update_OrderDetail_input.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 				
@@ -110,7 +164,7 @@ public class OrderDetailServlet extends HttpServlet {
 				}
 				Double goods_pc = null;
 				try {
-					goods_pc = new Double(req.getParameter("goods_bonus").trim());
+					goods_pc = new Double(req.getParameter("goods_pc").trim());
 				} catch (NumberFormatException e) {
 					goods_pc = 0.0;
 					errorMsgs.add("請填入商品數量。");
@@ -135,7 +189,7 @@ public class OrderDetailServlet extends HttpServlet {
 				orderDetailVO = orderDetailSvc.updateOrderDetail(goods_no, goods_bonus, goods_pc);
 			
 				req.setAttribute("orderDetailVO", orderDetailVO); 
-				String url = "/OrderDetailVO/listOrderDetail.jsp";
+				String url = "/OrderDetail/listOrderDetail.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 				
@@ -202,8 +256,9 @@ public class OrderDetailServlet extends HttpServlet {
 		
 			try {
 				String order_no = new String(req.getParameter("order_no"));
+				String goods_no = new String(req.getParameter("goods_no"));
 				OrderDetailService orderDetailSvc = new OrderDetailService();
-				orderDetailSvc.deleteOrderDetail(order_no);
+				orderDetailSvc.deleteOrderDetail(order_no, goods_no);
 				
 				String url = "/OrderDetail/listAllOrderDetail.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
@@ -211,8 +266,7 @@ public class OrderDetailServlet extends HttpServlet {
 				
 			} catch (Exception e) {
 				errorMsgs.add("刪除資料失敗:" + e.getMessage());
-				RequestDispatcher failureView = req
-						.getRequestDispatcher("/OrderDetail/listAllOrderDetail.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/OrderDetail/listAllOrderDetail.jsp");
 				failureView.forward(req, res);
 			}
 		}
