@@ -226,7 +226,7 @@ public class OrderDetailServlet extends HttpServlet {
 				OrderDetailVO orderDetailVO = new OrderDetailVO();
 				orderDetailVO.setGoods_no(goods_no);
 				orderDetailVO.setGoods_bonus(goods_bonus);
-				orderDetailVO.setGoods_pc(goods_pc);;
+				orderDetailVO.setGoods_pc(goods_pc);
 				
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("orderDetailVO", orderDetailVO); 

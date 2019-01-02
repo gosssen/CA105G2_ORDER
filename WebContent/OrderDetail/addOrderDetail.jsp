@@ -21,6 +21,11 @@
 			<c:import url="/navbar_back-end.html" charEncoding="UTF-8"/>
 		</div>
 		
+<style type="text/css">
+	tr{
+		height : 30px;
+	}
+</style>
 	</head>
 	<body>
 		<div class="container-fluid">
@@ -43,21 +48,38 @@
 						</c:if>
 							<div class="panel-body">
 								<FORM METHOD="post" ACTION="OrderDetail.do" name="form1">
+								
+									<jsp:useBean id="OrderHistorySvc" scope="page" class="com.order_history.model.OrderHistoryService" />
+									<jsp:useBean id="OrderDetailSvc" scope="page" class="com.order_detail.model.OrderDetailService" />
+									<jsp:useBean id="GoodsSvc" scope="page" class="com.goods.model.GoodsService" />
+			
 									<table>
 										<tr>
 											<td>訂單編號：</td>
-											<td><input type="TEXT" name="order_no" size="15" value="<%=(orderDetailVO==null)? "O2018123010001" : orderDetailVO.getOrder_no()%>" /></td>
+											<td>
+												<select size="1" name="order_no">
+													<c:forEach var="OrderDetailVO" items="${OrderDetailSvc.allOrderNo}" > 
+														<option value="${OrderDetailVO}">${OrderDetailVO}
+													</c:forEach>   
+												</select>
+											</td>
 										</tr>
 										<tr>
 											<td>商品編號：</td>
-											<td><input type="TEXT" name="goods_no" size="10" value="<%=(orderDetailVO==null)? "P0000001" : orderDetailVO.getGoods_no()%>" /></td>
-										</tr>
-										
-										<jsp:useBean id="OrderDetailSvc" scope="page" class="com.order_detail.model.OrderDetailService" />
-										
+											<td>
+												<select size="1" name="goods_no">
+													<c:forEach var="GoodsVO" items="${GoodsSvc.all}" > 
+														<option value="${GoodsVO.goods_no}">${GoodsVO.goods_no}
+													</c:forEach>   
+												</select>
+											</td>
+											</tr>
+											
 										<tr>
 											<td>實際交易單價：</td>
-											<td><input type="TEXT" name="goods_bonus" size="10" value="<%=(orderDetailVO==null)? "0.0" : orderDetailVO.getGoods_bonus()%>" /></td>
+											<td>
+												<input type="TEXT" name="goods_bonus" size="10" value="<%=(orderDetailVO==null)? "0.0" : orderDetailVO.getGoods_bonus()%>" />
+											</td><br>
 										</tr>
 										<tr>
 											<td>商品數量：</td>

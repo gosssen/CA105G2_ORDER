@@ -74,6 +74,7 @@
 									<tr align='center' valign='middle' ${(orderHistoryVO.order_no==param.order_no) ? 'bgcolor=#CCCCFF':''}><!--將修改的那一筆加入對比色而已-->
 								 		<td>${orderHistoryVO.order_no}</td>
 										<td>${orderHistoryVO.member_no}</td>
+										<td>${orderHistoryVO.order_price}</td>
 										<td>
 											${(orderHistoryVO.pay_methods == "CREDITCARD") ? '電子錢包' : '' }
 											${(orderHistoryVO.pay_methods == "EWALLET") ? '信用卡' : '' }
@@ -111,7 +112,7 @@
 										     <input type="hidden" name="order_no"      value="${orderHistoryVO.order_no}">
 										     <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller-->
 										     <input type="hidden" name="whichPage"	value="<%=whichPage%>">               <!--送出當前是第幾頁給Controller-->
-										     <input type="hidden" name="action"     value="delete"></FORM>
+										     <input type="hidden" name="action"     value="delete_OrderHistory"></FORM>
 										</td>
 									</tr>
 								</c:forEach>

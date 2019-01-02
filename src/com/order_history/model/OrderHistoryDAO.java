@@ -39,8 +39,10 @@ public class OrderHistoryDAO implements OrderHistoryDAO_interface {
 		+ "FROM ORDER_HISTORY WHERE ORDER_NO = ?";
 	private static final String GET_ORDERDETAIL_BY_ORDERNO_STMT = 
 		"SELECT ORDER_NO, GOODS_NO, GOODS_BONUS, GOODS_PC FROM ORDER_DETAIL WHERE ORDER_NO = ? ORDER BY ORDER_NO";
-	private static final String DELETE = 
+	private static final String DELETE_ORDERHISTORY = 
 		"DELETE FROM ORDER_HISTORY WHERE ORDER_NO = ?";
+	private static final String DELETE_ORDERDETAILs = 
+		"DELETE FROM ORDER_DETAIL WHERE ORDER_NO = ?";
 	private static final String UPDATE =
 		"UPDATE ORDER_HISTORY SET MEMBER_NO=?, ORDER_PRICE=?, PAY_METHODS=?, SHIPPING_METHODS=?,"
 		+ " ORDER_DATE=?, ORDER_ETD=?, PICKUP_DATE=?, RECEIVER_ADD=?, RECEIVER_NAME=?, "
@@ -144,17 +146,29 @@ public class OrderHistoryDAO implements OrderHistoryDAO_interface {
 
 	@Override
 	public void delete(String order_no) {
-
+		int updateCount_ORDERDETAILs = 0;
+		
 		Connection con = null;
 		PreparedStatement pstmt = null;
 
 		try {
 
 			con = ds.getConnection();
-			pstmt = con.prepareStatement(DELETE);
+			con.setAutoCommit(false);
+			
+			pstmt = con.prepareStatement(DELETE_ORDERDETAILs);
+			pstmt.setString(1, order_no);
+			updateCount_ORDERDETAILs = pstmt.executeUpdate();
+			
+			pstmt = con.prepareStatement(DELETE_ORDERHISTORY);
 			pstmt.setString(1, order_no);
 			pstmt.executeUpdate();
-
+			
+			con.commit();
+			con.setAutoCommit(true);
+			System.out.println("刪除訂單編號" + order_no + "時,共有訂單明細" + updateCount_ORDERDETAILs
+					+ "份同時被刪除");
+			
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 		} finally {
@@ -554,7 +568,7 @@ public class OrderHistoryDAO implements OrderHistoryDAO_interface {
 			ResultSet rs = pstmt.getGeneratedKeys();
 			if (rs.next()) {
 				next_order_no = rs.getString(1);
-				System.out.println("自增主鍵值= " + next_order_no +"(剛新增成功的訂單編號)");
+				System.out.println("自增主鍵值= " + next_order_no + "(剛新增成功的訂單編號)");
 			} else {
 				System.out.println("未取得自增主鍵值");
 			}
@@ -563,16 +577,15 @@ public class OrderHistoryDAO implements OrderHistoryDAO_interface {
 			OrderDetailDAO dao = new OrderDetailDAO();
 			System.out.println("list.size()-A=" + list.size());
 			for (OrderDetailVO aOrderDetail : list) {
-				aOrderDetail.setOrder_no(new String(next_order_no)) ;
-				dao.insertOrderHistory(aOrderDetail, con);
+				aOrderDetail.setOrder_no(new String(next_order_no));
+				dao.insertToOrderHistory(aOrderDetail, con);
 			}
 
 			// 2●設定於 pstm.executeUpdate()之後
 			con.commit();
 			con.setAutoCommit(true);
 			System.out.println("list.size()-B="+list.size());
-			System.out.println("新增訂單編號" + next_order_no + "時,共有" + list.size()
-					+ "筆訂單明細同時被新增");
+			System.out.println("新增訂單編號" + next_order_no + "時,共有" + list.size() + "筆訂單明細同時被新增");
 			
 			// Handle any driver errors
 		} catch (SQLException se) {
@@ -583,12 +596,10 @@ public class OrderHistoryDAO implements OrderHistoryDAO_interface {
 					System.err.println("rolled back-由-OrderHistory");
 					con.rollback();
 				} catch (SQLException excep) {
-					throw new RuntimeException("rollback error occured. "
-							+ excep.getMessage());
+					throw new RuntimeException("rollback error occured. " + excep.getMessage());
 				}
 			}
-			throw new RuntimeException("A database error occured. "
-					+ se.getMessage());
+			throw new RuntimeException("A database error occured. " + se.getMessage());
 			// Clean up JDBC resources
 		} finally {
 			if (pstmt != null) {

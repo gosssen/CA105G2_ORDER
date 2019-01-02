@@ -3,6 +3,9 @@ package com.order_history.model;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import com.order_detail.model.OrderDetailVO;
 
 public class OrderHistoryService {
 
@@ -81,4 +84,12 @@ public class OrderHistoryService {
 		return dao.getAll(map);
 	}
 	
+	public Set<OrderDetailVO> getOrdersDetailByOrderHistory(String order_no) {
+		return dao.getOrdersDetailByOrderHistory(order_no);
+	}
+	
+	public void insertWithDetail (OrderHistoryVO orderHistoryVO, List<OrderDetailVO> list) {
+		
+		dao.insertWithDetail(orderHistoryVO, list);
+	}
 }

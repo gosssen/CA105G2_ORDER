@@ -10,6 +10,6 @@ public interface OrderDetailDAO_interface {
     public List<OrderDetailVO> getAll();
     public List<String> getAllOrderNo();
     public List<OrderDetailVO> findByOrderNo(String order_no);
-    public void insertOrderHistory (OrderDetailVO orderDetailVO, java.sql.Connection con);
+    public void insertToOrderHistory (OrderDetailVO orderDetailVO, java.sql.Connection con);
     
 }

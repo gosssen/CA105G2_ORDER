@@ -597,7 +597,7 @@ public class OrderHistoryJDBCDAO implements OrderHistoryDAO_interface {
 			System.out.println("list.size()-A=" + list.size());
 			for (OrderDetailVO aOrderDetail : list) {
 				aOrderDetail.setOrder_no(new String(next_order_no)) ;
-				dao.insertOrderHistory(aOrderDetail, con);
+				dao.insertToOrderHistory(aOrderDetail, con);
 			}
 
 			// 2●設定於 pstm.executeUpdate()之後

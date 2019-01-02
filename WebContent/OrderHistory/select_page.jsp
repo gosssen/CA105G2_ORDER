@@ -119,6 +119,69 @@
 			</div>
 		</div>
 		
+		
+		<div class="col-xs-12 col-sm-1"></div>
+		<div class="row">
+			<div class="col-xs-12 col-sm-10">
+<!-- 			<h4><a href="select_page.jsp"><img src="images/LOGO1.png" width="70" height="50" border="0"><b>首頁</b></a></h4> -->
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title">訂單明細查詢</h3>
+					</div>
+				<div class="panel-body">
+				<c:if test="${not empty errorMsgs}">
+					<font style="color:red">請修正以下錯誤:</font>
+						<ul>
+						    <c:forEach var="message" items="${errorMsgs}">
+								<li style="color:red">${message}</li>
+							</c:forEach>
+						</ul>
+				</c:if>
+	
+				<a href='<%=request.getContextPath()%>/OrderDetail/listAllOrderDetail.jsp'>查詢全部訂單明細</a><br><br>  						
+	
+				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/OrderDetail/OrderDetail.do" >
+				    <b>輸入訂單編號 (如O2018121710001):</b>
+				    <input type="text" name="order_no">
+				    <input type="hidden" name="action" value="getOne_For_Display">
+				    <input type="submit" value="送出" class="btn btn-info">
+				</FORM>
+	
+				<jsp:useBean id="OrderDetailSvc" scope="page" class="com.order_detail.model.OrderDetailService" />
+				
+				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/OrderDetail/OrderDetail.do" >
+				  <b>選擇訂單編號:</b>
+					<select size="1" name="order_no">
+						<c:forEach var="OrderDetailVO" items="${OrderDetailSvc.allOrderNo}" > 
+							<option value="${OrderDetailVO}">${OrderDetailVO}
+						</c:forEach>   
+					</select>
+					<input type="hidden" name="action" value="getAll_OrderDetail_For_A_OrderNo">
+					<input type="submit" value="送出" class="btn btn-info">
+				</FORM>
+			
+				</div>
+			</div>
+			</div>
+		</div>
+		
+		<div class="col-xs-12 col-sm-1"></div>
+		<div class="row">	
+			<div class="col-xs-12 col-sm-10">				
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title">訂單明細管理</h3>
+					</div>
+					<div class="panel-body">
+						<a href='<%=request.getContextPath()%>/OrderDetail/addOrderDetail.jsp'>新增一筆訂單明細</a>
+					</div>
+				</div>
+			</div>
+		</div>	
+		
+		
+		
+		
 	</div>
 
 	<script src="https://code.jquery.com/jquery.js"></script>

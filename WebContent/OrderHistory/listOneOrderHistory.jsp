@@ -103,7 +103,7 @@
 										  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/OrderHistory/OrderHistory.do" style="margin-bottom: 0px;">
 										     <input type="submit" value="刪除" class="btn btn-danger">
 										     <input type="hidden" name="order_no"  value="${orderHistoryVO.order_no}">
-										     <input type="hidden" name="action" value="delete"></FORM>
+										     <input type="hidden" name="action" value="delete_OrderHistory"></FORM>
 										</td>
 										
 									</tr>

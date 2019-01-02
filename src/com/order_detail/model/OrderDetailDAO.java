@@ -263,7 +263,7 @@ public class OrderDetailDAO implements OrderDetailDAO_interface {
 	}
 	
 	@Override
-	public void insertOrderHistory (OrderDetailVO orderDetailVO , Connection con) {
+	public void insertToOrderHistory (OrderDetailVO orderDetailVO , Connection con) {
 		PreparedStatement pstmt = null;
 
 		try {

@@ -27,8 +27,6 @@ public class OrderDetailService {
 	public OrderDetailVO updateOrderDetail(String goods_no, Double goods_bonus,	Double goods_pc ) {
 		
 		OrderDetailVO orderDetailVO = new OrderDetailVO();
-		
-//		orderDetailVO.setOrder_no(order_no);
 		orderDetailVO.setGoods_no(goods_no);
 		orderDetailVO.setGoods_bonus(goods_bonus);
 		orderDetailVO.setGoods_pc(goods_pc);
