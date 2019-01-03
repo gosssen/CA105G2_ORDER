@@ -1,7 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.favorite_goods.model.*"%>
-
 <%
 	FavoriteGoodsVO favoriteGoodsVO = (FavoriteGoodsVO) request.getAttribute("favoriteGoodsVO");
 %>
@@ -17,10 +16,7 @@
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
 		<![endif]-->
 		
-		<div>                   
-			<c:import url="/navbar_back-end.html" charEncoding="UTF-8"/>
-		</div>
-		
+		<div><c:import url="/navbar_back-end.html" charEncoding="UTF-8"/></div>
 	</head>
 	<body>
 		<div class="container-fluid">
@@ -29,7 +25,6 @@
 				<div class="col-xs-12 col-sm-10">
 	<!-- 					<h4><a href="select_page.jsp"><img src="images/LOGO1.png" width="70" height="50" border="0"><b>首頁</b></a></h4> -->
 					<div class="panel panel-info">
-							
 						<div class="panel-heading">
 							<h3 class="panel-title">新增最愛商品</h3>
 						</div>
@@ -43,26 +38,16 @@
 						</c:if>
 							<div class="panel-body">
 								<FORM METHOD="post" ACTION="FavoriteGoods.do" name="form1">
-								
-									
 											<b>會員編號：</b>
-											<input type="TEXT" name="member_no" size="10" 
-												 value="<%=(favoriteGoodsVO==null)? "M000001" : favoriteGoodsVO.getMember_no()%>" /><br><br>
-						
-										
+											<input type="TEXT" name="member_no" size="10" value="<%=(favoriteGoodsVO==null)? "M000001" : favoriteGoodsVO.getMember_no()%>" /><br><br>
 											<b>商品編號：</b>
-											<input type="TEXT" name="goods_no" size="10"
-												 value="<%=(favoriteGoodsVO==null)? "P0000001" : favoriteGoodsVO.getGoods_no()%>" /><br><br>
-									
-	
-									
+											<input type="TEXT" name="goods_no" size="10" value="<%=(favoriteGoodsVO==null)? "P0000001" : favoriteGoodsVO.getGoods_no()%>" /><br><br>
 								<br>
 								<input type="hidden" name="action" value="insert">
 								<input type="submit" value="送出新增" class="btn btn-primary">
 								</FORM>
 							</div>
 					</div>
-	
 				</div>
 			</div>
 		</div>

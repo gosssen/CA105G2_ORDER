@@ -113,7 +113,7 @@
 						<h3 class="panel-title">訂單管理</h3>
 					</div>
 					<div class="panel-body">
-						<a href='addOrderHistory.jsp'>新增一筆訂單紀錄</a>
+						<a href='addOrderHistoryAndOrderDetail.jsp'>新增一筆訂單紀錄</a>
 					</div>
 				</div>
 			</div>

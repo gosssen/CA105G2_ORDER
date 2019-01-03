@@ -117,15 +117,11 @@
 													<option value="CANCEL5">已取消</option>
 											</select></td>
 										</tr>
-										
-										
-										
-												
-								
-
-			
+		
+									</table>
+									<hr>
 							
-
+									<table>
 										<tr>
 											<td>商品編號：</td>
 											<td>
@@ -147,12 +143,20 @@
 											<td>商品數量：</td>
 											<td><input type="TEXT" name="goods_pc" size="10" value="<%=(orderDetailVO==null)? "0.0" : orderDetailVO.getGoods_pc()%>" /></td>
 										</tr>
+									</table>
+									
+									
+									<table id="detailPaste">
 
 									</table>
+							
+									
+									
 								<br>
 								<input type="hidden" name="action" value="insert">
 								<input type="submit" value="送出新增" class="btn btn-primary">
 								<input type="button" value="add" class="btn btn-primary" id="test">
+								<input type="button" value="delet" class="btn btn-primary" id="test2">
 								</FORM>
 							</div>
 					</div>
@@ -160,6 +164,7 @@
 				</div>
 			</div>
 		</div>
+		
 		
 		<script src="https://code.jquery.com/jquery.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -206,9 +211,51 @@
 	$(document).ready(function(){
 		$('#test').click(function(){
 			var content = '<tr><td>商品編號：</td><td><select size="1" name="goods_no"><c:forEach var="GoodsVO" items="${GoodsSvc.all}" ><option value="${GoodsVO.goods_no}">${GoodsVO.goods_no}</c:forEach></select></td></tr><tr><td>實際交易單價：</td><td><input type="TEXT" name="goods_bonus" size="10" value="<%=(orderDetailVO==null)? "0.0" : orderDetailVO.getGoods_bonus()%>"/></td></tr><tr><td>商品數量：</td><td><input type="TEXT" name="goods_pc" size="10" value="<%=(orderDetailVO==null)? "0.0" : orderDetailVO.getGoods_pc()%>" /></td></tr>';
-			$('table tr:last-child').after(content);
+			$('#detailPaste').append(content);
 		})
 	})
+	$(document).ready(function(){
+		$('#test2').click(function(){
+			$('#detailPaste tr:last-child').remove();
+			$('#detailPaste tr:last-child').remove();
+			$('#detailPaste tr:last-child').remove();
+
+			
+		})
+	})
+	
+// 	$(document).ready(function(){
+//         //<tr/>居中
+// 		$("#tab tr").attr("align","center");
+       
+//        //增加<tr/>
+// 		$("#but").click(function(){
+// 			var _len = $("#tab tr").length;        
+// 			$("#tab").append("<tr id="+_len+" align='center'>"
+// 						+"<td>"+_len+"</td>"
+//  						+"<td>Dynamic TR"+_len+"</td>"
+// 						+"<td><input type='text' name='desc"+_len+"' id='desc"+_len+"' /></td>"
+// 						+"<td><a href=\'#\' onclick=\'deltr("+_len+")\'>删除</a></td>"
+//         })    
+//     })
+    
+//     //删除<tr/>
+// 	var deltr =function(index)
+// 	{
+// 		var _len = $("#tab tr").length;
+// 		$("tr[id='"+index+"']").remove();//删除当前行
+// 		for(var i=index+1,j=_len;i<j;i++)
+// 		{
+// 		    var nextTxtVal = $("#desc"+i).val();
+// 		        .replaceWith("<tr id="+(i-1)+" align='center'>"
+// 						+"<td>"+(i-1)+"</td>"
+// 						+"<td>Dynamic TR"+(i-1)+"</td>"
+// 						+"<td><input type='text' name='desc"+(i-1)+"' value='"+nextTxtVal+"' id='desc"+(i-1)+"'/></td>"
+// 						+"<td><a href=\'#\' onclick=\'deltr("+(i-1)+")\'>删除</a></td>"
+// 						+"</tr>");
+// 		}  
+// 	}
+	
 </script>
 
 

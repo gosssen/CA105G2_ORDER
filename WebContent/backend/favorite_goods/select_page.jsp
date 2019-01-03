@@ -37,7 +37,7 @@
 	
 				<a href='listAllFavoriteGoods.jsp'>查詢全部最愛商品</a><br><br>  						
 	
-				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/FavoriteGoods/FavoriteGoods.do" >
+				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/favorite_goods/FavoriteGoods.do" >
 				    <b>輸入會員編號 (如M000001):</b>
 				    <input type="text" name="member_no">
 				    <input type="hidden" name="action" value="getAll_Goods_Of_A_Member">
@@ -46,7 +46,7 @@
 	
 				<jsp:useBean id="FavoriteGoodsSvc" scope="page" class="com.favorite_goods.model.FavoriteGoodsService" />
 				
-				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/FavoriteGoods/FavoriteGoods.do" >
+				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/favorite_goods/FavoriteGoods.do" >
 					<b>選擇會員編號:</b>
 					<select size="1" name="member_no">
 						<c:forEach var="FavoriteGoodsVO" items="${FavoriteGoodsSvc.allMemberNo}" > 
@@ -57,14 +57,14 @@
 					<input type="submit" value="送出" class="btn btn-info">
 				</FORM>
 				
-				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/FavoriteGoods/FavoriteGoods.do" >
+				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/favorite_goods/FavoriteGoods.do" >
 				    <b>輸入商品編號 (如P0000001):</b>
 				    <input type="text" name="goods_no">
 				    <input type="hidden" name="action" value="getAll_Member_Of_A_Goods">
 				    <input type="submit" value="送出" class="btn btn-info">
 				</FORM>
 				
-				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/FavoriteGoods/FavoriteGoods.do" >
+				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/favorite_goods/FavoriteGoods.do" >
 					<b>選擇商品編號:</b>
 					<select size="1" name="goods_no">
 						<c:forEach var="FavoriteGoodsVO" items="${FavoriteGoodsSvc.allGoodsNo}" > 

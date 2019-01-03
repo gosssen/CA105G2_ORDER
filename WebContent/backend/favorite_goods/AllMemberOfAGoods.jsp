@@ -3,18 +3,19 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.util.*"%>
 <%@ page import="com.favorite_goods.model.*"%>
+<%@ page import="com.goods.model.*"%>
 
 <%
-	FavoriteGoodsService favoriteGoodsSvc = new FavoriteGoodsService();
-    List<FavoriteGoodsVO> list = favoriteGoodsSvc.getAll();
-    pageContext.setAttribute("list",list);
+List<FavoriteGoodsVO> list = (List<FavoriteGoodsVO>)request.getAttribute("favoriteGoodsVO");
+pageContext.setAttribute("list",list);
 %>
+<jsp:useBean id="goodsSvc" scope="page" class="com.goods.model.GoodsService" />
 <html>
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-		<title>訂單紀錄新增</title>
+		<title>最愛商品新增</title>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 		<!--[if lt IE 9]>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -28,12 +29,10 @@
 				font-size: 10px;
 			}
 
-		</style>
-		
+		</style>	
 		<div>                   
 			<c:import url="/navbar_back-end.html" charEncoding="UTF-8"/>
-		</div>	
-		
+		</div>
 	</head>
 	<body>
 	
@@ -53,36 +52,55 @@
 <!-- 					<h4><a href="select_page.jsp"><img src="images/LOGO1.png" width="70" height="50" border="0"><b>首頁</b></a></h4> -->
 					<div class="panel panel-info">
 						<div class="panel-heading">
-					  		<h3 class="panel-title">所有最愛商品查詢</h3><%@ include file="pages/page1.file" %>
+				  		
+					  		<h3 class="panel-title">最愛商品查詢</h3><%@ include file="pages/page1.file" %>
 						</div>
 						<table class="table table-bordered table-striped table-hover">
 							<thead>
 								<tr>
-									<th>訂單編號</th>
+									<th>會員編號</th>
 									<th>商品編號</th>
+									<th>商品名稱</th>
+									<th>商品價格</th>
+									<th>商品圖片</th>
 									<th>修改</th>
 									<th>刪除</th>
 								</tr>
 							</thead>
-								
-								
+											
 							<tbody>
-								<c:forEach var="favoriteGoodsVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">							
+								<c:forEach var="favoriteGoodsVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 									<tr>
 										<td>${favoriteGoodsVO.member_no}</td>
 										<td>${favoriteGoodsVO.goods_no}</td>
-												
+										<td>	
+											<c:forEach var="goodsVO" items="${goodsSvc.all}">
+												<c:if test="${favoriteGoodsVO.goods_no == goodsVO.goods_no}">${goodsVO.goods_name}</c:if>
+											</c:forEach>
+										</td>
+										<td>	
+											<c:forEach var="goodsVO" items="${goodsSvc.all}">
+												<c:if test="${favoriteGoodsVO.goods_no == goodsVO.goods_no}">${goodsVO.goods_price}</c:if>
+											</c:forEach>
+										</td>
+										<td>	
+											<c:forEach var="goodsVO" items="${goodsSvc.all}">
+												<c:if test="${favoriteGoodsVO.goods_no == goodsVO.goods_no}">
+													<img src="<%=request.getContextPath()%>/goods/goodsImg1.do?goods_no=${goodsVO.goods_no}" width=100px height= auto />
+												</c:if>
+											</c:forEach>
+										</td>
 										<td>
-										  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/FavoriteGoods/FavoriteGoods.do" style="margin-bottom: 0px;">
+										  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/favorite_goods/FavoriteGoods.do" style="margin-bottom: 0px;">
 										     <input type="submit" value="修改" class="btn btn-warning">
 										     <input type="hidden" name="member_no"  value="${favoriteGoodsVO.member_no}">
 										     <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
 										</td>
 										<td>
-										  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/FavoriteGoods/FavoriteGoods.do" style="margin-bottom: 0px;">
+										  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/favorite_goods/FavoriteGoods.do" style="margin-bottom: 0px;">
 										     <input type="submit" value="刪除" class="btn btn-danger">
 										     <input type="hidden" name="member_no"  value="${favoriteGoodsVO.member_no}">
-										     <input type="hidden" name="goods_no"  value="${favoriteGoodsVO.goods_no}">
+										     <input type="hidden" name="goods_no" value="${favoriteGoodsVO.goods_no}">
 										     <input type="hidden" name="action" value="delete"></FORM>
 										</td>
 									</tr>
@@ -94,7 +112,6 @@
 				</div>
 			</div>
 		</div>
-		
 		<script src="https://code.jquery.com/jquery.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	</body>

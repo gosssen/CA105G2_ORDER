@@ -338,29 +338,31 @@ public class OrderHistoryServlet extends HttpServlet {
 				orderHistoryVO.setReceiver_name(receiver_name);
 				orderHistoryVO.setReceiver_tel(receiver_tel);
 				orderHistoryVO.setOrder_status(order_status);
+		
+				String goodsno[] = req.getParameterValues("goods_no");
+				String goodsbonus[] = req.getParameterValues("goods_bonus");
+				String goodspc[] = req.getParameterValues("goods_pc");
 				
-				//測試
-				OrderDetailVO orderDetailVO = new OrderDetailVO();
-				List<OrderDetailVO> list = new ArrayList<OrderDetailVO>(); 
-				orderDetailVO.setGoods_no(goods_no);
-				orderDetailVO.setGoods_bonus(goods_bonus);
-				orderDetailVO.setGoods_pc(goods_pc);
-				list.add(orderDetailVO);
+				List<OrderDetailVO> list = new ArrayList<OrderDetailVO>(); 			
+				if (goodsno != null) { 
+					
+					for (int i=0; i<goodsno.length; i++) { 
+						OrderDetailVO orderDetailVO = new OrderDetailVO();
+						orderDetailVO.setGoods_no(goodsno[i]);
+						orderDetailVO.setGoods_bonus(new Double(goodsbonus[i]));
+						orderDetailVO.setGoods_pc(new Double(goodspc[i]));
+						list.add(orderDetailVO);
+					} 
+				} 
 				
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("orderHistoryVO", orderHistoryVO); 
-					RequestDispatcher failureView = req.getRequestDispatcher("/OrderHistory/addOrderHistory.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/OrderHistory/addOrderHistoryAndOrderDetail.jsp");
 					failureView.forward(req, res);
 					return;
 				}
 				
 				OrderHistoryService orderHistorySvc = new OrderHistoryService();
-				
-//				orderHistoryVO = orderHistorySvc.addOrderHistory(member_no, order_price, pay_methods,
-//						shipping_methods, order_date, order_etd, pickup_date, receiver_add, receiver_name,
-//						receiver_tel, order_status);
-				
-				//	測試用
 				orderHistorySvc.insertWithDetail(orderHistoryVO, list);
 				
 				String url = "/OrderHistory/listAllOrderHistory.jsp";
@@ -369,7 +371,7 @@ public class OrderHistoryServlet extends HttpServlet {
 				
 			} catch (Exception e) {
 				errorMsgs.add(e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/OrderHistory/addOrderHistory.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/OrderHistory/addOrderHistoryAndOrderDetail.jsp");
 				failureView.forward(req, res);
 			}		
 		}
