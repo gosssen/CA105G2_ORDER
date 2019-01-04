@@ -43,7 +43,7 @@
 						</c:if>
 
 						<div class="panel-body">
-							<FORM METHOD="post" ACTION="OrderDetail.do" name="form1">
+							<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/order_detail/OrderDetail.do" name="form1">
 								<table>
 									<tr>
 										<td>訂單編號：</td>
@@ -65,17 +65,14 @@
 								<br>
 								<input type="hidden" name="action" value="update">
 								<input type="hidden" name="order_no" value="<%=orderDetailVO.getOrder_no()%>">
+								<input type="hidden" name="goods_no" value="<%=orderDetailVO.getGoods_no()%>">
 								<input type="submit" value="送出修改" class="btn btn-primary">
 							</FORM>
 						</div>
 					</div>
-
 				</div>
 			</div>
 		</div>
-
-		
-		
 		<script src="https://code.jquery.com/jquery.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	</body>

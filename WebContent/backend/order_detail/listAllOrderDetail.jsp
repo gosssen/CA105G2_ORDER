@@ -53,7 +53,7 @@
 <!-- 					<h4><a href="select_page.jsp"><img src="images/LOGO1.png" width="70" height="50" border="0"><b>首頁</b></a></h4> -->
 					<div class="panel panel-info">
 						<div class="panel-heading">
-					  		<h3 class="panel-title">所有訂單紀錄查詢</h3><%@ include file="page1.file" %>
+					  		<h3 class="panel-title">所有訂單紀錄查詢</h3><%@ include file="pages/page1.file" %>
 						</div>
 						<table class="table table-bordered table-striped table-hover">
 							<thead>
@@ -76,13 +76,14 @@
 			
 										
 										<td>
-										  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/OrderDetail/OrderDetail.do" style="margin-bottom: 0px;">
+										  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/order_detail/OrderDetail.do" style="margin-bottom: 0px;">
 										     <input type="submit" value="修改" class="btn btn-warning">
 										     <input type="hidden" name="order_no"  value="${orderDetailVO.order_no}">
+										     <input type="hidden" name="goods_no"  value="${orderDetailVO.goods_no}">
 										     <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
 										</td>
 										<td>
-										  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/OrderDetail/OrderDetail.do" style="margin-bottom: 0px;">
+										  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/order_detail/OrderDetail.do" style="margin-bottom: 0px;">
 										     <input type="submit" value="刪除" class="btn btn-danger">
 										     <input type="hidden" name="order_no"  value="${orderDetailVO.order_no}">
 										     <input type="hidden" name="goods_no"  value="${orderDetailVO.goods_no}">
@@ -96,7 +97,7 @@
 						
 					</div>
 					
-					<%@ include file="page2.file" %>
+					<%@ include file="pages/page2.file" %>
 				</div>
 			</div>
 		</div>

@@ -44,22 +44,14 @@
 						</c:if>
 
 						<div class="panel-body">
-							<FORM METHOD="post" ACTION="FavoriteGoods.do" name="form1">
-								<table>
-									<tr>
-										<td>會員編號：</td>
-										<td><%=favoriteGoodsVO.getMember_no()%></td>
-									</tr>
-									<tr>
-										<td>商品編號：</td>
-										<td><%=favoriteGoodsVO.getGoods_no()%></td>
-									</tr>
-			
-								</table>
+							<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/favorite_goods/FavoriteGoods.do" name="form1">
+								<table>										
+								<b>會員編號：</b>
+									<input type="TEXT" name="member_no" size="10" value="<%=(favoriteGoodsVO==null)? "M000001" : favoriteGoodsVO.getMember_no()%>" /><br><br>
+								<b>商品編號：</b>
+									<input type="TEXT" name="goods_no" size="10" value="<%=(favoriteGoodsVO==null)? "P0000001" : favoriteGoodsVO.getGoods_no()%>" /><br><br>
 								<br>
 								<input type="hidden" name="action" value="update">
-								<input type="hidden" name="member_no" value="<%=favoriteGoodsVO.getMember_no()%>">
-								<input type="hidden" name="goods_no" value="<%=favoriteGoodsVO.getGoods_no()%>">
 								<input type="submit" value="送出修改" class="btn btn-primary">
 							</FORM>
 						</div>

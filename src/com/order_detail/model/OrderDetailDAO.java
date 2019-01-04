@@ -28,11 +28,11 @@ public class OrderDetailDAO implements OrderDetailDAO_interface {
 	private static final String GET_ALL_STMT = 
 		"SELECT ORDER_NO, GOODS_NO, GOODS_BONUS, GOODS_PC FROM ORDER_DETAIL ORDER BY ORDER_NO";
 	private static final String GET_ONE_STMT = 
-		"SELECT ORDER_NO, GOODS_NO, GOODS_BONUS, GOODS_PC FROM ORDER_DETAIL WHERE ORDER_NO = ?";
+		"SELECT ORDER_NO, GOODS_NO, GOODS_BONUS, GOODS_PC FROM ORDER_DETAIL WHERE ORDER_NO = ? AND GOODS_NO = ?";
 	private static final String DELETE = 
 		"DELETE FROM ORDER_DETAIL WHERE ORDER_NO = ? AND GOODS_NO = ?";
 	private static final String UPDATE =
-		"UPDATE ORDER_DETAIL SET GOODS_NO = ?, GOODS_BONUS = ?, GOODS_PC = ? WHERE ORDER_NO = ?";
+		"UPDATE ORDER_DETAIL SET GOODS_BONUS = ?, GOODS_PC = ? WHERE ORDER_NO = ? AND GOODS_NO = ?";
 	private static final String GET_ALL_ORDERNO = 
 		"SELECT DISTINCT ORDER_NO FROM ORDER_DETAIL ORDER BY ORDER_NO";
 	private static final String GET_ONE_ORDERNO = 
@@ -88,12 +88,11 @@ public class OrderDetailDAO implements OrderDetailDAO_interface {
 
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(UPDATE);
-
-			pstmt.setString(1, orderDetailVO.getGoods_no());
-			pstmt.setDouble(2, orderDetailVO.getGoods_bonus());
-			pstmt.setDouble(3, orderDetailVO.getGoods_pc());
-			pstmt.setString(4, orderDetailVO.getOrder_no());
-
+			pstmt.setDouble(1, orderDetailVO.getGoods_bonus());
+			pstmt.setDouble(2, orderDetailVO.getGoods_pc());
+			pstmt.setString(3, orderDetailVO.getOrder_no());
+			pstmt.setString(4, orderDetailVO.getGoods_no());
+			
 			pstmt.executeUpdate();
 
 		} catch (SQLException se) {
@@ -155,7 +154,7 @@ public class OrderDetailDAO implements OrderDetailDAO_interface {
 	}
 
 	@Override
-	public OrderDetailVO findByPrimaryKey(String order_no) {
+	public OrderDetailVO findByPrimaryKey(String order_no, String goods_no) {
 
 		OrderDetailVO orderDetailVO = null;
 		Connection con = null;
@@ -167,6 +166,7 @@ public class OrderDetailDAO implements OrderDetailDAO_interface {
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ONE_STMT);
 			pstmt.setString(1, order_no);
+			pstmt.setString(2, goods_no);
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {

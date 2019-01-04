@@ -47,7 +47,7 @@
 							</ul>
 						</c:if>
 							<div class="panel-body">
-								<FORM METHOD="post" ACTION="OrderDetail.do" name="form1">
+								<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/order_detail/OrderDetail.do" name="form1">
 								
 									<jsp:useBean id="OrderHistorySvc" scope="page" class="com.order_history.model.OrderHistoryService" />
 									<jsp:useBean id="OrderDetailSvc" scope="page" class="com.order_detail.model.OrderDetailService" />
@@ -73,7 +73,7 @@
 													</c:forEach>   
 												</select>
 											</td>
-											</tr>
+										</tr>
 											
 										<tr>
 											<td>實際交易單價：</td>

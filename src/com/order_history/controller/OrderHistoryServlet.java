@@ -32,7 +32,7 @@ public class OrderHistoryServlet extends HttpServlet {
 					errorMsgs.add("請輸入會員編號");
 				}
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/OrderHistory/select_page.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_history/select_page.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -44,7 +44,7 @@ public class OrderHistoryServlet extends HttpServlet {
 				}
 				
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/OrderHistory/select_page.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_history/select_page.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -57,19 +57,19 @@ public class OrderHistoryServlet extends HttpServlet {
 				}
 				
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/OrderHistory/select_page.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_history/select_page.jsp");
 					failureView.forward(req, res);
 					return;
 				}
 				
 				req.setAttribute("orderHistoryVO", orderHistoryVO);
-				String url = "/OrderHistory/oneMemberIsOrder.jsp";
+				String url = "/backend/order_history/oneMemberIsOrder.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 				
 			}  catch (Exception e) {
 				errorMsgs.add("無法取得資料：" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/OrderHistory/select_page.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_history/select_page.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -85,7 +85,7 @@ public class OrderHistoryServlet extends HttpServlet {
 					errorMsgs.add("請輸入訂單編號");
 				}
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/OrderHistory/select_page.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_history/select_page.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -97,7 +97,7 @@ public class OrderHistoryServlet extends HttpServlet {
 				}
 				
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/OrderHistory/select_page.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_history/select_page.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -109,19 +109,19 @@ public class OrderHistoryServlet extends HttpServlet {
 				}
 				
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/OrderHistory/select_page.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_history/select_page.jsp");
 					failureView.forward(req, res);
 					return;
 				}
 				
 				req.setAttribute("orderHistoryVO", orderHistoryVO);
-				String url = "/OrderHistory/listOneOrderHistory.jsp";
+				String url = "/backend/order_history/listOneOrderHistory.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 				
 			}  catch (Exception e) {
 				errorMsgs.add("無法取得資料：" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/OrderHistory/select_page.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_history/select_page.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -137,13 +137,13 @@ public class OrderHistoryServlet extends HttpServlet {
 				OrderHistoryVO orderHistoryVO = orderHistorySvc.getOneOrderHistory(order_no);
 				
 				req.setAttribute("orderHistoryVO", orderHistoryVO);
-				String url = "/OrderHistory/update_OrderHistory_input.jsp";
+				String url = "/backend/order_history/update_OrderHistory_input.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 				
 			} catch (Exception e) {
 				errorMsgs.add("無法取得要修改的資料：" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/OrderHistory/listAllOrderHistory.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_history/listAllOrderHistory.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -227,7 +227,7 @@ public class OrderHistoryServlet extends HttpServlet {
 				
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("orderHistoryVO", orderHistoryVO); 
-					RequestDispatcher failureView = req.getRequestDispatcher("/OrderHistory/update_OrderHistory_input.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_history/update_OrderHistory_input.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -238,13 +238,13 @@ public class OrderHistoryServlet extends HttpServlet {
 						receiver_name, receiver_tel, order_status, order_no);
 			
 				req.setAttribute("orderHistoryVO", orderHistoryVO); 
-				String url = "/OrderHistory/listOneOrderHistory.jsp";
+				String url = "/backend/order_history/listOneOrderHistory.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 				
 			} catch (Exception e) {
 				errorMsgs.add("修改資料失敗："+e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/OrderHistory/update_OrderHistory_input.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_history/update_OrderHistory_input.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -357,7 +357,7 @@ public class OrderHistoryServlet extends HttpServlet {
 				
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("orderHistoryVO", orderHistoryVO); 
-					RequestDispatcher failureView = req.getRequestDispatcher("/OrderHistory/addOrderHistoryAndOrderDetail.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_history/addOrderHistoryAndOrderDetail.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -365,13 +365,13 @@ public class OrderHistoryServlet extends HttpServlet {
 				OrderHistoryService orderHistorySvc = new OrderHistoryService();
 				orderHistorySvc.insertWithDetail(orderHistoryVO, list);
 				
-				String url = "/OrderHistory/listAllOrderHistory.jsp";
+				String url = "/backend/order_history/listAllOrderHistory.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 				
 			} catch (Exception e) {
 				errorMsgs.add(e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/OrderHistory/addOrderHistoryAndOrderDetail.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_history/addOrderHistoryAndOrderDetail.jsp");
 				failureView.forward(req, res);
 			}		
 		}
@@ -385,13 +385,13 @@ public class OrderHistoryServlet extends HttpServlet {
 				OrderHistoryService orderHistorySvc = new OrderHistoryService();
 				orderHistorySvc.deleteOrderHistory(order_no);
 				
-				String url = "/OrderHistory/listAllOrderHistory.jsp";
+				String url = "/backend/order_history/listAllOrderHistory.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 				
 			} catch (Exception e) {
 				errorMsgs.add("刪除資料失敗:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/OrderHistory/listAllOrderHistory.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_history/listAllOrderHistory.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -422,13 +422,13 @@ public class OrderHistoryServlet extends HttpServlet {
 				
 				/***************************3.查詢完成,準備轉交(Send the Success view)************/
 				req.setAttribute("listOrderHistory_ByCompositeQuery", list); // 資料庫取出的list物件,存入request
-				RequestDispatcher successView = req.getRequestDispatcher("/OrderHistory/listOrderHistory_ByCompositeQuery.jsp"); // 成功轉交listEmps_ByCompositeQuery.jsp
+				RequestDispatcher successView = req.getRequestDispatcher("/backend/order_history/listOrderHistory_ByCompositeQuery.jsp"); // 成功轉交listEmps_ByCompositeQuery.jsp
 				successView.forward(req, res);
 				
 				/***************************其他可能的錯誤處理**********************************/
 			} catch (Exception e) {
 				errorMsgs.add(e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/OrderHistory/select_page.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_history/select_page.jsp");
 				failureView.forward(req, res);
 			}
 		}

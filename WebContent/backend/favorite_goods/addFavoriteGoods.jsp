@@ -37,7 +37,7 @@
 							</ul>
 						</c:if>
 							<div class="panel-body">
-								<FORM METHOD="post" ACTION="FavoriteGoods.do" name="form1">
+								<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/favorite_goods/FavoriteGoods.do" name="form1">
 											<b>會員編號：</b>
 											<input type="TEXT" name="member_no" size="10" value="<%=(favoriteGoodsVO==null)? "M000001" : favoriteGoodsVO.getMember_no()%>" /><br><br>
 											<b>商品編號：</b>

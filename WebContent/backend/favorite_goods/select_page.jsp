@@ -74,43 +74,7 @@
 					<input type="hidden" name="action" value="getAll_Member_Of_A_Goods">
 					<input type="submit" value="送出" class="btn btn-info">
 				</FORM>
-				
-<%-- 				萬用複合查詢-以下欄位-可隨意增減 --%>
- 
-<%-- 				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/OrderHistory/OrderHistory.do" name="form1"> --%>
-<!-- 					<b><font color=blue>萬用複合查詢：</font></b><br> -->
-<!-- 					<b>輸入訂單編號：</b> -->
-<!-- 					<input type="text" name="order_no" value="O2018122410001"><br><br> -->
-				    
-<!-- 				    <b>選擇會員編號：</b> -->
-<!-- 					<select size="1" name="member_no"> -->
-<%-- 						<c:forEach var="OrderHistoryVO" items="${OrderHistorySvc.allMemberNo}" >  --%>
-<%-- 							<option value="${OrderHistoryVO}">${OrderHistoryVO} --%>
-<%-- 						</c:forEach>    --%>
-<!-- 					</select><br><br> -->
-				    
-<!-- 					<b>訂購日期：</b> -->
-<!-- 					<input name="order_date" id="f_date1" type="text" size="10"><br><br> -->
-				    
-<!-- 					<b>出貨日期：</b> -->
-<!-- 					<input name="order_etd" id="f_date2" type="text" size="10"><br><br> -->
 			
-<!-- 					<b>取貨日期：</b> -->
-<!-- 					<input name="pickup_date" id="f_date3" type="text" size="10"><br><br> -->
-					
-<!-- 				   	<b>輸入送貨地址：</b> -->
-<!-- 					<input type="text" name="receiver_add" size="40" value="320桃園市中壢區福德一路177巷60弄2號"><br><br> -->
-				    
-<!-- 					<b>輸入收件人名稱：</b> -->
-<!-- 					<input type="text" name="receiver_name" size="8" value="Peter"><br><br> -->
-				
-<!-- 					<b>輸入收件人電話：</b> -->
-<!-- 					<input type="text" name="receiver_tel" size="8" value="0912345678"><br><br> -->
-				      
-<!-- 				    <input type="submit" value="送出" class="btn btn-info"> -->
-<!-- 				    <input type="hidden" name="action" value="listOrderHistory_ByCompositeQuery"> -->
-<!-- 				 </FORM> -->
-				
 				</div>
 			</div>
 			</div>		

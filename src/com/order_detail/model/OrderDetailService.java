@@ -24,10 +24,9 @@ public class OrderDetailService {
 		return orderDetailVO;
 	}
 	
-	public OrderDetailVO updateOrderDetail(String goods_no, Double goods_bonus,	Double goods_pc ) {
+	public OrderDetailVO updateOrderDetail(Double goods_bonus,	Double goods_pc ) {
 		
 		OrderDetailVO orderDetailVO = new OrderDetailVO();
-		orderDetailVO.setGoods_no(goods_no);
 		orderDetailVO.setGoods_bonus(goods_bonus);
 		orderDetailVO.setGoods_pc(goods_pc);
 		dao.update(orderDetailVO);
@@ -39,8 +38,8 @@ public class OrderDetailService {
 		dao.delete(order_no, goods_no);
 	}
 	
-	public OrderDetailVO getOneOrderDetail(String order_no) {
-		return dao.findByPrimaryKey(order_no);
+	public OrderDetailVO getOneOrderDetail(String order_no, String goods_no) {
+		return dao.findByPrimaryKey(order_no, goods_no);
 	}
 	
 	public List<OrderDetailVO> getAll() {

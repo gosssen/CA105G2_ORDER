@@ -37,16 +37,16 @@
 	
 				<a href='listAllOrderDetail.jsp'>查詢全部訂單明細</a><br><br>  						
 	
-				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/OrderDetail/OrderDetail.do" >
+				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/order_detail/OrderDetail.do" >
 				    <b>輸入訂單編號 (如O2018121710001):</b>
 				    <input type="text" name="order_no">
-				    <input type="hidden" name="action" value="getOne_For_Display">
+				    <input type="hidden" name="action" value="getAll_OrderDetail_For_A_OrderNo">
 				    <input type="submit" value="送出" class="btn btn-info">
 				</FORM>
 	
 				<jsp:useBean id="OrderDetailSvc" scope="page" class="com.order_detail.model.OrderDetailService" />
 				
-				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/OrderDetail/OrderDetail.do" >
+				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/order_detail/OrderDetail.do" >
 				  <b>選擇訂單編號:</b>
 					<select size="1" name="order_no">
 						<c:forEach var="OrderDetailVO" items="${OrderDetailSvc.allOrderNo}" > 
@@ -56,17 +56,6 @@
 					<input type="hidden" name="action" value="getAll_OrderDetail_For_A_OrderNo">
 					<input type="submit" value="送出" class="btn btn-info">
 				</FORM>
-	
-<%-- 				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/OrderDetail/OrderDetail.do" > --%>
-<!-- 					<b>選擇會員編號:</b> -->
-<!-- 					<select size="1" name="member_no"> -->
-<%-- 						<c:forEach var="OrderHistoryVO" items="${OrderHistorySvc.allMemberNo}" >  --%>
-<%-- 							<option value="${OrderDetailVO}">${OrderDetailVO} --%>
-<%-- 						</c:forEach>    --%>
-<!-- 					</select> -->
-<!-- 					<input type="hidden" name="action" value="getOne_For_MemAllOrd"> -->
-<!-- 					<input type="submit" value="送出" class="btn btn-info"> -->
-<!-- 				</FORM> -->
 			
 				</div>
 			</div>

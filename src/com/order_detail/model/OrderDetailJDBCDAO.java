@@ -17,13 +17,13 @@ public class OrderDetailJDBCDAO implements OrderDetailDAO_interface {
 	private static final String GET_ALL_STMT = 
 		"SELECT ORDER_NO, GOODS_NO, GOODS_BONUS, GOODS_PC FROM ORDER_DETAIL ORDER BY ORDER_NO";
 	private static final String GET_ONE_STMT = 
-		"SELECT ORDER_NO, GOODS_NO, GOODS_BONUS, GOODS_PC FROM ORDER_DETAIL WHERE ORDER_NO = ?";
+		"SELECT ORDER_NO, GOODS_NO, GOODS_BONUS, GOODS_PC FROM ORDER_DETAIL WHERE ORDER_NO = ? AND GOODS_NO = ?";
 	private static final String DELETE = 
-			"DELETE FROM ORDER_DETAIL WHERE ORDER_NO = ? AND GOODS_NO = ?";
+		"DELETE FROM ORDER_DETAIL WHERE ORDER_NO = ? AND GOODS_NO = ?";
 	private static final String UPDATE =
-		"UPDATE ORDER_DETAIL SET GOODS_NO = ?, GOODS_BONUS = ?, GOODS_PC = ? WHERE ORDER_NO = ?";
+		"UPDATE ORDER_DETAIL SET GOODS_BONUS = ?, GOODS_PC = ? WHERE ORDER_NO = ? AND GOODS_NO = ?";
 	private static final String GET_ALL_ORDERNO = 
-		"SELECT DISTINCT MEMBER_NO FROM ORDER_DETAIL ORDER BY ORDER_NO";
+		"SELECT DISTINCT ORDER_NO FROM ORDER_DETAIL ORDER BY ORDER_NO";
 	private static final String GET_ONE_ORDERNO = 
 		"SELECT * FROM ORDER_DETAIL WHERE ORDER_NO = ?";
 	
@@ -153,7 +153,7 @@ public class OrderDetailJDBCDAO implements OrderDetailDAO_interface {
 	}
 
 	@Override
-	public OrderDetailVO findByPrimaryKey(String order_no) {
+	public OrderDetailVO findByPrimaryKey(String order_no, String goods_no) {
 
 		OrderDetailVO orderDetailVO = null;
 		Connection con = null;
@@ -166,6 +166,7 @@ public class OrderDetailJDBCDAO implements OrderDetailDAO_interface {
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(GET_ONE_STMT);
 			pstmt.setString(1, order_no);
+			pstmt.setString(2, goods_no);
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
