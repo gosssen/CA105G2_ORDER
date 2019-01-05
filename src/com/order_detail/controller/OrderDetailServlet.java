@@ -188,7 +188,7 @@ public class OrderDetailServlet extends HttpServlet {
 				orderDetailVO.setOrder_no(order_no);
 				orderDetailVO.setGoods_no(goods_no);
 				orderDetailVO.setGoods_bonus(goods_bonus);
-				orderDetailVO.setGoods_pc(goods_pc);;
+				orderDetailVO.setGoods_pc(goods_pc);
 	
 				
 				if (!errorMsgs.isEmpty()) {
@@ -199,7 +199,7 @@ public class OrderDetailServlet extends HttpServlet {
 				}
 				
 				OrderDetailService orderDetailSvc = new OrderDetailService();
-				orderDetailVO = orderDetailSvc.updateOrderDetail(goods_bonus, goods_pc);
+				orderDetailVO = orderDetailSvc.updateOrderDetail(goods_bonus, goods_pc, order_no, goods_no);
 			
 				req.setAttribute("orderDetailVO", orderDetailVO); 
 				String url = "/backend/order_detail/listAllOrderDetail.jsp";

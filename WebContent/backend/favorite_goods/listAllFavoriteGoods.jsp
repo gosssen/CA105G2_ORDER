@@ -76,6 +76,7 @@
 										  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/favorite_goods/FavoriteGoods.do" style="margin-bottom: 0px;">
 										     <input type="submit" value="修改" class="btn btn-warning">
 										     <input type="hidden" name="member_no"  value="${favoriteGoodsVO.member_no}">
+										     <input type="hidden" name="goods_no" value="${favoriteGoodsVO.goods_no}">
 										     <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
 										</td>
 										<td>

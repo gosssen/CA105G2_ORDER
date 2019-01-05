@@ -49,7 +49,7 @@
 							</ul>
 						</c:if>
 							<div class="panel-body">
-								<FORM METHOD="post" ACTION="OrderHistory.do" name="form1">
+								<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/order_history/OrderHistory.do" name="form1">
 									<table>
 										<tr>
 											<td>會員編號：</td>
@@ -193,9 +193,9 @@
 		pickup_date = new java.sql.Timestamp(System.currentTimeMillis());
    }
 %>
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/OrderHistory/datetimepicker/jquery.datetimepicker.css" />
-<script src="<%=request.getContextPath()%>/OrderHistory/datetimepicker/jquery.js"></script>
-<script src="<%=request.getContextPath()%>/OrderHistory/datetimepicker/jquery.datetimepicker.full.js"></script>
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.css" />
+<script src="<%=request.getContextPath()%>/datetimepicker/jquery.js"></script>
+<script src="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.full.js"></script>
 
 <style>
   .xdsoft_datetimepicker .xdsoft_datepicker {
@@ -224,37 +224,6 @@
 		})
 	})
 	
-// 	$(document).ready(function(){
-//         //<tr/>居中
-// 		$("#tab tr").attr("align","center");
-       
-//        //增加<tr/>
-// 		$("#but").click(function(){
-// 			var _len = $("#tab tr").length;        
-// 			$("#tab").append("<tr id="+_len+" align='center'>"
-// 						+"<td>"+_len+"</td>"
-//  						+"<td>Dynamic TR"+_len+"</td>"
-// 						+"<td><input type='text' name='desc"+_len+"' id='desc"+_len+"' /></td>"
-// 						+"<td><a href=\'#\' onclick=\'deltr("+_len+")\'>删除</a></td>"
-//         })    
-//     })
-    
-//     //删除<tr/>
-// 	var deltr =function(index)
-// 	{
-// 		var _len = $("#tab tr").length;
-// 		$("tr[id='"+index+"']").remove();//删除当前行
-// 		for(var i=index+1,j=_len;i<j;i++)
-// 		{
-// 		    var nextTxtVal = $("#desc"+i).val();
-// 		        .replaceWith("<tr id="+(i-1)+" align='center'>"
-// 						+"<td>"+(i-1)+"</td>"
-// 						+"<td>Dynamic TR"+(i-1)+"</td>"
-// 						+"<td><input type='text' name='desc"+(i-1)+"' value='"+nextTxtVal+"' id='desc"+(i-1)+"'/></td>"
-// 						+"<td><a href=\'#\' onclick=\'deltr("+(i-1)+")\'>删除</a></td>"
-// 						+"</tr>");
-// 		}  
-// 	}
 	
 </script>
 
@@ -297,53 +266,5 @@
            //maxDate:               '+1970-01-01'  // 去除今日(不含)之後
         });
    
-        // ----------------------------------------------------------以下用來排定無法選擇的日期-----------------------------------------------------------
-
-        //      1.以下為某一天之前的日期無法選擇
-        //      var somedate1 = new Date('2017-06-15');
-        //      $('#f_date1').datetimepicker({
-        //          beforeShowDay: function(date) {
-        //        	  if (  date.getYear() <  somedate1.getYear() || 
-        //		           (date.getYear() == somedate1.getYear() && date.getMonth() <  somedate1.getMonth()) || 
-        //		           (date.getYear() == somedate1.getYear() && date.getMonth() == somedate1.getMonth() && date.getDate() < somedate1.getDate())
-        //              ) {
-        //                   return [false, ""]
-        //              }
-        //              return [true, ""];
-        //      }});
-
-        
-        //      2.以下為某一天之後的日期無法選擇
-        //      var somedate2 = new Date('2017-06-15');
-        //      $('#f_date1').datetimepicker({
-        //          beforeShowDay: function(date) {
-        //        	  if (  date.getYear() >  somedate2.getYear() || 
-        //		           (date.getYear() == somedate2.getYear() && date.getMonth() >  somedate2.getMonth()) || 
-        //		           (date.getYear() == somedate2.getYear() && date.getMonth() == somedate2.getMonth() && date.getDate() > somedate2.getDate())
-        //              ) {
-        //                   return [false, ""]
-        //              }
-        //              return [true, ""];
-        //      }});
-
-
-        //      3.以下為兩個日期之外的日期無法選擇 (也可按需要換成其他日期)
-        //      var somedate1 = new Date('2017-06-15');
-        //      var somedate2 = new Date('2017-06-25');
-        //      $('#f_date1').datetimepicker({
-        //          beforeShowDay: function(date) {
-        //        	  if (  date.getYear() <  somedate1.getYear() || 
-        //		           (date.getYear() == somedate1.getYear() && date.getMonth() <  somedate1.getMonth()) || 
-        //		           (date.getYear() == somedate1.getYear() && date.getMonth() == somedate1.getMonth() && date.getDate() < somedate1.getDate())
-        //		             ||
-        //		            date.getYear() >  somedate2.getYear() || 
-        //		           (date.getYear() == somedate2.getYear() && date.getMonth() >  somedate2.getMonth()) || 
-        //		           (date.getYear() == somedate2.getYear() && date.getMonth() == somedate2.getMonth() && date.getDate() > somedate2.getDate())
-        //              ) {
-        //                   return [false, ""]
-        //              }
-        //              return [true, ""];
-        //      }});
-        
 </script>
 </html>

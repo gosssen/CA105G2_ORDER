@@ -37,7 +37,7 @@
 	
 						<a href='listAllOrderHistory.jsp'>查詢全部訂單紀錄</a><br><br>  						
 	
-				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/OrderHistory/OrderHistory.do" >
+				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/order_history/OrderHistory.do" >
 				    <b>輸入訂單編號 (如O2018121710001):</b>
 				    <input type="text" name="order_no">
 				    <input type="hidden" name="action" value="getOne_For_Display">
@@ -46,7 +46,7 @@
 	
 				<jsp:useBean id="OrderHistorySvc" scope="page" class="com.order_history.model.OrderHistoryService" />
 				
-				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/OrderHistory/OrderHistory.do" >
+				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/order_history/OrderHistory.do" >
 				  <b>選擇訂單編號:</b>
 					<select size="1" name="order_no">
 						<c:forEach var="OrderHistoryVO" items="${OrderHistorySvc.all}" > 
@@ -57,7 +57,7 @@
 					<input type="submit" value="送出" class="btn btn-info">
 				</FORM>
 	
-				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/OrderHistory/OrderHistory.do" >
+				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/order_history/OrderHistory.do" >
 					<b>選擇會員編號:</b>
 					<select size="1" name="member_no">
 						<c:forEach var="OrderHistoryVO" items="${OrderHistorySvc.allMemberNo}" > 
@@ -70,7 +70,7 @@
 				
 				<%-- 萬用複合查詢-以下欄位-可隨意增減 --%>
  
-				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/OrderHistory/OrderHistory.do" name="form1">
+				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/order_history/OrderHistory.do" name="form1">
 					<b><font color=blue>萬用複合查詢：</font></b><br>
 					<b>輸入訂單編號：</b>
 					<input type="text" name="order_no" value="" placehoder="O2018123010001"><br><br>
@@ -138,7 +138,7 @@
 						</ul>
 				</c:if>
 	
-				<a href='<%=request.getContextPath()%>/OrderDetail/listAllOrderDetail.jsp'>查詢全部訂單明細</a><br><br>  						
+				<a href='<%=request.getContextPath()%>/order_detail/listAllOrderDetail.jsp'>查詢全部訂單明細</a><br><br>  						
 	
 				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/OrderDetail/OrderDetail.do" >
 				    <b>輸入訂單編號 (如O2018121710001):</b>
@@ -173,7 +173,7 @@
 						<h3 class="panel-title">訂單明細管理</h3>
 					</div>
 					<div class="panel-body">
-						<a href='<%=request.getContextPath()%>/OrderDetail/addOrderDetail.jsp'>新增一筆訂單明細</a>
+						<a href='<%=request.getContextPath()%>/order_detail/addOrderDetail.jsp'>新增一筆訂單明細</a>
 					</div>
 				</div>
 			</div>
@@ -188,9 +188,9 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
 
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/OrderHistory/datetimepicker/jquery.datetimepicker.css" />
-<script src="<%=request.getContextPath()%>/OrderHistory/datetimepicker/jquery.js"></script>
-<script src="<%=request.getContextPath()%>/OrderHistory/datetimepicker/jquery.datetimepicker.full.js"></script>
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.css" />
+<script src="<%=request.getContextPath()%>/datetimepicker/jquery.js"></script>
+<script src="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.full.js"></script>
 
 <style>
   .xdsoft_datetimepicker .xdsoft_datepicker {
@@ -238,55 +238,7 @@
            //minDate:               '-1970-01-01', // 去除今日(不含)之前
            //maxDate:               '+1970-01-01'  // 去除今日(不含)之後
         });
-   
-        // ----------------------------------------------------------以下用來排定無法選擇的日期-----------------------------------------------------------
-
-        //      1.以下為某一天之前的日期無法選擇
-        //      var somedate1 = new Date('2017-06-15');
-        //      $('#f_date1').datetimepicker({
-        //          beforeShowDay: function(date) {
-        //        	  if (  date.getYear() <  somedate1.getYear() || 
-        //		           (date.getYear() == somedate1.getYear() && date.getMonth() <  somedate1.getMonth()) || 
-        //		           (date.getYear() == somedate1.getYear() && date.getMonth() == somedate1.getMonth() && date.getDate() < somedate1.getDate())
-        //              ) {
-        //                   return [false, ""]
-        //              }
-        //              return [true, ""];
-        //      }});
-
-        
-        //      2.以下為某一天之後的日期無法選擇
-        //      var somedate2 = new Date('2017-06-15');
-        //      $('#f_date1').datetimepicker({
-        //          beforeShowDay: function(date) {
-        //        	  if (  date.getYear() >  somedate2.getYear() || 
-        //		           (date.getYear() == somedate2.getYear() && date.getMonth() >  somedate2.getMonth()) || 
-        //		           (date.getYear() == somedate2.getYear() && date.getMonth() == somedate2.getMonth() && date.getDate() > somedate2.getDate())
-        //              ) {
-        //                   return [false, ""]
-        //              }
-        //              return [true, ""];
-        //      }});
-
-
-        //      3.以下為兩個日期之外的日期無法選擇 (也可按需要換成其他日期)
-        //      var somedate1 = new Date('2017-06-15');
-        //      var somedate2 = new Date('2017-06-25');
-        //      $('#f_date1').datetimepicker({
-        //          beforeShowDay: function(date) {
-        //        	  if (  date.getYear() <  somedate1.getYear() || 
-        //		           (date.getYear() == somedate1.getYear() && date.getMonth() <  somedate1.getMonth()) || 
-        //		           (date.getYear() == somedate1.getYear() && date.getMonth() == somedate1.getMonth() && date.getDate() < somedate1.getDate())
-        //		             ||
-        //		            date.getYear() >  somedate2.getYear() || 
-        //		           (date.getYear() == somedate2.getYear() && date.getMonth() >  somedate2.getMonth()) || 
-        //		           (date.getYear() == somedate2.getYear() && date.getMonth() == somedate2.getMonth() && date.getDate() > somedate2.getDate())
-        //              ) {
-        //                   return [false, ""]
-        //              }
-        //              return [true, ""];
-        //      }});
-        
+    
         
         
 </script>

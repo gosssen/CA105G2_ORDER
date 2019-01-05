@@ -77,6 +77,7 @@ pageContext.setAttribute("list",list);
 										  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/order_detail/OrderDetail.do" style="margin-bottom: 0px;">
 										     <input type="submit" value="修改" class="btn btn-warning">
 										     <input type="hidden" name="order_no"  value="${orderDetailVO.order_no}">
+										     <input type="hidden" name="goods_no"  value="${orderDetailVO.goods_no}">
 										     <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
 										</td>
 										<td>

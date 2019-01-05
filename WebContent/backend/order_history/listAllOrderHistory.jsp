@@ -104,13 +104,13 @@
 										</td>
 										
 										<td>
-										  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/OrderHistory/OrderHistory.do" style="margin-bottom: 0px;">
+										  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/order_history/OrderHistory.do" style="margin-bottom: 0px;">
 										     <input type="submit" value="修改" class="btn btn-warning">
 										     <input type="hidden" name="order_no"  value="${orderHistoryVO.order_no}">
 										     <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
 										</td>
 										<td>
-										  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/OrderHistory/OrderHistory.do" style="margin-bottom: 0px;">
+										  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/order_history/OrderHistory.do" style="margin-bottom: 0px;">
 										     <input type="submit" value="刪除" class="btn btn-danger">
 										     <input type="hidden" name="order_no"  value="${orderHistoryVO.order_no}">
 										     <input type="hidden" name="action" value="delete_OrderHistory"></FORM>
