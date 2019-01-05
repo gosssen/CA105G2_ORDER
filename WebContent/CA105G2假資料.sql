@@ -69,7 +69,6 @@ DROP TABLE MEMBER;
 -----DROP SEQUENCE-----
 
 DROP SEQUENCE ORDER_HISTORY_seq;
-DROP SEQUENCE ORDER_DETAIL_seq;
 
 DROP SEQUENCE GROUP_NO_SEQ;
 DROP SEQUENCE FORUM_SEQ;
@@ -1734,189 +1733,219 @@ CREATE TABLE ORDER_HISTORY (
   
 CREATE SEQUENCE ORDER_HISTORY_seq
 INCREMENT BY 1
-START WITH 10001
+START WITH 10016
 NOMAXVALUE
 NOCYCLE
 NOCACHE;
 
 Insert into ORDER_HISTORY 
-	values ('O'||to_char(sysdate,'yyyymmdd')||LPAD(to_char(ORDER_HISTORY_seq.NEXTVAL), 5, '0')
+	values ('O2018081610001'
 	,'M000001'
-	,2250
+	,3780
 	,'EWALLET'
 	,'STOREPICKUP'
-	,CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP
+	,TO_DATE('2018-08-16 130448','YYYY-MM-DD hh24miss')
+	,TO_DATE('2018-08-18 152348','YYYY-MM-DD hh24miss')
+	,TO_DATE('2018-08-23 214048','YYYY-MM-DD hh24miss')
 	,'324桃園市平鎮區民族路二段175號'
 	,'吳冠宏'
 	,'0911484363'
 	,'COMPLETE4'
 );
 Insert into ORDER_HISTORY 
-	values ('O'||to_char(sysdate,'yyyymmdd')||LPAD(to_char(ORDER_HISTORY_seq.NEXTVAL), 5, '0')
+	values ('O2018081810002'
 	,'M000018'
-	,2250
-	,'EWALLET'
-	,'STOREPICKUP'
-	,CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP
+	,300
+	,'CREDITCARD'
+	,'HOMEDELIVERY'
+	,TO_DATE('2018-08-18 103045','YYYY-MM-DD hh24miss')
+	,TO_DATE('2018-08-20 220001','YYYY-MM-DD hh24miss')
+	,TO_DATE('2018-08-22 071045','YYYY-MM-DD hh24miss')
 	,'320桃園市中壢區復興路57號'
 	,'白承峰'
 	,'0964194913'
 	,'COMPLETE4'
 );
 Insert into ORDER_HISTORY 
-	values ('O'||to_char(sysdate,'yyyymmdd')||LPAD(to_char(ORDER_HISTORY_seq.NEXTVAL), 5, '0')
+	values ('O2018091110003'
 	,'M000015'
-	,2250
+	,2100
 	,'EWALLET'
 	,'STOREPICKUP'
-	,CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP
+	,TO_DATE('2018-09-11 164448','YYYY-MM-DD hh24miss')
+	,TO_DATE('2018-09-14 132300','YYYY-MM-DD hh24miss')
+	,TO_DATE('2018-09-19 232048','YYYY-MM-DD hh24miss')
 	,'320桃園市中壢區環中東路二段176號'
 	,'史琬婷'
 	,'0947324070'
 	,'COMPLETE4'
 );
 Insert into ORDER_HISTORY 
-	values ('O'||to_char(sysdate,'yyyymmdd')||LPAD(to_char(ORDER_HISTORY_seq.NEXTVAL), 5, '0')
+	values ('O2018092110004'
 	,'M000004'
-	,2250
+	,7998
 	,'EWALLET'
-	,'STOREPICKUP'
-	,CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP
+	,'HOMEDELIVERY'
+	,TO_DATE('2018-09-21 114248','YYYY-MM-DD hh24miss')
+	,TO_DATE('2018-09-24 185600','YYYY-MM-DD hh24miss')
+	,TO_DATE('2018-09-29 120348','YYYY-MM-DD hh24miss')
 	,'330桃園市桃園區三民路三段313號'
 	,'潘怡帆'
 	,'0937626715'
 	,'COMPLETE4'
 );
 Insert into ORDER_HISTORY 
-	values ('O'||to_char(sysdate,'yyyymmdd')||LPAD(to_char(ORDER_HISTORY_seq.NEXTVAL), 5, '0')
+	values ('O2018092110005'
 	,'M000007'
-	,2250
-	,'EWALLET'
-	,'STOREPICKUP'
-	,CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP
+	,1700
+	,'CREDITCARD'
+	,'HOMEDELIVERY'
+	,TO_DATE('2018-09-21 094448','YYYY-MM-DD hh24miss')
+	,TO_DATE('2018-09-24 182300','YYYY-MM-DD hh24miss')
+	,TO_DATE('2018-09-28 232048','YYYY-MM-DD hh24miss')
 	,'105台北市松山區敦化北路199號'
 	,'尹丞恩'
 	,'0917059007'
 	,'COMPLETE4'
 );
 Insert into ORDER_HISTORY 
-	values ('O'||to_char(sysdate,'yyyymmdd')||LPAD(to_char(ORDER_HISTORY_seq.NEXTVAL), 5, '0')
+	values ('O2018100610006'
 	,'M000001'
-	,2250
-	,'EWALLET'
+	,19995
+	,'CREDITCARD'
 	,'STOREPICKUP'
-	,CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP
+	,TO_DATE('2018-10-06 210248','YYYY-MM-DD hh24miss')
+	,TO_DATE('2018-10-09 132448','YYYY-MM-DD hh24miss')
+	,TO_DATE('2018-10-15 163448','YYYY-MM-DD hh24miss')
 	,'406台中市北屯區崇德路三段835號'
 	,'葉佳芳'
 	,'0958557370'
 	,'COMPLETE4'
 );
 Insert into ORDER_HISTORY 
-	values ('O'||to_char(sysdate,'yyyymmdd')||LPAD(to_char(ORDER_HISTORY_seq.NEXTVAL), 5, '0')
+	values ('O2018101010007'
 	,'M000012'
-	,2250
+	,1900
 	,'EWALLET'
-	,'STOREPICKUP'
-	,CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP
+	,'HOMEDELIVERY'
+	,TO_DATE('2018-10-08 111548','YYYY-MM-DD hh24miss')
+	,''
+	,''
 	,'300新竹市東區明湖路773號'
 	,'方怡萱'
-	,'0977-966322'
-	,'COMPLETE4'
+	,'0977966322'
+	,'CANCEL5'
 );
 Insert into ORDER_HISTORY 
-	values ('O'||to_char(sysdate,'yyyymmdd')||LPAD(to_char(ORDER_HISTORY_seq.NEXTVAL), 5, '0')
+	values ('O2018101610008'
 	,'M000001'
-	,2250
-	,'EWALLET'
+	,3258
+	,'CREDITCARD'
 	,'STOREPICKUP'
-	,CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP
+	,TO_DATE('2018-10-16 140208','YYYY-MM-DD hh24miss')
+	,TO_DATE('2018-10-19 194230','YYYY-MM-DD hh24miss')
+	,TO_DATE('2018-10-22 134024','YYYY-MM-DD hh24miss')
 	,'324桃園市平鎮區民族路二段175號'
 	,'吳冠宏'
 	,'0911484363'
 	,'COMPLETE4'
 );
 Insert into ORDER_HISTORY 
-	values ('O'||to_char(sysdate,'yyyymmdd')||LPAD(to_char(ORDER_HISTORY_seq.NEXTVAL), 5, '0')
-	,'M000001'
-	,2250
-	,'EWALLET'
-	,'STOREPICKUP'
-	,CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP
+	values ('O2018102110009'
+	,'M000010'
+	,500
+	,'CREDITCARD'
+	,'HOMEDELIVERY'
+	,TO_DATE('2018-10-21 110248','YYYY-MM-DD hh24miss')
+	,TO_DATE('2018-10-24 111100','YYYY-MM-DD hh24miss')
+	,TO_DATE('2018-10-30 145700','YYYY-MM-DD hh24miss')
 	,'600嘉義市東區林森東路1號'
 	,'羅伯諺'
 	,'0902456073'
 	,'COMPLETE4'
 );
 Insert into ORDER_HISTORY 
-	values ('O'||to_char(sysdate,'yyyymmdd')||LPAD(to_char(ORDER_HISTORY_seq.NEXTVAL), 5, '0')
-	,'M000002'
-	,2250
-	,'EWALLET'
-	,'STOREPICKUP'
-	,CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP
-	,'704台南市北區公園路321巷'
-	,'路依珊'
-	,'0933169030'
-	,'COMPLETE4'
-);
-Insert into ORDER_HISTORY 
-	values ('O'||to_char(sysdate,'yyyymmdd')||LPAD(to_char(ORDER_HISTORY_seq.NEXTVAL), 5, '0')
-	,'M000001'
-	,2250
-	,'EWALLET'
-	,'STOREPICKUP'
-	,CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP
-	,'324桃園市平鎮區民族路二段175號'
-	,'吳冠宏'
-	,'0911484363'
-	,'COMPLETE4'
-);
-Insert into ORDER_HISTORY 
-	values ('O'||to_char(sysdate,'yyyymmdd')||LPAD(to_char(ORDER_HISTORY_seq.NEXTVAL), 5, '0')
-	,'M000002'
-	,2250
-	,'EWALLET'
-	,'STOREPICKUP'
-	,CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP
-	,'704台南市北區公園路321巷'
-	,'路依珊'
-	,'0933169030'
-	,'COMPLETE4'
-);
-Insert into ORDER_HISTORY 
-	values ('O'||to_char(sysdate,'yyyymmdd')||LPAD(to_char(ORDER_HISTORY_seq.NEXTVAL), 5, '0')
-	,'M000013'
-	,2250
-	,'EWALLET'
-	,'STOREPICKUP'
-	,CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP
-	,'202基隆市中正區信二路280號'
-	,'牛雅琪'
-	,'0962409820'
-	,'COMPLETE4'
-);
-Insert into ORDER_HISTORY 
-	values ('O'||to_char(sysdate,'yyyymmdd')||LPAD(to_char(ORDER_HISTORY_seq.NEXTVAL), 5, '0')
+	values ('O2018103010010'
 	,'M000005'
-	,2250
-	,'EWALLET'
+	,3630
+	,'CREDITCARD'
 	,'STOREPICKUP'
-	,CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP
+	,TO_DATE('2018-10-30 210543','YYYY-MM-DD hh24miss')
+	,TO_DATE('2018-11-02 152231','YYYY-MM-DD hh24miss')
+	,TO_DATE('2018-11-15 121340','YYYY-MM-DD hh24miss')
 	,'111台北市士林區福林路60號'
 	,'莊睿倩'
 	,'0937521590'
 	,'COMPLETE4'
 );
 Insert into ORDER_HISTORY 
-	values ('O'||to_char(sysdate,'yyyymmdd')||LPAD(to_char(ORDER_HISTORY_seq.NEXTVAL), 5, '0')
-	,'M000018'
-	,2250
+	values ('O2018111110011'
+	,'M000001'
+	,16000
+	,'CREDITCARD'
+	,'STOREPICKUP'
+	,TO_DATE('2018-11-11 111111','YYYY-MM-DD hh24miss')
+	,''
+	,''
+	,'324桃園市平鎮區民族路二段175號'
+	,'吳冠宏'
+	,'0911484363'
+	,'CANCEL5'
+);
+Insert into ORDER_HISTORY 
+	values ('O2018111210012'
+	,'M000002'
+	,1500
+	,'EWALLET'
+	,'HOMEDELIVERY'
+	,TO_DATE('2018-11-12 120248','YYYY-MM-DD hh24miss')
+	,TO_DATE('2018-11-13 132522','YYYY-MM-DD hh24miss')
+	,TO_DATE('2018-11-15 213448','YYYY-MM-DD hh24miss')
+	,'704台南市北區公園路321巷'
+	,'路依珊'
+	,'0933169030'
+	,'COMPLETE4'
+);
+Insert into ORDER_HISTORY 
+	values ('O2018120610013'
+	,'M000002'
+	,2300
+	,'EWALLET'
+	,'HOMEDELIVERY'
+	,TO_DATE('2018-12-06 100248','YYYY-MM-DD hh24miss')
+	,TO_DATE('2018-12-09 045522','YYYY-MM-DD hh24miss')
+	,TO_DATE('2018-12-13 063320','YYYY-MM-DD hh24miss')
+	,'704台南市北區公園路321巷'
+	,'路依珊'
+	,'0933169030'
+	,'COMPLETE4'
+);
+Insert into ORDER_HISTORY 
+	values ('O2018121910014'
+	,'M000013'
+	,3999
 	,'EWALLET'
 	,'STOREPICKUP'
-	,CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP
+	,TO_DATE('2018-12-19 042825','YYYY-MM-DD hh24miss')
+	,TO_DATE('2018-12-21 112345','YYYY-MM-DD hh24miss')
+	,TO_DATE('2018-12-24 232448','YYYY-MM-DD hh24miss')
+	,'202基隆市中正區信二路280號'
+	,'牛雅琪'
+	,'0962409820'
+	,'COMPLETE4'
+);
+Insert into ORDER_HISTORY 
+	values ('O2018122410015'
+	,'M000018'
+	,599
+	,'EWALLET'
+	,'HOMEDELIVERY'
+	,TO_DATE('2018-12-24 042825','YYYY-MM-DD hh24miss')
+	,TO_DATE('2018-12-27 152345','YYYY-MM-DD hh24miss')
+	,TO_DATE('2019-01-02 215448','YYYY-MM-DD hh24miss')
 	,'320桃園市中壢區復興路57號'
 	,'白承峰'
-	,'0964-194913'
+	,'0964194913'
 	,'COMPLETE4'
 );
 --------------------------------------------------------
@@ -1932,20 +1961,192 @@ CREATE TABLE ORDER_DETAIL (
   ,CONSTRAINT ORDER_DETAIL_PK PRIMARY KEY (ORDER_NO,GOODS_NO)
 );
 
-CREATE SEQUENCE ORDER_DETAIL_seq
-INCREMENT BY 1
-START WITH 10001
-NOMAXVALUE
-NOCYCLE
-NOCACHE;
-
-Insert into ORDER_DETAIL (ORDER_NO,GOODS_NO,GOODS_BONUS,GOODS_PC) 
-    values ('O'||to_char(sysdate,'yyyymmdd')||LPAD(to_char(ORDER_DETAIL_seq.NEXTVAL), 5, '0'),'P0000001',750,3);
-Insert into ORDER_DETAIL (ORDER_NO,GOODS_NO,GOODS_BONUS,GOODS_PC) 
-    values ('O'||to_char(sysdate,'yyyymmdd')||LPAD(to_char(ORDER_DETAIL_seq.NEXTVAL), 5, '0'),'P0000002',800,10);
-Insert into ORDER_DETAIL (ORDER_NO,GOODS_NO,GOODS_BONUS,GOODS_PC) 
-    values ('O'||to_char(sysdate,'yyyymmdd')||LPAD(to_char(ORDER_DETAIL_seq.NEXTVAL), 5, '0'),'P0000003',1480,1);
-
+Insert into ORDER_DETAIL 
+    values ('O2018081610001'
+    ,'P0000001'
+    ,750
+    ,2
+);
+Insert into ORDER_DETAIL 
+    values ('O2018081610001'
+    ,'P0000002'
+    ,800
+    ,1
+);
+Insert into ORDER_DETAIL 
+    values ('O2018081610001'
+    ,'P0000003'
+    ,1480
+    ,1
+);
+Insert into ORDER_DETAIL 
+    values ('O2018081810002'
+    ,'P0000011'
+    ,150
+    ,2
+);
+Insert into ORDER_DETAIL 
+    values ('O2018091110003'
+    ,'P0000009'
+    ,500
+    ,3
+Insert into ORDER_DETAIL 
+    values ('O2018091110003'
+    ,'P0000010'
+    ,300
+    ,2
+);Insert into ORDER_DETAIL 
+    values ('O2018092110004'
+    ,'P0000005'
+    ,3999
+    ,2
+);
+Insert into ORDER_DETAIL 
+    values ('O2018092110005'
+    ,'P0000008'
+    ,850
+    ,1
+);
+Insert into ORDER_DETAIL 
+    values ('O2018092110005'
+    ,'P0000012'
+    ,850
+    ,1
+);
+Insert into ORDER_DETAIL 
+    values ('O2018100610006'
+    ,'P0000005'
+    ,3999
+    ,5
+);Insert into ORDER_DETAIL 
+    values ('O2018101010007'
+    ,'P0000007'
+    ,150
+    ,2
+);
+);Insert into ORDER_DETAIL 
+    values ('O2018101010007'
+    ,'P0000010'
+    ,300
+    ,2
+);
+);Insert into ORDER_DETAIL 
+    values ('O2018101010007'
+    ,'P0000009'
+    ,500
+    ,2
+);
+Insert into ORDER_DETAIL 
+    values ('O2018101610008'
+    ,'P0000004'
+    ,149
+    ,2
+);
+Insert into ORDER_DETAIL 
+    values ('O2018101610008'
+    ,'P0000003'
+    ,1480
+    ,2
+);
+Insert into ORDER_DETAIL 
+    values ('O2018102110009'
+    ,'P0000009'
+    ,500
+    ,2
+);Insert into ORDER_DETAIL 
+    values ('O2018103010010'
+    ,'P0000004'
+    ,121
+    ,30
+);
+Insert into ORDER_DETAIL 
+    values ('O2018111110011'
+    ,'P0000013'
+    ,200
+    ,5
+);
+Insert into ORDER_DETAIL 
+    values ('O2018111110011'
+    ,'P0000014'
+    ,600
+    ,5
+);
+Insert into ORDER_DETAIL 
+    values ('O2018111110011'
+    ,'P0000015'
+    ,400
+    ,5
+);
+Insert into ORDER_DETAIL 
+    values ('O2018111110011'
+    ,'P0000016'
+    ,400
+    ,5
+);
+Insert into ORDER_DETAIL 
+    values ('O2018111110011'
+    ,'P0000017'
+    ,300
+    ,5
+);
+Insert into ORDER_DETAIL 
+    values ('O2018111110011'
+    ,'P0000018'
+    ,1300
+    ,5
+);
+Insert into ORDER_DETAIL 
+    values ('O2018111210012'
+    ,'P0000007'
+    ,150
+    ,5
+Insert into ORDER_DETAIL 
+    values ('O2018111210012'
+    ,'P0000011'
+    ,150
+    ,5
+);Insert into ORDER_DETAIL 
+    values ('O2018120610013'
+    ,'P0000014'
+    ,600
+    ,1
+);
+);Insert into ORDER_DETAIL 
+    values ('O2018120610013'
+    ,'P0000016'
+    ,400
+    ,1
+);
+);Insert into ORDER_DETAIL 
+    values ('O2018120610013'
+    ,'P0000018'
+    ,1300
+    ,1
+);
+Insert into ORDER_DETAIL 
+    values ('O2018121910014'
+    ,'P0000005'
+    ,3999
+    ,1
+);
+Insert into ORDER_DETAIL 
+    values ('O2018122410015'
+    ,'P0000004'
+    ,149
+    ,1
+);
+Insert into ORDER_DETAIL 
+    values ('O2018122410015'
+    ,'P0000007'
+    ,150
+    ,1
+);
+Insert into ORDER_DETAIL 
+    values ('O2018122410015'
+    ,'P0000010'
+    ,300
+    ,1
+);
 --------------------------------------------------------
 --  for Table FAVORITE_GOODS 最愛商品
 --------------------------------------------------------
