@@ -10,49 +10,92 @@
     pageContext.setAttribute("list",list);
 %>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-		<title>訂單紀錄新增</title>
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-		<!--[if lt IE 9]>
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
-		<![endif]-->
-		
-		<style>
-			table {
-	 			margin-top: 1px;
-				margin-bottom: 1px;
-				font-size: 10px;
-			}
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+	<title>訂單管理</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+</head>
+<div><c:import url="/backend/navbar_back-end.html" charEncoding="UTF-8"/></div>
 
-		</style>
-	<div><c:import url="/backend/navbar_back-end.html" charEncoding="UTF-8"/></div>
-				
-	</head>
-	<body>
+<body>
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-xs-12 col-sm-2"></div>
+		<div class="col-xs-12 col-sm-8">
+			<ol class="breadcrumb">
+				<li>
+					<a href="#">首頁</a>
+				</li>
+				<li>
+					<a href="#">商品管理</a>
+				</li>
+				<li class="active">商品訂單管理</li>
+			</ol>
+
+			<div role="tabpanel">
+			    <!-- 標籤面板：標籤區 -->
+			    <ul class="nav nav-tabs" role="tablist">
+			        <li role="presentation">
+			            <a href="#history" aria-controls="history" role="tab" data-toggle="tab">訂單紀錄</a>
+			        </li>
+			        <li role="presentation" class="active">
+			            <a href="#detail" aria-controls="detail" role="tab" data-toggle="tab">訂單明細</a>
+			        </li>
+
+			    </ul>
+			
+			    <!-- 標籤面板：內容區 -->
+			    <div class="tab-content">
+					<!-- 標籤面板：訂單紀錄 -->
+			        <div role="tabpanel" class="tab-pane active" id="history">
+			        	
+					
+						<c:if test="${not empty errorMsgs}">
+							<font style="color:red">請修正以下錯誤:</font>
+								<ul>
+								    <c:forEach var="message" items="${errorMsgs}">
+										<li style="color:red">${message}</li>
+									</c:forEach>
+								</ul>
+						</c:if>
+						<br><input type="button" class="btn btn-primary" value="查詢全部" onclick="location.href='listAllOrderHistory.jsp'">
+						<input type="button" class="btn btn-primary" value="新增一筆訂單" onclick="location.href='addOrderHistoryAndOrderDetail.jsp'">
+						<hr>
 	
-		<c:if test="${not empty errorMsgs}">
-		<font style="color:red">請修正以下錯誤:</font>
-			<ul>
-				<c:forEach var="message" items="${errorMsgs}">
-					<li style="color:red">${message}</li>
-				</c:forEach>
-			</ul>
-		</c:if>
+						<jsp:useBean id="OrderHistorySvc" scope="page" class="com.order_history.model.OrderHistoryService" />
+						
+						<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/order_history/OrderHistory.do" >
+						  <b>選擇訂單編號:</b>
+							<select size="1" name="order_no">
+								<c:forEach var="OrderHistoryVO" items="${OrderHistorySvc.all}" > 
+									<option value="${OrderHistoryVO.order_no}">${OrderHistoryVO.order_no}
+								</c:forEach>   
+							</select>
+							<input type="hidden" name="action" value="getOne_For_Display">
+							<input type="submit" value="查詢" class="btn btn-info">
+						</FORM>
+	
+						<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/order_history/OrderHistory.do" >
+							<b>選擇會員編號:</b>
+							<select size="1" name="member_no">
+								<c:forEach var="OrderHistoryVO" items="${OrderHistorySvc.allMemberNo}" > 
+									<option value="${OrderHistoryVO}">${OrderHistoryVO}
+								</c:forEach>   
+							</select>
+							<input type="hidden" name="action" value="getOne_For_MemAllOrd">
+							<input type="submit" value="查詢" class="btn btn-info">
+						</FORM>
 
-		<div class="container-fluid">
-			<div class="col-xs-12 col-sm-1"></div>
-			<div class="row">
-				<div class="col-xs-12 col-sm-10">
-<!-- 					<h4><a href="select_page.jsp"><img src="images/LOGO1.png" width="70" height="50" border="0"><b>首頁</b></a></h4> -->
-					<div class="panel panel-info">
-						<div class="panel-heading">
-					  		<h3 class="panel-title">所有訂單紀錄查詢</h3><%@ include file="pages/page1.file" %>
-						</div>
-						<table class="table table-bordered table-striped table-hover">
+			        </div>
+					
+					<!-- 標籤面板：訂單明細 -->
+			        <div role="tabpanel" class="tab-pane" id="detail">
+			        	
+				        <table id="example" class="display" style="width:100%; font-size:8px">
 							<thead>
 								<tr>
 									<th>訂單編號</th>
@@ -64,13 +107,12 @@
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach var="orderDetailVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">							
+								<c:forEach var="orderDetailVO" items="${list}">							
 									<tr>
 										<td>${orderDetailVO.order_no}</td>
 										<td>${orderDetailVO.goods_no}</td>
 										<td>${orderDetailVO.goods_bonus}</td>
 										<td>${orderDetailVO.goods_pc}</td>
-			
 										
 										<td>
 										  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/order_detail/OrderDetail.do" style="margin-bottom: 0px;">
@@ -91,15 +133,25 @@
 							</tbody>
 							
 						</table>
-						
-					</div>
-					
-					<%@ include file="pages/page2.file" %>
-				</div>
+			        </div>
+			    </div>
 			</div>
 		</div>
-		
-		<script src="https://code.jquery.com/jquery.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	</body>
+	</div>
+</div>
+
+	<script src="https://code.jquery.com/jquery.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+	<script>
+        var table;
+        var info;
+        
+        $(document).ready(function() {
+
+        	var table = $('#example').DataTable();
+        	
+        });
+    </script>
+</body>
 </html>

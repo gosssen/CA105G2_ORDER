@@ -1990,6 +1990,7 @@ Insert into ORDER_DETAIL
     ,'P0000009'
     ,500
     ,3
+);
 Insert into ORDER_DETAIL 
     values ('O2018091110003'
     ,'P0000010'
@@ -2018,19 +2019,20 @@ Insert into ORDER_DETAIL
     ,'P0000005'
     ,3999
     ,5
-);Insert into ORDER_DETAIL 
+);
+Insert into ORDER_DETAIL
     values ('O2018101010007'
     ,'P0000007'
     ,150
     ,2
 );
-);Insert into ORDER_DETAIL 
+Insert into ORDER_DETAIL
     values ('O2018101010007'
     ,'P0000010'
     ,300
     ,2
 );
-);Insert into ORDER_DETAIL 
+Insert into ORDER_DETAIL 
     values ('O2018101010007'
     ,'P0000009'
     ,500
@@ -2100,24 +2102,26 @@ Insert into ORDER_DETAIL
     ,'P0000007'
     ,150
     ,5
-Insert into ORDER_DETAIL 
+);
+Insert into ORDER_DETAIL
     values ('O2018111210012'
     ,'P0000011'
     ,150
     ,5
-);Insert into ORDER_DETAIL 
+);
+Insert into ORDER_DETAIL
     values ('O2018120610013'
     ,'P0000014'
     ,600
     ,1
 );
-);Insert into ORDER_DETAIL 
+Insert into ORDER_DETAIL
     values ('O2018120610013'
     ,'P0000016'
     ,400
     ,1
 );
-);Insert into ORDER_DETAIL 
+Insert into ORDER_DETAIL
     values ('O2018120610013'
     ,'P0000018'
     ,1300
