@@ -43,6 +43,15 @@
     <url-pattern>/favorite_goods/FavoriteGoods.do</url-pattern>
   </servlet-mapping>
   
+    <servlet>
+    <servlet-name>ShoppingCartServlet</servlet-name>
+    <servlet-class>com.shopping_cart.controller.ShoppingCartServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ShoppingCartServlet</servlet-name>
+    <url-pattern>/shopping_cart/ShoppingCart.do</url-pattern>
+  </servlet-mapping>
+  
   	<servlet>
 		<servlet-name>GoodsImgServlet1</servlet-name>
 		<servlet-class>com.goods.controller.GoodsImgServlet1</servlet-class>

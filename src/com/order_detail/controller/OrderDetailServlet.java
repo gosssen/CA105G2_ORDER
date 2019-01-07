@@ -33,7 +33,7 @@ public class OrderDetailServlet extends HttpServlet {
 					errorMsgs.add("請輸入訂單編號");
 				}
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_detail/select_page.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_detail/listAllOrderDetail.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -45,7 +45,7 @@ public class OrderDetailServlet extends HttpServlet {
 				}
 				
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_detail/select_page.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_detail/listAllOrderDetail.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -58,7 +58,7 @@ public class OrderDetailServlet extends HttpServlet {
 				}
 				
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_detail/select_page.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_detail/listAllOrderDetail.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -70,7 +70,7 @@ public class OrderDetailServlet extends HttpServlet {
 				
 			}  catch (Exception e) {
 				errorMsgs.add("無法取得資料：" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_detail/select_page.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_detail/listAllOrderDetail.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -85,7 +85,7 @@ public class OrderDetailServlet extends HttpServlet {
 					errorMsgs.add("請輸入訂單編號");
 				}
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_detail/select_page.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_detail/listAllOrderDetail.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -97,7 +97,7 @@ public class OrderDetailServlet extends HttpServlet {
 				}
 				
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_detail/select_page.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_detail/listAllOrderDetail.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -110,7 +110,7 @@ public class OrderDetailServlet extends HttpServlet {
 				}
 				
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_detail/select_page.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_detail/listAllOrderDetail.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -121,7 +121,7 @@ public class OrderDetailServlet extends HttpServlet {
 				}
 				
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_detail/select_page.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_detail/listAllOrderDetail.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -133,7 +133,7 @@ public class OrderDetailServlet extends HttpServlet {
 				
 			}  catch (Exception e) {
 				errorMsgs.add("無法取得資料：" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_detail/select_page.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_detail/listAllOrderDetail.jsp");
 				failureView.forward(req, res);
 			}
 		}

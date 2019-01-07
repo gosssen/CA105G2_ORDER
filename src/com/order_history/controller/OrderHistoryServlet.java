@@ -32,7 +32,7 @@ public class OrderHistoryServlet extends HttpServlet {
 					errorMsgs.add("請輸入會員編號");
 				}
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_history/select_page.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_history/selectOrder.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -44,7 +44,7 @@ public class OrderHistoryServlet extends HttpServlet {
 				}
 				
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_history/select_page.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_history/selectOrder.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -57,7 +57,7 @@ public class OrderHistoryServlet extends HttpServlet {
 				}
 				
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_history/select_page.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_history/selectOrder.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -69,7 +69,7 @@ public class OrderHistoryServlet extends HttpServlet {
 				
 			}  catch (Exception e) {
 				errorMsgs.add("無法取得資料：" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_history/select_page.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_history/selectOrder.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -85,7 +85,7 @@ public class OrderHistoryServlet extends HttpServlet {
 					errorMsgs.add("請輸入訂單編號");
 				}
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_history/select_page.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_history/selectOrder.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -97,7 +97,7 @@ public class OrderHistoryServlet extends HttpServlet {
 				}
 				
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_history/select_page.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_history/selectOrder.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -109,7 +109,7 @@ public class OrderHistoryServlet extends HttpServlet {
 				}
 				
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_history/select_page.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_history/selectOrder.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -121,7 +121,7 @@ public class OrderHistoryServlet extends HttpServlet {
 				
 			}  catch (Exception e) {
 				errorMsgs.add("無法取得資料：" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_history/select_page.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_history/selectOrder.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -143,7 +143,7 @@ public class OrderHistoryServlet extends HttpServlet {
 				
 			} catch (Exception e) {
 				errorMsgs.add("無法取得要修改的資料：" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_history/listAllOrderHistory.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_history/selectOrder.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -238,7 +238,7 @@ public class OrderHistoryServlet extends HttpServlet {
 						receiver_name, receiver_tel, order_status, order_no);
 			
 				req.setAttribute("orderHistoryVO", orderHistoryVO); 
-				String url = "/backend/order_history/listOneOrderHistory.jsp";
+				String url = "/backend/order_history/selectOrder.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 				
@@ -365,7 +365,7 @@ public class OrderHistoryServlet extends HttpServlet {
 				OrderHistoryService orderHistorySvc = new OrderHistoryService();
 				orderHistorySvc.insertWithDetail(orderHistoryVO, list);
 				
-				String url = "/backend/order_history/listAllOrderHistory.jsp";
+				String url = "/backend/order_history/selectOrder.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 				
@@ -385,13 +385,13 @@ public class OrderHistoryServlet extends HttpServlet {
 				OrderHistoryService orderHistorySvc = new OrderHistoryService();
 				orderHistorySvc.deleteOrderHistory(order_no);
 				
-				String url = "/backend/order_history/listAllOrderHistory.jsp";
+				String url = "/backend/order_history/selectOrder.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 				
 			} catch (Exception e) {
 				errorMsgs.add("刪除資料失敗:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_history/listAllOrderHistory.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_history/selectOrder.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -428,7 +428,7 @@ public class OrderHistoryServlet extends HttpServlet {
 				/***************************其他可能的錯誤處理**********************************/
 			} catch (Exception e) {
 				errorMsgs.add(e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_history/select_page.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_history/selectOrder.jsp");
 				failureView.forward(req, res);
 			}
 		}
