@@ -14,7 +14,7 @@ pageContext.setAttribute("list",list);
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-	<title>最愛商品新增</title>
+	<title>商品頁面</title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 	<div><c:import url="/frontend/navbar_front-end.html" charEncoding="UTF-8"/></div>
 </head>
@@ -39,7 +39,7 @@ pageContext.setAttribute("list",list);
 
 		<tbody>
 			<c:forEach var="goodsVO" items="${list}">
-				<form name="shoppingForm" action="<%=request.getContextPath()%>/Shopping.html" method="POST">
+				<form name="shoppingForm" action="<%=request.getContextPath()%>/shopping_cart/ShoppingCart.do" method="POST">
 					<tr>
 						<td>${goodsVO.goods_no}</td>
 						<td>${goodsVO.evetit_no}</td>
@@ -55,16 +55,14 @@ pageContext.setAttribute("list",list);
 					<input type="hidden" name="evetit_no" value="${goodsVO.evetit_no}">
 					<input type="hidden" name="goods_name" value="${goodsVO.goods_name}">
 					<input type="hidden" name="goods_price" value="${goodsVO.goods_price}">
-					<input type="hidden" name="goods_quantity" value="${goodsVO.forsales_a}">
+					<input type="hidden" name="forsales_a" value="${goodsVO.forsales_a}">
 					<input type="hidden" name="goods_status" value="${goodsVO.goods_status}">
 					<input type="hidden" name="action" value="ADD">	
 				</form>
 			</c:forEach>  
 		</tbody>
 	</table>
-
-<%-- 	  <jsp:include page="<%=request.getContextPath()%>/shopping_cart/ShoppingCart.jsp" flush="true" /> --%>
-	  
+	<jsp:include page="/frontend/shopping_cart/ShoppingCart.jsp" flush="true" />
 		<script src="https://code.jquery.com/jquery.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	</body>

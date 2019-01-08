@@ -1,7 +1,5 @@
 package com.shopping_cart.model;
 
-import java.sql.Timestamp;
-
 public class ShoppingCart implements java.io.Serializable {
 
 	public ShoppingCart() {
