@@ -20,7 +20,7 @@
 <%if (buylist != null && (buylist.size() > 0)) {%>
 
 <img src="images/tomcat.gif"> <font size="+3">目前您購物車的內容如下：</font><p>
-	<table class="table table-bordered table-striped table-hover"> 
+	<table id="tab" class="table table-bordered table-striped table-hover"> 
 		<thead>
 			<tr>
 				<th>商品編號</th>
@@ -45,14 +45,14 @@
 				<td><%=order.getEvetit_no()%></td>
 				<td><%=order.getGoods_name()%></td>
 				<td><img src="<%=request.getContextPath()%>/goods/goodsImg1.do?goods_no=<%=order.getGoods_no()%>" width=100px height= auto /></td>
-				<td><%=order.getGoods_price()%></td>
+				<td class="price"><%=order.getGoods_price()%></td>
 				<td><%=order.getForsales_a()%></td>
 				
 <%-- 				<td><%=order.getGoods_quantity()%></td> --%>
 				<td>
-				<button class="ec-qty-minus">-</button>
-				<input type="text" id="ordernum" name="goods_quantity" size="2" value=<%=order.getGoods_quantity()%>>
-				<button class="ec-qty-plus">+</button>
+				<input class="min" name="min" type="button" value="-" />  
+				<input type="text" class="ordernum" name="goods_quantity" size="2" value=<%=order.getGoods_quantity()%>>
+				<input class="add" name="add" type="button" value="+" /> 
 				</td>
 				
 				<td><%=order.getGoods_status()%></td>
@@ -73,23 +73,56 @@
 	    <input type="hidden" name="action"	value="CHECKOUT"> 
 	    <input type="submit" value="付款結帳">
 	</form>
+</p>	
+<p>總價：<label id="total"></label></p>
 <%}%>
 
 	<script src="https://code.jquery.com/jquery.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script>
-		$(".ec-qty-minus").on("click", function(){
-			var _num = parseInt($("#ordernum").val(), 10)-1;
-				if (_num > 0) {
-					$('#ordernum').val(_num);
-				}
-		});
-		
-		$(".ec-qty-plus").on("click", function(){
-			var _num = parseInt($("#ordernum").val(), 10)+1;
-				$('#ordernum').val(_num);
-		});
-	</script>
+	    $(function() {  
+	        $(".add").click(function() {  
+	            var t = $(this).parent().find('input[class*=ordernum]');  
+	            if(t.val()==""||undefined||null){  
+	                t.val(0);  
+	            }  
+	            t.val(parseInt(t.val()) + 1)  
+	            setTotal();  
+	        })  
+	        $(".min").click(function() {  
+	            var t = $(this).parent().find('input[class*=ordernum]');  
+	            if(t.val()==""||undefined||null){  
+	                t.val(0);  
+	            }  
+	            t.val(parseInt(t.val()) - 1)  
+	            if(parseInt(t.val()) < 0) {  
+	                t.val(0);  
+	            }  
+	            setTotal();  
+	        })  
+	        $(".ordernum").keyup(function(){  
+	            var t = $(this).parent().find('input[class*=ordernum]');  
+	            if(parseInt(t.val())==""||undefined||null || isNaN(t.val())) {  
+	                t.val(0);  
+	            }  
+	            setTotal();  
+	        })  
+	        function setTotal() {  
+	            var s = 0;  
+	            $("#tab td").each(function() {  
+	                var t = $(this).find('input[class*=ordernum]').val();  
+	                var p = $(this).find('td[class*=price]').text();  
+	                if(parseInt(t)==""||undefined||null || isNaN(t) || isNaN(parseInt(t))){  
+	                    t=0;  
+	                }  
+	                s += parseInt(t) * parseFloat(p);  
+	            });  
+	            $("#total").html(s.toFixed(2));  
+	        }  
+	        setTotal();  
+	    })  
+	</script>  
+
 </body>
 
 
