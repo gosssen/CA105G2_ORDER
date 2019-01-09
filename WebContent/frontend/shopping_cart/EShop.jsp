@@ -47,8 +47,11 @@ pageContext.setAttribute("list",list);
 						<td><img src="<%=request.getContextPath()%>/goods/goodsImg1.do?goods_no=${goodsVO.goods_no}" width=100px height= auto /></td>
 						<td>${goodsVO.goods_price}</td>
 						<td>${goodsVO.forsales_a}</td>
-						<td>數量：<input type="text" name="goods_quantity" size="3" value=1></td>
-						<td>${goodsVO.goods_status}</td>
+						<td>
+							數量：<input class="min" name="min" type="button" value="-" />  
+							<input type="text" class="ordernum" name="goods_quantity" size="2" value=1>
+							<input class="add" name="add" type="button" value="+" /> 
+						</td>
 						<td>      <input type="submit" name="Submit" value="放入購物車"></td>
 					</tr>
 					<input type="hidden" name="goods_no" value="${goodsVO.goods_no}">
@@ -62,8 +65,31 @@ pageContext.setAttribute("list",list);
 			</c:forEach>  
 		</tbody>
 	</table>
-	<jsp:include page="/frontend/shopping_cart/ShoppingCart.jsp" flush="true" />
 		<script src="https://code.jquery.com/jquery.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script>
+		    $(function() {  
+		        $(".add").click(function() {  
+		            var t = $(this).parent().find('input[class*=ordernum]');  
+		            if(t.val()==""||undefined||null){  
+		                t.val(0);  
+		            }  
+		            t.val(parseInt(t.val()) + 1)  
+		            
+		        })  
+		        $(".min").click(function() {  
+		            var t = $(this).parent().find('input[class*=ordernum]');  
+		            if(t.val()==""||undefined||null){  
+		                t.val(0);  
+		            }  
+		            t.val(parseInt(t.val()) - 1)  
+		            if(parseInt(t.val()) < 1) {  
+		                t.val(1);  
+		            }  
+		           
+		        })  
+
+		    })  
+		</script>  
 	</body>
 </html>

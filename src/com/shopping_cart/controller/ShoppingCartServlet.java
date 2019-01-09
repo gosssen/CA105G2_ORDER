@@ -69,6 +69,27 @@ public class ShoppingCartServlet extends HttpServlet {
 
 		// 結帳，計算購物車商品價錢總數
 		else if (action.equals("CHECKOUT")) {
+
+
+				// 取得後來新增的商品
+ShoppingCart agoods = getShoppingCart(req);
+
+	for (int i = 0; i < buylist.size(); i++) {
+		ShoppingCart goods = buylist.get(i);
+
+		// 假若新增的商品和購物車的商品一樣時
+		if (goods.getGoods_no().equals(agoods.getGoods_no())) {
+			goods.setGoods_quantity(agoods.getGoods_quantity());
+			buylist.setElementAt(goods, i);
+
+		}
+	} 
+
+//	session.setAttribute("shoppingcart", buylist);
+
+
+			
+			
 			float total = 0;
 			for (int i = 0; i < buylist.size(); i++) {
 				ShoppingCart order = buylist.get(i);
@@ -100,9 +121,9 @@ public class ShoppingCartServlet extends HttpServlet {
 		shoppingCart.setGoods_no(goods_no);
 		shoppingCart.setEvetit_no(evetit_no);
 		shoppingCart.setGoods_name(goods_name);
-		shoppingCart.setGoods_price(new Integer(goods_price).intValue());
-		shoppingCart.setGoods_quantity(new Integer(goods_quantity).intValue());
-		shoppingCart.setForsales_a(new Integer(forsales_a).intValue());
+		shoppingCart.setGoods_price(Integer.parseInt(goods_price));
+		shoppingCart.setGoods_quantity(Integer.parseInt(goods_quantity));
+		shoppingCart.setForsales_a(Integer.parseInt(forsales_a));
 		shoppingCart.setGoods_status(goods_status);
 		return shoppingCart;
 	}

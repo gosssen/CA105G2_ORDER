@@ -47,8 +47,7 @@
 				<td><img src="<%=request.getContextPath()%>/goods/goodsImg1.do?goods_no=<%=order.getGoods_no()%>" width=100px height= auto /></td>
 				<td class="price"><%=order.getGoods_price()%></td>
 				<td><%=order.getForsales_a()%></td>
-				
-<%-- 				<td><%=order.getGoods_quantity()%></td> --%>
+
 				<td>
 				<input class="min" name="min" type="button" value="-" />  
 				<input type="text" class="ordernum" name="goods_quantity" size="2" value=<%=order.getGoods_quantity()%>>
@@ -65,11 +64,23 @@
 		        </td>
 			</tr>
 		</tbody>
+		
+		<input type="hidden" name="goods_no" value=<%=order.getGoods_no()%>>
+		<input type="hidden" name="evetit_no" value=<%=order.getGoods_name()%>>
+		<input type="hidden" name="goods_name" value=<%=order.getGoods_no()%>>
+		<input type="hidden" name="goods_price" value=<%=order.getGoods_price()%>>
+		<input type="hidden" name="forsales_a" value=<%=order.getForsales_a()%>>
+		<input type="hidden" name="goods_quantity" value=<%=order.getGoods_quantity()%>>
+		<input type="hidden" name="goods_status" value=<%=order.getGoods_status()%>>
+		
 		<%}%>
 	</table>
 	
 <p>
 	<form name="checkoutForm" action="<%=request.getContextPath()%>/shopping_cart/ShoppingCart.do" method="POST">
+	
+
+		
 	    <input type="hidden" name="action"	value="CHECKOUT"> 
 	    <input type="submit" value="付款結帳">
 	</form>
@@ -95,8 +106,8 @@
 	                t.val(0);  
 	            }  
 	            t.val(parseInt(t.val()) - 1)  
-	            if(parseInt(t.val()) < 0) {  
-	                t.val(0);  
+	            if(parseInt(t.val()) < 1) {  
+	                t.val(1);  
 	            }  
 	            setTotal();  
 	        })  
