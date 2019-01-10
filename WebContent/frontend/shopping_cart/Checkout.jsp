@@ -3,6 +3,21 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.util.*" %>
 <%@ page import="com.shopping_cart.model.ShoppingCart" %>
+<%@ page import="com.order_history.model.*"%>
+<%@ page import="com.order_detail.model.*"%>
+<%@ page import="com.goods.model.*"%>
+<%
+	OrderHistoryVO orderHistoryVO = (OrderHistoryVO) request.getAttribute("orderHistoryVO");
+    OrderHistoryService orderHistorySvc = new OrderHistoryService();
+    List<OrderHistoryVO> listHistory = orderHistorySvc.getAll();
+    pageContext.setAttribute("listHistory",listHistory);
+	OrderDetailVO orderDetailVO = (OrderDetailVO) request.getAttribute("orderDetailVO");   
+    OrderDetailService orderDetailSvc = new OrderDetailService();
+    List<OrderDetailVO> listDetail = orderDetailSvc.getAll();
+    pageContext.setAttribute("listDetail",listDetail);
+%>
+<jsp:useBean id="OrderHistorySvc" scope="page" class="com.order_history.model.OrderHistoryService" />
+<jsp:useBean id="OrderDetailSvc" scope="page" class="com.order_detail.model.OrderDetailService" />
 <jsp:useBean id="goodsSvc" scope="page" class="com.goods.model.GoodsService" />
 <html>
 <head>
@@ -11,7 +26,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 	<title>購物車結帳頁面</title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-	<div><c:import url="/frontend/navbar_front-end.html" charEncoding="UTF-8"/></div>
+	<div><c:import url="/frontend/navbar_front-end.jsp" charEncoding="UTF-8"/></div>
 </head>
 <body>
 
@@ -66,6 +81,197 @@
 	</tr>
 </table>
 <p><a href="<%=request.getContextPath()%>/frontend/shopping_cart/EShop.jsp">是否繼續購物</a>
+
+
+<div role="tabpanel" class="tab-pane active" id="history">
+	<c:if test="${not empty errorMsgs}">
+		<font style="color:red">請修正以下錯誤：</font>
+		<ul>
+		<c:forEach var="message" items="${errorMsgs}">
+			<li style="color:red">${message}</li>
+		</c:forEach>
+		</ul>
+	</c:if>
+	<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/order_history/OrderHistory.do" name="form1">
+		<hr>									
+		<div class="container">
+			<div class="row">
+					
+				<div class="col-xs-12 col-sm-6">
+					<h1>訂單紀錄</h1>
+					<hr>
+					<div class="form-group">
+						<label>會員編號：</label>
+						<input type="TEXT" name="member_no" placeholder="請輸入會員編號" class="form-control" value="<%=(orderHistoryVO==null)? "M000001" : orderHistoryVO.getMember_no()%>" style="width:30%" >
+					</div>
+					<div class="form-group">
+						<label>訂單總金額：$<%=amount%></label>
+						<input type="hidden" name="order_price" value="<%=amount%>" >
+					</div>
+					<div class="form-group" style="width:20%">
+						<label>付款方式：</label>
+							<select class="form-control" size="1" name="pay_methods">
+								<option value="CREDITCARD" selected>電子錢包</option>
+								<option value="EWALLET">信用卡</option>
+							</select>
+					</div>
+						
+					<div class="form-group" style="width:20%">
+						<label>出貨方式：</label>
+							<select class="form-control" size="1" name="shipping_methods">
+								<option value="STOREPICKUP" selected>超商取貨</option>
+								<option value="HOMEDELIVERY">宅配</option>
+							</select>
+					</div>
+						
+			
+					<!--訂購日期 -->
+					<input type="hidden" name="order_date" id="f_date1" class="form-control" style="width:30%">
+					<!--出貨日期 -->
+					<input type="hidden" name="order_etd" id="f_date2" class="form-control" style="width:30%">
+					<!--取貨日期 -->
+					<input type="hidden" name="pickup_date" id="f_date3" class="form-control" style="width:30%">
+
+					<div class="form-group">
+						<label>收件人地址：</label>
+						<input type="TEXT" name="receiver_add" id="receiver_add" placeholder="請輸入收件人地址" class="form-control" value="<%= (orderHistoryVO==null)? "320桃園市中壢區福德一路177巷60弄2號" : orderHistoryVO.getReceiver_add()%>" style="width:60%" >
+					</div>
+					<div class="form-group">
+						<label>收件人名稱：</label>
+						<input type="TEXT" name="receiver_name" id="receiver_name" placeholder="請輸入收件人名稱" class="form-control" value="<%= (orderHistoryVO==null)? "Peter1" : orderHistoryVO.getReceiver_name()%>" style="width:20%">
+					</div>
+					<div class="form-group">
+						<label>收件人電話：</label>
+						<input type="TEXT" name="receiver_tel" id="receiver_tel" placeholder="請輸入收件人名稱" class="form-control" value="<%= (orderHistoryVO==null)? "0912345678" : orderHistoryVO.getReceiver_tel()%>" style="width:20%">
+					</div>
+					
+					<div class="form-group" style="width:20%">
+						<label>訂單狀態：</label>
+							<select class="form-control" size="1" name="order_status">
+								<option value="PAYMENT1" selected>已付款</option>
+								<option value="SHIPPING2">出貨中</option>
+								<option value="SHIPMENT3">已出貨</option>
+								<option value="COMPLETE4">已完成</option>
+								<option value="CANCEL5">已取消</option>
+							</select>
+					</div>
+				</div>
+					
+					
+				<%	for (int i = 0; i < buylist.size(); i++) {
+						ShoppingCart order = buylist.get(i);
+						String goods_no = order.getGoods_no();
+						Integer goods_price = order.getGoods_price();
+						Integer goods_quantity = order.getGoods_quantity();	
+						
+				%>
+					<!--商品編號 -->
+					<input type="hidden" name="goods_no" value=<%=goods_no%>>
+					<!--商品價錢 -->
+					<input type="hidden" name="goods_bonus" value="<%=goods_price%>">
+					<!--商品數量 -->
+					<input type="hidden" name="goods_pc" value="<%=goods_quantity%>">
+				<%}%>
+					
+				
+			</div>
+			<hr>
+			<input type="hidden" name="action" value="insert">
+			<input type="submit" value="送出新增" class="btn btn-primary">		
+		</div>
+
+		
+			
+			
+	</FORM>
+
+</div>	
+
+
+
+<input type="button" value="進行結帳" class="btn btn-default" onclick="location.href='<%=request.getContextPath()%>/frontend/  .jsp'" >
 </center>
 </body>
+	<div><c:import url="/frontend/footer_front-end.jsp" charEncoding="UTF-8"/></div>
+<script src="https://code.jquery.com/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>	
+	
+</script>
+
+
+<% 
+  java.sql.Timestamp order_date = null;
+  try {
+		order_date = orderHistoryVO.getOrder_date();
+   } catch (Exception e) {
+		order_date = new java.sql.Timestamp(System.currentTimeMillis());
+   }
+  
+  java.sql.Timestamp order_etd = null;
+  try {
+		order_etd = orderHistoryVO.getOrder_etd();
+   } catch (Exception e) {
+		order_etd = new java.sql.Timestamp(System.currentTimeMillis());
+   }
+  
+  java.sql.Timestamp pickup_date = null;
+  try {
+		pickup_date = orderHistoryVO.getPickup_date();
+   } catch (Exception e) {
+		pickup_date = new java.sql.Timestamp(System.currentTimeMillis());
+   }
+%>
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.css" />
+<script src="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.full.js"></script>
+
+<style>
+   .xdsoft_datetimepicker .xdsoft_datepicker { 
+            width:  300px;    width:  300px; 
+   } 
+   .xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box {
+            height: 151px;    height:  151px; 
+   } 
+</style>
+
+<script>
+        $.datetimepicker.setLocale('zh');
+        $('#f_date1').datetimepicker({
+           theme: '',              //theme: 'dark',
+           timepicker:true,       //timepicker:true,
+ 	       step: 1,                //step: 60 (這是timepicker的預設間隔60分鐘)
+ 	       format:'Y-m-d H:i:s',         //format:'Y-m-d H:i:s',
+ 		   value: new Date(), // value:   new Date(),
+           //disabledDates:        ['2017/06/08','2017/06/09','2017/06/10'], // 去除特定不含
+           //startDate:	            '2017/07/10',  // 起始日
+           //minDate:               '-1970-01-01', // 去除今日(不含)之前
+           //maxDate:               '+1970-01-01'  // 去除今日(不含)之後
+        });
+
+        $('#f_date2').datetimepicker({
+           theme: '',              //theme: 'dark',
+           timepicker:true,       //timepicker:true,
+ 	       step: 1,                //step: 60 (這是timepicker的預設間隔60分鐘)
+ 	       format:'Y-m-d H:i:s',         //format:'Y-m-d H:i:s',
+ 		   value: new Date(), // value:   new Date(),
+           //disabledDates:        ['2017/06/08','2017/06/09','2017/06/10'], // 去除特定不含
+           //startDate:	            '2017/07/10',  // 起始日
+           //minDate:               '-1970-01-01', // 去除今日(不含)之前
+           //maxDate:               '+1970-01-01'  // 去除今日(不含)之後
+        });
+        
+        $('#f_date3').datetimepicker({
+           theme: '',              //theme: 'dark',
+           timepicker:true,     //timepicker:true,
+ 	       step: 1,                //step: 60 (這是timepicker的預設間隔60分鐘)
+ 	       format:'Y-m-d H:i:s',         //format:'Y-m-d H:i:s',
+ 		   value: new Date(), // value:   new Date(),
+           //disabledDates:        ['2017/06/08','2017/06/09','2017/06/10'], // 去除特定不含
+           //startDate:	            '2017/07/10',  // 起始日
+           //minDate:               '-1970-01-01', // 去除今日(不含)之前
+           //maxDate:               '+1970-01-01'  // 去除今日(不含)之後
+        });
+        
+</script>	
+	
 </html>

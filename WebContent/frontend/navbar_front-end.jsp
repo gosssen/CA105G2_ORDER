@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -48,7 +48,9 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<img src="/CA105G2/frontend/LOGO_front-end.png"  href="#" alt="LOGO" width="202.25px" height="165.5px">
+					<a href="/CA105G2/frontend/index.jsp">
+					<img src="/CA105G2/frontend/LOGO_front-end.png" alt="LOGO" width="202.25px" height="165.5px">
+					</a>
 				</div>
 				
 				<!-- 手機隱藏選單區 -->
@@ -72,10 +74,12 @@
 				</div>
 				<!-- 手機隱藏選單區結束 -->
 			</div>
+			<div class="container">
 			<div class="topnav">
+			<font size="4">
 			<div class="col-xs-12 col-sm-6 col-md-4 col-lg-2">
 				<div>
-					<a href="#" class="topnav" align="center">所有活動</a>
+					<a href="/CA105G2/frontend/event_title/selectEventTitle.jsp" class="topnav" align="center">所有活動</a>
 				</div>
 			</div>
 			<div class="col-xs-12 col-sm-6 col-md-4 col-lg-2">
@@ -95,7 +99,7 @@
 			</div>
 			<div class="col-xs-12 col-sm-6 col-md-4 col-lg-2">
 				<div>
-					<a href="#" class="topnav" align="center">常見問題</a>
+					<a href="/CA105G2/frontend/faq/listAllFaq.jsp" class="topnav" align="center">常見問題</a>
 				</div>
 			</div>
 			<div class="col-xs-12 col-sm-6 col-md-4 col-lg-2">
@@ -103,6 +107,8 @@
 					<a href="#" class="topnav" align="center">訂單查詢</a>
 				</div>
 			</div>
+			</font>
+		</div>
 		</div>
 		</nav>
 

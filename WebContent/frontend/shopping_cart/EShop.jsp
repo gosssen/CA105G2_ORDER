@@ -16,7 +16,7 @@ pageContext.setAttribute("list",list);
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 	<title>商品頁面</title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-	<div><c:import url="/frontend/navbar_front-end.html" charEncoding="UTF-8"/></div>
+	<div><c:import url="/frontend/navbar_front-end.jsp" charEncoding="UTF-8"/></div>
 </head>
 	<body>
 	<hr>
@@ -86,10 +86,10 @@ pageContext.setAttribute("list",list);
 		            if(parseInt(t.val()) < 1) {  
 		                t.val(1);  
 		            }  
-		           
 		        })  
 
 		    })  
 		</script>  
 	</body>
+	<div><c:import url="/frontend/footer_front-end.jsp" charEncoding="UTF-8"/></div>
 </html>

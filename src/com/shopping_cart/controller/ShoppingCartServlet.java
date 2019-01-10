@@ -1,6 +1,8 @@
 package com.shopping_cart.controller;
 import java.util.*;
 import java.io.*;
+
+import javax.security.auth.message.callback.PrivateKeyCallback.Request;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import com.shopping_cart.model.ShoppingCart;
@@ -72,20 +74,27 @@ public class ShoppingCartServlet extends HttpServlet {
 
 
 				// 取得後來新增的商品
-ShoppingCart agoods = getShoppingCart(req);
-
+		 ShoppingCart agoods = getShoppingCart(req);
+		 
+		 
+   
 	for (int i = 0; i < buylist.size(); i++) {
+//		System.out.println("buylist.size()" + buylist.size());
+		String [] quantity = req.getParameterValues("goods_quantity");
+		System.out.println(quantity[i]);
 		ShoppingCart goods = buylist.get(i);
-
 		// 假若新增的商品和購物車的商品一樣時
 		if (goods.getGoods_no().equals(agoods.getGoods_no())) {
-			goods.setGoods_quantity(agoods.getGoods_quantity());
+//			goods.setGoods_quantity(agoods.getGoods_quantity());
+			goods.setGoods_quantity(Integer.parseInt(quantity[i]));
+//			System.out.println("Goods_quantity:" + agoods.getGoods_quantity());
 			buylist.setElementAt(goods, i);
-
+			System.out.println("quantitylength" + quantity.length);
 		}
+		
 	} 
 
-//	session.setAttribute("shoppingcart", buylist);
+	session.setAttribute("shoppingcart", buylist);
 
 
 			

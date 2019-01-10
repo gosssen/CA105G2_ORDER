@@ -12,14 +12,16 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 	<title>購物車內容</title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-	<div><c:import url="/frontend/navbar_front-end.html" charEncoding="UTF-8"/></div>
+	<div><c:import url="/frontend/navbar_front-end.jsp" charEncoding="UTF-8"/></div>
 </head>
 <body>
 
 <%Vector<ShoppingCart> buylist = (Vector<ShoppingCart>) session.getAttribute("shoppingcart");%>
 <%if (buylist != null && (buylist.size() > 0)) {%>
 
-<img src="images/tomcat.gif"> <font size="+3">目前您購物車的內容如下：</font><p>
+<font size="+3">目前您購物車的內容如下：</font><p>
+
+	<form name="checkoutForm" class="test2" action="<%=request.getContextPath()%>/shopping_cart/ShoppingCart.do" method="POST">	
 	<table id="tab" class="table table-bordered table-striped table-hover"> 
 		<thead>
 			<tr>
@@ -33,7 +35,7 @@
 				<th>商品狀態</th>
 			</tr>
 		</thead>
-		
+
 		<%
 		 for (int index = 0; index < buylist.size(); index++) {
 			 ShoppingCart order = buylist.get(index);
@@ -49,9 +51,10 @@
 				<td><%=order.getForsales_a()%></td>
 
 				<td>
+				<form name="updateForm">
 				<input class="min" name="min" type="button" value="-" />  
-				<input type="text" class="ordernum" name="goods_quantity" size="2" value=<%=order.getGoods_quantity()%>>
-				<input class="add" name="add" type="button" value="+" /> 
+				<input id="goods_quantity_<%=index %>" type="text" class="ordernum test1" name="goods_quantity" size="2" value=<%=order.getGoods_quantity()%>>
+				<input class="add" name="add" type="button" value="+" onclick="addone('goods_quantity_<%=index %>')"/> 
 				</td>
 				
 				<td><%=order.getGoods_status()%></td>
@@ -64,27 +67,27 @@
 		        </td>
 			</tr>
 		</tbody>
-		
+
 		<input type="hidden" name="goods_no" value=<%=order.getGoods_no()%>>
 		<input type="hidden" name="evetit_no" value=<%=order.getGoods_name()%>>
 		<input type="hidden" name="goods_name" value=<%=order.getGoods_no()%>>
 		<input type="hidden" name="goods_price" value=<%=order.getGoods_price()%>>
 		<input type="hidden" name="forsales_a" value=<%=order.getForsales_a()%>>
-		<input type="hidden" name="goods_quantity" value=<%=order.getGoods_quantity()%>>
+		<input type="hidden" class="ordernum test3" name="goods_quantity" >
+<!-- 		<input type="hidden" class="ordernum" name="goods_quantity" id="test2" value=5> -->
 		<input type="hidden" name="goods_status" value=<%=order.getGoods_status()%>>
+	
+	
 		
+	
 		<%}%>
 	</table>
+	<input type="hidden" name="action"	value="CHECKOUT" > 
+	<input type="submit" value="付款結帳" id="test4">
+	</form>    
 	
-<p>
-	<form name="checkoutForm" action="<%=request.getContextPath()%>/shopping_cart/ShoppingCart.do" method="POST">
-	
+			<input type="button" value="返回 " class="btn btn-default" onclick="location.href='<%=request.getContextPath()%>/frontend/shopping_cart/EShop.jsp'" >
 
-		
-	    <input type="hidden" name="action"	value="CHECKOUT"> 
-	    <input type="submit" value="付款結帳">
-	</form>
-</p>	
 <p>總價：<label id="total"></label></p>
 <%}%>
 
@@ -92,6 +95,31 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script>
 	    $(function() {  
+		    
+// 	    	var arr = $('.test1');
+//     		for(var i =0 ; i < arr.length; i++){
+// 	    			$(this).siblings('.test3').val($(arr[i]).val());
+// 				console.log($(arr[i]).val());
+//     		}
+
+// 			var arr = $('.test1');
+// 	    	$(".test2").submit(function(){
+// 	    		for(var i =0 ; i < arr.length; i++){
+// 	    			$(this).siblings('.test3').val($(arr[i]).val());
+// 					console.log($(arr[i]).val());
+// 	    		}
+// 	    	});
+	    	
+			
+	    	
+	    	$("#test4").click(function(){
+	    		var arr = $('.test1');
+	    		for(var i =0 ; i < arr.length; i++){
+	    			$('table .test3').val($(arr[i]).val());
+					console.log($(arr[i]).val());
+	    		}
+	    	});
+	    	
 	        $(".add").click(function() {  
 	            var t = $(this).parent().find('input[class*=ordernum]');  
 	            if(t.val()==""||undefined||null){  
@@ -132,9 +160,19 @@
 	        }  
 	        setTotal();  
 	    })  
+	    function addone(id){
+	    	$("#"+id).click(function() {  
+	            var t = $(this).parent().find('input[class*=ordernum]');  
+	            if(t.val()==""||undefined||null){  
+	                t.val(0);  
+	            }  
+	            t.val(parseInt(t.val()) + 1)  
+	            setTotal();  
+	        }) 
+	    }
 	</script>  
 
 </body>
-
+	<div><c:import url="/frontend/footer_front-end.jsp" charEncoding="UTF-8"/></div>
 
 </html>

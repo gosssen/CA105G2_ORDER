@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -12,12 +12,10 @@
 	border-radius: 50px;
 	margin-top: 20px;
 }
-
 .membermenu {
 	margin-top: 100px;
 	margin-left: 200px;
 }
-
 .topnav {
 	list-style-type: none;
 	margin: 0;
@@ -50,7 +48,7 @@
 			<div class="collapse navbar-collapse navbar-ex1-collapse">
 				<!-- 右選單 -->
 				<img
-					src="/CA105G2_ORDER/backend/order_history/images/Barbatos.jpg"
+					src="https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-1/c53.53.662.662a/s160x160/996812_623306544360262_513913499_n.jpg?_nc_cat=109&_nc_eui2=AeEvi_vj3AZ5wk2s31mtunvrLPbVPtJK2jf7uWRYtFCuPw_M1yTd23yuh2AGeVu5aGSm_1aLOh_81tqazaXh-ECnpuFl77aq8E38y3WIOxRGcA&_nc_ht=scontent-hkg3-1.xx&oh=c8b216f2429b70114bdb941b525f73cf&oe=5CA0CFE7"
 					class="memberphoto" href="#" alt="LOGO" style="float: right"
 					width="80px" height="80px">
 
@@ -72,7 +70,8 @@
 		<div class="topnav">
 			<div class="col-xs-12 col-sm-6 col-md-4 col-lg-2">
 				<div>
-					<a href="#" class="topnav" align="center">活動管理</a>
+<!-- 					<a href="#" class="topnav" align="center">活動管理</a> -->
+					<a href="/CA105G2/backend/event_title/eventTitleRelativesManagement.jsp" class="topnav" align="center">活動管理</a>
 				</div>
 			</div>
 			<div class="col-xs-12 col-sm-6 col-md-4 col-lg-2">
@@ -82,7 +81,7 @@
 			</div>
 			<div class="col-xs-12 col-sm-6 col-md-4 col-lg-2">
 				<div>
-					<a href="/backend/order_history/selectOrder.jsp" class="topnav" align="center">商品管理</a>
+					<a href="#" class="topnav" align="center">商品管理</a>
 				</div>
 			</div>
 			<div class="col-xs-12 col-sm-6 col-md-4 col-lg-2">
