@@ -30,166 +30,181 @@
 </head>
 <body>
 
-<hr><p><center>
 
-	<table class="table table-bordered table-striped table-hover"> 
-		<thead>
-			<tr>
-				<th>商品編號</th>
-				<th>活動主題編號</th>
-				<th>商品名稱</th>
-				<th>商品單價</th>
-				<th>商品數量</th>
-				<th>商品狀態</th>
-			</tr>
-		</thead>
-	
-	<%
-		Vector<ShoppingCart> buylist = (Vector<ShoppingCart>) session.getAttribute("shoppingcart");
-		String amount =  (String) request.getAttribute("amount");
-	%>	
-	<%	for (int i = 0; i < buylist.size(); i++) {
-			ShoppingCart order = buylist.get(i);
-			String goods_no = order.getGoods_no();
-			String evetit_no = order.getEvetit_no();
-			String goods_name = order.getGoods_name();
-			Integer goods_price = order.getGoods_price();
-			Integer goods_quantity = order.getGoods_quantity();	
-			String goods_status = order.getGoods_status();
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12 col-sm-3"></div>
+        <div class="col-xs-12 col-sm-6">
+            
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="panel1">
+                    <h4 class="panel-title">
+                        <a href="#orderdetail" data-parent="#accordion" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="orderdetail">
+                            購物車明細
+                        </a>
+                    </h4>
+                </div>
+                <div id="orderdetail" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="panel1">
+                    <div class="list-group">
+                        <table class="table table-bordered table-striped table-hover"> 
+                            <thead>
+                                <tr>
+                                    <th>商品編號</th>
+                                    <th>商品名稱</th>
+                                    <th>商品單價</th>
+                                    <th>商品數量</th>
+                                </tr>
+                            </thead>
+
+
+                            <%
+                                Vector<ShoppingCart> buylist = (Vector<ShoppingCart>) session.getAttribute("shoppingcart");
+                                String amount =  (String) request.getAttribute("amount");
+                            %>  
+
+                            <%  for (int i = 0; i < buylist.size(); i++) {
+                                ShoppingCart order = buylist.get(i);
+                                String goods_no = order.getGoods_no();
+                                String goods_name = order.getGoods_name();
+                                Integer goods_price = order.getGoods_price();
+                                Integer goods_quantity = order.getGoods_quantity(); 
+                            %>
+                            <tbody>
+                                <tr>
+                                    <td><div align="center"><b><%=goods_no%></b></div></td>
+                                    <td><div align="center"><b><%=goods_name%></b></div></td>
+                                    <td><div align="center"><b><%=goods_price%></b></div></td>
+                                    <td><div align="center"><b><%=goods_quantity%></b></div></td>
+                                </tr>
+                            </tbody>
+                            <%
+                                }
+                            %>
+           
+                        </table>
+                        <h4> 付款金額：<font color="red">$<%=amount%></font></h4>  
+
+                    </div>
+                </div>
+            </div>
+
+                <input type="button" value="返回上一頁 " class="btn btn-default" onclick="location.href='<%=request.getContextPath()%>/frontend/shopping_cart/ShoppingCart.jsp'" >
+				<input type="button" value="繼續購物" class="btn btn-default" onclick="location.href='<%=request.getContextPath()%>/frontend/shopping_cart/EShop.jsp'" >
 			
 			
-	%>
-	<tr>
-		<td><div align="center"><b><%=goods_no%></b></div></td>
-		<td><div align="center"><b><%=evetit_no%></b></div></td>
-		<td><div align="center"><b><%=goods_name%></b></div></td>
-		<td><div align="center"><b><%=goods_price%></b></div></td>
-		<td><div align="center"><b><%=goods_quantity%></b></div></td>
-		<td><div align="center"><b><%=goods_status%></b></div></td>
+			
+			
+			
+			<div role="tabpanel" class="tab-pane active" id="history">
+				<c:if test="${not empty errorMsgs}">
+					<font style="color:red">請修正以下錯誤：</font>
+					<ul>
+					<c:forEach var="message" items="${errorMsgs}">
+						<li style="color:red">${message}</li>
+					</c:forEach>
+					</ul>
+				</c:if>
+				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/order_history/OrderHistory.do" name="form1">
+					<hr>									
+
+
+								
+
+								<h1>訂單紀錄</h1>
+								<hr>
+								<div class="form-group">
+									<label>會員編號：</label>
+									<input type="TEXT" name="member_no" placeholder="請輸入會員編號" class="form-control" value="<%=(orderHistoryVO==null)? "M000001" : orderHistoryVO.getMember_no()%>" style="width:30%" >
+								</div>
+								<div class="form-group">
+									<label>訂單總金額：$<%=amount%></label>
+									<input type="hidden" name="order_price" value="<%=amount%>" >
+								</div>
+								<div class="form-group" style="width:20%">
+									<label>付款方式：</label>
+										<select class="form-control" size="1" name="pay_methods">
+											<option value="CREDITCARD" selected>電子錢包</option>
+											<option value="EWALLET">信用卡</option>
+										</select>
+								</div>
+									
+								<div class="form-group" style="width:20%">
+									<label>出貨方式：</label>
+										<select class="form-control" size="1" name="shipping_methods">
+											<option value="STOREPICKUP" selected>超商取貨</option>
+											<option value="HOMEDELIVERY">宅配</option>
+										</select>
+								</div>
+									
+						
+								<!--訂購日期 -->
+								<input type="hidden" name="order_date" id="f_date1" class="form-control" style="width:30%">
+								<!--出貨日期 -->
+								<input type="hidden" name="order_etd" id="f_date2" class="form-control" style="width:30%">
+								<!--取貨日期 -->
+								<input type="hidden" name="pickup_date" id="f_date3" class="form-control" style="width:30%">
+			
+								<div class="form-group">
+									<label>收件人地址：</label>
+									<input type="TEXT" name="receiver_add" id="receiver_add" placeholder="請輸入收件人地址" class="form-control" value="<%= (orderHistoryVO==null)? "320桃園市中壢區福德一路177巷60弄2號" : orderHistoryVO.getReceiver_add()%>" style="width:60%" >
+								</div>
+								<div class="form-group">
+									<label>收件人名稱：</label>
+									<input type="TEXT" name="receiver_name" id="receiver_name" placeholder="請輸入收件人名稱" class="form-control" value="<%= (orderHistoryVO==null)? "Peter1" : orderHistoryVO.getReceiver_name()%>" style="width:20%">
+								</div>
+								<div class="form-group">
+									<label>收件人電話：</label>
+									<input type="TEXT" name="receiver_tel" id="receiver_tel" placeholder="請輸入收件人名稱" class="form-control" value="<%= (orderHistoryVO==null)? "0912345678" : orderHistoryVO.getReceiver_tel()%>" style="width:20%">
+								</div>
+								
+								<div class="form-group" style="width:20%">
+									<label>訂單狀態：</label>
+										<select class="form-control" size="1" name="order_status">
+											<option value="PAYMENT1" selected>已付款</option>
+											<option value="SHIPPING2">出貨中</option>
+											<option value="SHIPMENT3">已出貨</option>
+											<option value="COMPLETE4">已完成</option>
+											<option value="CANCEL5">已取消</option>
+										</select>
 		
-	</tr>
-	<%
-		}
-	%>
-	<tr>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td><div align="center"><font color="red"><b>總金額：</b></font></div></td>
-		<td></td>
-		<td> <font color="red"><b>$<%=amount%></b></font> </td>
-	</tr>
-</table>
-<p><a href="<%=request.getContextPath()%>/frontend/shopping_cart/EShop.jsp">是否繼續購物</a>
+							</div>
+								
+							<%	for (int i = 0; i < buylist.size(); i++) {
+									ShoppingCart order = buylist.get(i);
+									String goods_no = order.getGoods_no();
+									Integer goods_price = order.getGoods_price();
+									Integer goods_quantity = order.getGoods_quantity();	
+									
+							%>
+								<!--商品編號 -->
+								<input type="hidden" name="goods_no" value=<%=goods_no%>>
+								<!--商品價錢 -->
+								<input type="hidden" name="goods_bonus" value="<%=goods_price%>">
+								<!--商品數量 -->
+								<input type="hidden" name="goods_pc" value="<%=goods_quantity%>">
+							<%}%>								
+							
 
+						<hr>
+						<input type="hidden" name="action" value="insert">
+						<input type="submit" value="完成訂單" class="btn btn-primary">		
 
-<div role="tabpanel" class="tab-pane active" id="history">
-	<c:if test="${not empty errorMsgs}">
-		<font style="color:red">請修正以下錯誤：</font>
-		<ul>
-		<c:forEach var="message" items="${errorMsgs}">
-			<li style="color:red">${message}</li>
-		</c:forEach>
-		</ul>
-	</c:if>
-	<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/order_history/OrderHistory.do" name="form1">
-		<hr>									
-		<div class="container">
-			<div class="row">
-					
-				<div class="col-xs-12 col-sm-6">
-					<h1>訂單紀錄</h1>
-					<hr>
-					<div class="form-group">
-						<label>會員編號：</label>
-						<input type="TEXT" name="member_no" placeholder="請輸入會員編號" class="form-control" value="<%=(orderHistoryVO==null)? "M000001" : orderHistoryVO.getMember_no()%>" style="width:30%" >
-					</div>
-					<div class="form-group">
-						<label>訂單總金額：$<%=amount%></label>
-						<input type="hidden" name="order_price" value="<%=amount%>" >
-					</div>
-					<div class="form-group" style="width:20%">
-						<label>付款方式：</label>
-							<select class="form-control" size="1" name="pay_methods">
-								<option value="CREDITCARD" selected>電子錢包</option>
-								<option value="EWALLET">信用卡</option>
-							</select>
-					</div>
-						
-					<div class="form-group" style="width:20%">
-						<label>出貨方式：</label>
-							<select class="form-control" size="1" name="shipping_methods">
-								<option value="STOREPICKUP" selected>超商取貨</option>
-								<option value="HOMEDELIVERY">宅配</option>
-							</select>
-					</div>
-						
 			
-					<!--訂購日期 -->
-					<input type="hidden" name="order_date" id="f_date1" class="form-control" style="width:30%">
-					<!--出貨日期 -->
-					<input type="hidden" name="order_etd" id="f_date2" class="form-control" style="width:30%">
-					<!--取貨日期 -->
-					<input type="hidden" name="pickup_date" id="f_date3" class="form-control" style="width:30%">
-
-					<div class="form-group">
-						<label>收件人地址：</label>
-						<input type="TEXT" name="receiver_add" id="receiver_add" placeholder="請輸入收件人地址" class="form-control" value="<%= (orderHistoryVO==null)? "320桃園市中壢區福德一路177巷60弄2號" : orderHistoryVO.getReceiver_add()%>" style="width:60%" >
-					</div>
-					<div class="form-group">
-						<label>收件人名稱：</label>
-						<input type="TEXT" name="receiver_name" id="receiver_name" placeholder="請輸入收件人名稱" class="form-control" value="<%= (orderHistoryVO==null)? "Peter1" : orderHistoryVO.getReceiver_name()%>" style="width:20%">
-					</div>
-					<div class="form-group">
-						<label>收件人電話：</label>
-						<input type="TEXT" name="receiver_tel" id="receiver_tel" placeholder="請輸入收件人名稱" class="form-control" value="<%= (orderHistoryVO==null)? "0912345678" : orderHistoryVO.getReceiver_tel()%>" style="width:20%">
-					</div>
-					
-					<div class="form-group" style="width:20%">
-						<label>訂單狀態：</label>
-							<select class="form-control" size="1" name="order_status">
-								<option value="PAYMENT1" selected>已付款</option>
-								<option value="SHIPPING2">出貨中</option>
-								<option value="SHIPMENT3">已出貨</option>
-								<option value="COMPLETE4">已完成</option>
-								<option value="CANCEL5">已取消</option>
-							</select>
-					</div>
-				</div>
-					
-					
-				<%	for (int i = 0; i < buylist.size(); i++) {
-						ShoppingCart order = buylist.get(i);
-						String goods_no = order.getGoods_no();
-						Integer goods_price = order.getGoods_price();
-						Integer goods_quantity = order.getGoods_quantity();	
 						
-				%>
-					<!--商品編號 -->
-					<input type="hidden" name="goods_no" value=<%=goods_no%>>
-					<!--商品價錢 -->
-					<input type="hidden" name="goods_bonus" value="<%=goods_price%>">
-					<!--商品數量 -->
-					<input type="hidden" name="goods_pc" value="<%=goods_quantity%>">
-				<%}%>
-					
+				</FORM>
+			
+			</div>	
+			
+			
 				
-			</div>
-			<hr>
-			<input type="hidden" name="action" value="insert">
-			<input type="submit" value="送出新增" class="btn btn-primary">		
-		</div>
-
-		
-			
-			
-	</FORM>
-
-</div>	
+        </div>
+    </div>
+</div>
 
 
 
-<input type="button" value="進行結帳" class="btn btn-default" onclick="location.href='<%=request.getContextPath()%>/frontend/  .jsp'" >
+
+
 </center>
 </body>
 	<div><c:import url="/frontend/footer_front-end.jsp" charEncoding="UTF-8"/></div>

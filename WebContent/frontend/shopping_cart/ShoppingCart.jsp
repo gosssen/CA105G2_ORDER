@@ -51,10 +51,13 @@
 				<td><%=order.getForsales_a()%></td>
 
 				<td>
-				<form name="updateForm">
-				<input class="min" name="min" type="button" value="-" />  
+<%-- 				<form name="updateForm" action="<%=request.getContextPath()%>/shopping_cart/ShoppingCart.do" method="POST"> --%>
+				<input class="min" name="min" type="button" value="-" onclick="minone('goods_quantity_<%=index %>')"/>  
 				<input id="goods_quantity_<%=index %>" type="text" class="ordernum test1" name="goods_quantity" size="2" value=<%=order.getGoods_quantity()%>>
 				<input class="add" name="add" type="button" value="+" onclick="addone('goods_quantity_<%=index %>')"/> 
+<!-- 				<input type="hidden" name="action" value="UPDATE"> -->
+<%-- 				<input type="hidden" name="update" value="<%= index %>"> --%>
+<!-- 				</form> -->
 				</td>
 				
 				<td><%=order.getGoods_status()%></td>
@@ -112,13 +115,13 @@
 	    	
 			
 	    	
-	    	$("#test4").click(function(){
-	    		var arr = $('.test1');
-	    		for(var i =0 ; i < arr.length; i++){
-	    			$('table .test3').val($(arr[i]).val());
-					console.log($(arr[i]).val());
-	    		}
-	    	});
+// 	    	$("#test4").click(function(){
+// 	    		var arr = $('.test1');
+// 	    		for(var i =0 ; i < arr.length; i++){
+// 	    			$('table .test3').val($(arr[i]).val());
+// 					console.log($(arr[i]).val());
+// 	    		}
+// 	    	});
 	    	
 	        $(".add").click(function() {  
 	            var t = $(this).parent().find('input[class*=ordernum]');  
@@ -139,37 +142,76 @@
 	            }  
 	            setTotal();  
 	        })  
-	        $(".ordernum").keyup(function(){  
-	            var t = $(this).parent().find('input[class*=ordernum]');  
-	            if(parseInt(t.val())==""||undefined||null || isNaN(t.val())) {  
-	                t.val(0);  
-	            }  
-	            setTotal();  
-	        })  
-	        function setTotal() {  
-	            var s = 0;  
-	            $("#tab td").each(function() {  
-	                var t = $(this).find('input[class*=ordernum]').val();  
-	                var p = $(this).find('td[class*=price]').text();  
-	                if(parseInt(t)==""||undefined||null || isNaN(t) || isNaN(parseInt(t))){  
-	                    t=0;  
-	                }  
-	                s += parseInt(t) * parseFloat(p);  
-	            });  
-	            $("#total").html(s.toFixed(2));  
-	        }  
-	        setTotal();  
+// 	        $(".ordernum").keyup(function(){  
+// 	            var t = $(this).parent().find('input[class*=ordernum]');  
+// 	            if(parseInt(t.val())==""||undefined||null || isNaN(t.val())) {  
+// 	                t.val(0);  
+// 	            }  
+// 	            setTotal();  
+// 	        })  
+// 	        function setTotal() {  
+// 	            var s = 0;  
+// 	            $("#tab td").each(function() {  
+// 	                var t = $(this).find('input[class*=ordernum]').val();  
+// 	                var p = $(this).find('td[class*=price]').text();  
+// 	                if(parseInt(t)==""||undefined||null || isNaN(t) || isNaN(parseInt(t))){  
+// 	                    t=0;  
+// 	                }  
+// 	                s += parseInt(t) * parseFloat(p);  
+// 	            });  
+// 	            $("#total").html(s.toFixed(2));  
+// 	        }  
+// 	        setTotal();  
 	    })  
-	    function addone(id){
-	    	$("#"+id).click(function() {  
-	            var t = $(this).parent().find('input[class*=ordernum]');  
-	            if(t.val()==""||undefined||null){  
-	                t.val(0);  
-	            }  
-	            t.val(parseInt(t.val()) + 1)  
-	            setTotal();  
-	        }) 
-	    }
+// 	    function addone(id){
+// 	    	$("#"+id).click(function() {  
+// 	            var t = $(this).parent().find('input[class*=ordernum]');  
+// 	            if(t.val()==""||undefined||null){  
+// 	                t.val(0);  
+// 	            }  
+// 	            t.val(parseInt(t.val()) + 1)  
+// 	            setTotal();  
+// 	        }) 
+// 	    }
+	    
+// 	    function minone(id){
+// 	    	$("#"+id).click(function() {  
+// 	            var t = $(this).parent().find('input[class*=ordernum]');  
+// 	            if(t.val()==""||undefined||null){  
+// 	                t.val(0);  
+// 	            }  
+// 	            t.val(parseInt(t.val()) + 1)  
+// 	            setTotal();  
+// 	        }) 
+// 	    }
+
+// 		var arr = $('.ordernum');
+// 	    for(var id=0; id<arr.length; id++) {
+	    	
+	    
+// 		    function addone("goods_quantity_"+id) {
+// 		    	$("#goods_quantity_"+id).click(function() { 
+		    		
+// 		    		var qu = $("#goods_quantity_"+id);		    		
+
+// 		            qu.val(parseInt(qu.val()) + 1);  
+// 		            console.log($(arr[i]).val());
+// 		        }) 
+// 		    }
+		    
+// 		    function minone("goods_quantity_"+id) {
+// 		    	$("#goods_quantity_"+id).click(function() { 
+		    		
+// 		    		var qu = $("#goods_quantity_"+id);		    		
+ 
+// 		            qu.val(parseInt(qu.val()) - 1);  
+// 		            if(parseInt(qu.val()) < 1) {  
+// 		            	qu.val(1);  
+// 		            }  
+// 		            console.log($(arr[i]).val());
+// 		        }) 
+// 		    }
+// 	    }
 	</script>  
 
 </body>

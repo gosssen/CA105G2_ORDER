@@ -62,16 +62,31 @@ public class ShoppingCartServlet extends HttpServlet {
 						buylist.add(agoods);
 				}
 			}
+			
+			else if (action.equals("UPDATE")) {
 
+				ShoppingCart agoods = getShoppingCart(req);
+
+				for (int i = 0; i < buylist.size(); i++) {
+					ShoppingCart goods = buylist.get(i);
+
+					if (goods.getGoods_no().equals(agoods.getGoods_no())) {
+						goods.setGoods_quantity(agoods.getGoods_quantity());
+						buylist.setElementAt(goods, i);
+
+					}
+				}
+
+			}
+		
+			
 			session.setAttribute("shoppingcart", buylist);
 			String url = "/frontend/shopping_cart/ShoppingCart.jsp";
 			RequestDispatcher rd = req.getRequestDispatcher(url);
 			rd.forward(req, res);
 		}
-
-		// 結帳，計算購物車商品價錢總數
+	
 		else if (action.equals("CHECKOUT")) {
-
 
 				// 取得後來新增的商品
 		 ShoppingCart agoods = getShoppingCart(req);
@@ -94,11 +109,29 @@ public class ShoppingCartServlet extends HttpServlet {
 		
 	} 
 
-	session.setAttribute("shoppingcart", buylist);
-
+//			ShoppingCart agoods = getShoppingCart(req);
+//
+//			for (int i = 0; i < buylist.size(); i++) {
+//				ShoppingCart goods = buylist.get(i);
+//
+//				if (goods.getGoods_no().equals(agoods.getGoods_no())) {
+//					goods.setGoods_quantity(agoods.getGoods_quantity());
+//					buylist.setElementAt(goods, i);
+//
+//				}
+//			}
+//
+//	
+//		
+//		session.setAttribute("shoppingcart", buylist);
 
 			
 			
+			
+			
+			
+	
+	
 			float total = 0;
 			for (int i = 0; i < buylist.size(); i++) {
 				ShoppingCart order = buylist.get(i);
