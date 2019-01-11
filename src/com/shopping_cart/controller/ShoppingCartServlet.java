@@ -10,15 +10,15 @@ import com.goods.model.GoodsVO;
 
 public class ShoppingCartServlet extends HttpServlet {
 
+	public void doGet(HttpServletRequest req, HttpServletResponse res)	throws ServletException, IOException {
+		doPost(req,res);
+	}
 	public void doPost(HttpServletRequest req, HttpServletResponse res)	throws ServletException, IOException {
 
-		req.setCharacterEncoding("UTF-8");
-		// res.setContentType("text/html; charset=UTF-8");
-		// PrintWriter out = res.getWriter();
-		
-		res.setHeader("Cache-Control", "no-store");
-		res.setHeader("Pragma", "no-cache");
-		res.setDateHeader("Expires", 0);
+		req.setCharacterEncoding("UTF-8");	
+//		res.setHeader("Cache-Control", "no-store");
+//		res.setHeader("Pragma", "no-cache");
+//		res.setDateHeader("Expires", 0);
 
 		HttpSession session = req.getSession();
 		Vector<ShoppingCart> buylist = (Vector<ShoppingCart>) session.getAttribute("shoppingcart");
@@ -62,24 +62,6 @@ public class ShoppingCartServlet extends HttpServlet {
 						buylist.add(agoods);
 				}
 			}
-			
-			else if (action.equals("UPDATE")) {
-
-				ShoppingCart agoods = getShoppingCart(req);
-
-				for (int i = 0; i < buylist.size(); i++) {
-					ShoppingCart goods = buylist.get(i);
-
-					if (goods.getGoods_no().equals(agoods.getGoods_no())) {
-						goods.setGoods_quantity(agoods.getGoods_quantity());
-						buylist.setElementAt(goods, i);
-
-					}
-				}
-
-			}
-		
-			
 			session.setAttribute("shoppingcart", buylist);
 			String url = "/frontend/shopping_cart/ShoppingCart.jsp";
 			RequestDispatcher rd = req.getRequestDispatcher(url);
@@ -87,51 +69,17 @@ public class ShoppingCartServlet extends HttpServlet {
 		}
 	
 		else if (action.equals("CHECKOUT")) {
-
 				// 取得後來新增的商品
 		 ShoppingCart agoods = getShoppingCart(req);
-		 
-		 
-   
+		 String [] quantity = req.getParameterValues("goods_quantity");
+//		 System.out.println("quantitylength=" + quantity.length);
+//		 System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx="+quantity[0]);
+//		 System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx="+quantity[1]);
 	for (int i = 0; i < buylist.size(); i++) {
-//		System.out.println("buylist.size()" + buylist.size());
-		String [] quantity = req.getParameterValues("goods_quantity");
-		System.out.println(quantity[i]);
-		ShoppingCart goods = buylist.get(i);
-		// 假若新增的商品和購物車的商品一樣時
-		if (goods.getGoods_no().equals(agoods.getGoods_no())) {
-//			goods.setGoods_quantity(agoods.getGoods_quantity());
+			ShoppingCart goods = buylist.get(i);
 			goods.setGoods_quantity(Integer.parseInt(quantity[i]));
-//			System.out.println("Goods_quantity:" + agoods.getGoods_quantity());
-			buylist.setElementAt(goods, i);
-			System.out.println("quantitylength" + quantity.length);
-		}
-		
 	} 
-
-//			ShoppingCart agoods = getShoppingCart(req);
-//
-//			for (int i = 0; i < buylist.size(); i++) {
-//				ShoppingCart goods = buylist.get(i);
-//
-//				if (goods.getGoods_no().equals(agoods.getGoods_no())) {
-//					goods.setGoods_quantity(agoods.getGoods_quantity());
-//					buylist.setElementAt(goods, i);
-//
-//				}
-//			}
-//
-//	
-//		
-//		session.setAttribute("shoppingcart", buylist);
-
-			
-			
-			
-			
-			
-	
-	
+		session.setAttribute("shoppingcart", buylist);
 			float total = 0;
 			for (int i = 0; i < buylist.size(); i++) {
 				ShoppingCart order = buylist.get(i);

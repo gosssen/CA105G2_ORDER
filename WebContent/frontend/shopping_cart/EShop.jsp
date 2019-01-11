@@ -20,7 +20,6 @@ pageContext.setAttribute("list",list);
 </head>
 	<body>
 	<hr>
-	
 	<table class="table table-bordered table-striped table-hover"> 
 		<thead>
 			<tr>
@@ -34,9 +33,6 @@ pageContext.setAttribute("list",list);
 				<th>商品狀態</th>
 			</tr>
 		</thead>
-
-			
-
 		<tbody>
 			<c:forEach var="goodsVO" items="${list}">
 				<form name="shoppingForm" action="<%=request.getContextPath()%>/shopping_cart/ShoppingCart.do" method="POST">
@@ -74,8 +70,7 @@ pageContext.setAttribute("list",list);
 		            if(t.val()==""||undefined||null){  
 		                t.val(0);  
 		            }  
-		            t.val(parseInt(t.val()) + 1)  
-		            
+		            t.val(parseInt(t.val()) + 1)
 		        })  
 		        $(".min").click(function() {  
 		            var t = $(this).parent().find('input[class*=ordernum]');  
@@ -86,8 +81,7 @@ pageContext.setAttribute("list",list);
 		            if(parseInt(t.val()) < 1) {  
 		                t.val(1);  
 		            }  
-		        })  
-
+		        }) 
 		    })  
 		</script>  
 	</body>
