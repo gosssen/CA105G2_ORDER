@@ -22,6 +22,7 @@ pageContext.setAttribute("list",list);
 	<hr>
 	<table class="table table-bordered table-striped table-hover"> 
 		<thead>
+		
 			<tr>
 				<th>商品編號</th>
 				<th>活動主題編號</th>
