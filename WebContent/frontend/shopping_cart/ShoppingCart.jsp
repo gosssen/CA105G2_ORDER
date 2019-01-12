@@ -25,63 +25,74 @@
 			<%Vector<ShoppingCart> buylist = (Vector<ShoppingCart>) session.getAttribute("shoppingcart");%>
 			<%if (buylist != null && (buylist.size() > 0)) {%>
 
-			<font size="+3">目前您購物車的內容如下：</font><p>
-
 				<form name="checkoutForm" class="test2" action="<%=request.getContextPath()%>/shopping_cart/ShoppingCart.do" method="POST">	
-				<table id="tab" class="table table-bordered table-striped table-hover"> 
-					<thead>
-						<tr>
-							<th>商品編號</th>
-							<th>活動主題編號</th>
-							<th>商品名稱</th>
-							<th>商品圖片</th>
-							<th>商品單價</th>
-							<th>促銷方案</th>
-							<th>商品數量</th>
-							<th>商品狀態</th>
-						</tr>
-					</thead>
-
-					<%
-					 for (int index = 0; index < buylist.size(); index++) {
-						 ShoppingCart order = buylist.get(index);
-					%>
+					<div class="panel panel-default">
+						<div class="panel-heading">
+						<h2 class="panel-title"><b>目前您購物車的內容如下</b></h2>
+						</div>
+						<table id="tab" class="table table-bordered table-striped table-hover"> 
+							<thead>
+								<tr>
+									<th>商品編號</th>
+									<th>活動主題編號</th>
+									<th>商品名稱</th>
+									<th>商品圖片</th>
+									<th>商品單價</th>
+									<th>促銷方案</th>
+									<th>商品數量</th>
+									<th>刪除</th>
+								</tr>
+							</thead>
 					
-					<tbody>
-						<tr>
-							<td><%=order.getGoods_no()%></td>
-							<td><%=order.getEvetit_no()%></td>
-							<td><%=order.getGoods_name()%></td>
-							<td><img src="<%=request.getContextPath()%>/goods/goodsImg1.do?goods_no=<%=order.getGoods_no()%>" width=70px height= auto /></td>
-							<td class="price"><%=order.getGoods_price()%></td>
-							<td><%=order.getForsales_a()%></td>
-							<td>
-							<input class="min btn btn-default" name="min" type="button" value="-"/>  
-							<input type="text" class="ordernum form-control" name="goods_quantity" size="2" value=<%=order.getGoods_quantity()%>>
-							<input class="add btn btn-default" name="add" type="button" value="+")"/> 
-							</td>
-			<%-- 				<td><%=order.getGoods_status()%></td> --%>
-							<td>
-							<a href="<%=request.getContextPath()%>/shopping_cart/ShoppingCart.do?action=DELETE&del=<%= index %>" class="btn btn-danger"> 刪除</a>
-					        	
-					        </td>
-						</tr>
-					</tbody>
-					<input type="hidden" name="goods_no" value=<%=order.getGoods_no()%>>
-					<input type="hidden" name="evetit_no" value=<%=order.getGoods_name()%>>
-					<input type="hidden" name="goods_name" value=<%=order.getGoods_no()%>>
-					<input type="hidden" name="goods_price" value=<%=order.getGoods_price()%>>
-					<input type="hidden" name="forsales_a" value=<%=order.getForsales_a()%>>
-			<%-- 		<input type="hidden" name="goods_status" value=<%=order.getGoods_status()%>> --%>
-					<%}%>
-				</table>
-				<input type="hidden" name="action"	value="CHECKOUT" > 
-				<input type="submit" class="btn btn-default" value="付款結帳" id="test4">
-				</form>    
-				
-				<input type="button" value="返回 " class="btn btn-default" onclick="location.href='<%=request.getContextPath()%>/frontend/shopping_cart/EShop.jsp'" >
+							<%
+							 for (int index = 0; index < buylist.size(); index++) {
+								 ShoppingCart order = buylist.get(index);
+							%>
+							
+							<tbody>
+								<tr>
+									<td><%=order.getGoods_no()%></td>
+									<td><%=order.getEvetit_no()%></td>
+									<td><%=order.getGoods_name()%></td>
+									<td><img src="<%=request.getContextPath()%>/goods/goodsImg1.do?goods_no=<%=order.getGoods_no()%>" width=50px height= auto /></td>
+									<td class="price"><%=order.getGoods_price()%></td>
+									<td><%=order.getForsales_a()%></td>
+									<td>
+										<div class="input-group">
+											<div class="input-group-btn min"><input class="btn btn-default" type="button" value="-"/></div>
+											<input type="text" class="ordernum form-control" name="goods_quantity" size="1" value=<%=order.getGoods_quantity()%>>
+											<div class="input-group-btn add" ><input class="btn btn-default" type="button" value="+"/></div>
+										</div>
+									</td>
+									<td>
+									<a href="<%=request.getContextPath()%>/shopping_cart/ShoppingCart.do?action=DELETE&del=<%= index %>" class="btn btn-danger"><b>刪除</b></a>
+							        	
+							        </td>
+								</tr>
+							</tbody>
+							<input type="hidden" name="goods_no" value=<%=order.getGoods_no()%>>
+							<input type="hidden" name="evetit_no" value=<%=order.getGoods_name()%>>
+							<input type="hidden" name="goods_name" value=<%=order.getGoods_no()%>>
+							<input type="hidden" name="goods_price" value=<%=order.getGoods_price()%>>
+							<input type="hidden" name="forsales_a" value=<%=order.getForsales_a()%>>
+							<%}%>
+						</table>
+					</div>
+				<input type="hidden" name="action" value="CHECKOUT" > 
+<div class="container-fluid" style="margin-bottom: 400px">
+	<div class="row">
+		<div class="col-xs-12 col-sm-10"></div>
+		<div class="col-xs-12 col-sm-1">
+			<input type="button" value="返回商品 " class="btn btn-default" style="float:right;" onclick="location.href='<%=request.getContextPath()%>/frontend/shopping_cart/EShop.jsp'" >
+		</div>
+		<div class="col-xs-12 col-sm-1">
+			<input type="submit" class="btn btn-default" style="float:right;" value="付款結帳">
+		</div>
+	</div>
+</div>
+				</form>  
 
-			<p>總價：<label id="total"></label></p>
+<!-- 			<p>總價：<label id="total"></label></p> -->
 			<%}%>
 
 
@@ -94,15 +105,15 @@
 	<script>
 	    $(function() {  
 	        $(".add").click(function() {  
-	            var t = $(this).parent().find('input[class*=ordernum]');  
+	            var t = $(this).parent().find('input[name*=goods_quantity]');  
 	            if(t.val()==""||undefined||null){  
 	                t.val(0);  
 	            }  
 	            t.val(parseInt(t.val()) + 1)  
-	            setTotal();  
+// 	            setTotal();  
 	        })  
 	        $(".min").click(function() {  
-	            var t = $(this).parent().find('input[class*=ordernum]');  
+	            var t = $(this).parent().find('input[name*=goods_quantity]');  
 	            if(t.val()==""||undefined||null){  
 	                t.val(0);  
 	            }  
@@ -110,7 +121,7 @@
 	            if(parseInt(t.val()) < 1) {  
 	                t.val(1);  
 	            }  
-	            setTotal();  
+// 	            setTotal();  
 	        })  
 // 	        $(".ordernum").keyup(function(){  
 // 	            var t = $(this).parent().find('input[class*=ordernum]');  

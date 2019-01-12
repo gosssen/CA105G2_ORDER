@@ -18,7 +18,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
     </head>
-        <div><c:import url="/backend/navbar_back-end.html" charEncoding="UTF-8"/></div>
+    <div><c:import url="/backend/navbar_back-end.jsp" charEncoding="UTF-8"/></div>
     <body>
 
 <div class="container-fluid">

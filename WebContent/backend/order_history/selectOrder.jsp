@@ -28,7 +28,7 @@
 
 <body>
 
-<div class="container-fluid">
+<div class="container-fluid" style="margin-bottom: 400px">
 	<div class="row">
 		<div class="col-xs-12 col-sm-2"></div>
 		<div class="col-xs-12 col-sm-8">

@@ -433,5 +433,185 @@ public class OrderHistoryServlet extends HttpServlet {
 			}
 		}
 		
+		
+		
+		if ("getOne_For_MemAllOrd_Front".equals(action)) {
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+			
+			try {
+				String str = req.getParameter("member_no");
+				if (str == null || (str.trim()).length() == 0) {
+					errorMsgs.add("請輸入會員編號");
+				}
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req.getRequestDispatcher("/frontend/order_history/selectOrder.jsp");
+					failureView.forward(req, res);
+					return;
+				}
+				String member_no = null;
+				try {
+					member_no = new String(str);				
+				} catch (Exception e) {
+					errorMsgs.add("會員編號格式不正確");
+				}
+				
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req.getRequestDispatcher("/frontend/order_history/selectOrder.jsp");
+					failureView.forward(req, res);
+					return;
+				}
+				
+				OrderHistoryService orderHistorySvc = new OrderHistoryService();
+				List<OrderHistoryVO> orderHistoryVO = (List<OrderHistoryVO>) orderHistorySvc.findByMemberNo(member_no);
+
+				if (orderHistoryVO == null) {
+					errorMsgs.add("查無資料");
+				}
+				
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req.getRequestDispatcher("/frontend/order_history/selectOrder.jsp");
+					failureView.forward(req, res);
+					return;
+				}
+				
+				req.setAttribute("orderHistoryVO", orderHistoryVO);
+				String url = "/frontend/order_history/oneMemberIsOrder.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url);
+				successView.forward(req, res);
+				
+			}  catch (Exception e) {
+				errorMsgs.add("無法取得資料：" + e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher("/frontend/order_history/selectOrder.jsp");
+				failureView.forward(req, res);
+			}
+		}
+		
+		if ("insert_Front".equals(action)) {
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+			
+			try {
+				String member_no = new String(req.getParameter("member_no").trim());
+				
+				Double order_price = null;
+				try {
+					order_price = new Double(req.getParameter("order_price").trim());
+				} catch (NumberFormatException e) {
+					order_price = 0.0;
+					errorMsgs.add("訂單總金額請填金額。");
+				}
+				
+				String pay_methods = new String(req.getParameter("pay_methods").trim());
+				String shipping_methods = new String(req.getParameter("shipping_methods").trim());
+				
+				java.sql.Timestamp order_date = null;
+				try {
+					order_date = java.sql.Timestamp.valueOf(req.getParameter("order_date").trim());
+				} catch (IllegalArgumentException e) {
+					order_date = new java.sql.Timestamp(System.currentTimeMillis());
+					errorMsgs.add("請輸入訂購日期。");
+				}
+				
+				java.sql.Timestamp order_etd = null;
+				try {
+					order_etd = java.sql.Timestamp.valueOf(req.getParameter("order_etd").trim());
+				} catch (IllegalArgumentException e) {
+					order_etd = new java.sql.Timestamp(System.currentTimeMillis());
+					errorMsgs.add("請輸入出貨日期。");
+				}
+				
+				java.sql.Timestamp pickup_date = null;
+				try {
+					pickup_date = java.sql.Timestamp.valueOf(req.getParameter("pickup_date").trim());
+				} catch (IllegalArgumentException e) {
+					pickup_date = new java.sql.Timestamp(System.currentTimeMillis());
+					errorMsgs.add("請輸入取貨日期。");
+				}
+				
+				String receiver_add = req.getParameter("receiver_add");
+				if (receiver_add == null || receiver_add.trim().length() == 0) {
+					errorMsgs.add("送貨地址請勿空白。");
+				}
+				
+				String receiver_name = req.getParameter("receiver_name");
+				if (receiver_name == null || receiver_name.trim().length() == 0) {
+					errorMsgs.add("收件人名稱請勿空白。");
+				}
+				
+				String receiver_tel = req.getParameter("receiver_tel");
+				if (receiver_tel == null || receiver_tel.trim().length() == 0) {
+					errorMsgs.add("收件人電話請勿空白。");
+				}
+				String order_status = new String(req.getParameter("order_status").trim());
+				String goods_no = new String(req.getParameter("goods_no").trim());
+				
+				Double goods_bonus = null;
+				try {
+					goods_bonus = new Double(req.getParameter("goods_bonus").trim());
+				} catch (NumberFormatException e) {
+					goods_bonus = 0.0;
+					errorMsgs.add("請填入實際交易金額。");
+				}
+				Double goods_pc = null;
+				try {
+					goods_pc = new Double(req.getParameter("goods_pc").trim());
+				} catch (NumberFormatException e) {
+					goods_pc = 0.0;
+					errorMsgs.add("請填入商品數量。");
+				}
+				
+				OrderHistoryVO orderHistoryVO = new OrderHistoryVO();
+				orderHistoryVO.setMember_no(member_no);
+				orderHistoryVO.setOrder_price(order_price);
+				orderHistoryVO.setPay_methods(pay_methods);
+				orderHistoryVO.setShipping_methods(shipping_methods);
+				orderHistoryVO.setOrder_date(order_date);
+				orderHistoryVO.setOrder_etd(order_etd);
+				orderHistoryVO.setPickup_date(pickup_date);
+				orderHistoryVO.setReceiver_add(receiver_add);
+				orderHistoryVO.setReceiver_name(receiver_name);
+				orderHistoryVO.setReceiver_tel(receiver_tel);
+				orderHistoryVO.setOrder_status(order_status);
+		
+				String goodsno[] = req.getParameterValues("goods_no");
+				String goodsbonus[] = req.getParameterValues("goods_bonus");
+				String goodspc[] = req.getParameterValues("goods_pc");
+				
+				List<OrderDetailVO> list = new ArrayList<OrderDetailVO>(); 			
+				if (goodsno != null) { 
+					
+					for (int i=0; i<goodsno.length; i++) { 
+						OrderDetailVO orderDetailVO = new OrderDetailVO();
+						orderDetailVO.setGoods_no(goodsno[i]);
+						orderDetailVO.setGoods_bonus(new Double(goodsbonus[i]));
+						orderDetailVO.setGoods_pc(new Double(goodspc[i]));
+						list.add(orderDetailVO);
+					} 
+				} 
+				
+				if (!errorMsgs.isEmpty()) {
+					req.setAttribute("orderHistoryVO", orderHistoryVO); 
+					RequestDispatcher failureView = req.getRequestDispatcher("/frontend/shopping_cart/Checkout.jsp");
+					failureView.forward(req, res);
+					return;
+				}
+
+				OrderHistoryService orderHistorySvc = new OrderHistoryService();
+				orderHistorySvc.insertWithDetail(orderHistoryVO, list);
+				
+				req.setAttribute("orderHistoryVO", orderHistoryVO);
+				String url = "/frontend/order_history/oneMemberIsOrder.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url);
+				successView.forward(req, res);
+				
+			} catch (Exception e) {
+				errorMsgs.add(e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher("/frontend/shopping_cart/Checkout.jsp");
+				failureView.forward(req, res);
+			}		
+		}
+		
 	}
+	
 }
