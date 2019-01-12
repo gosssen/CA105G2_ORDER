@@ -72,9 +72,6 @@ public class ShoppingCartServlet extends HttpServlet {
 				// 取得後來新增的商品
 		 ShoppingCart agoods = getShoppingCart(req);
 		 String [] quantity = req.getParameterValues("goods_quantity");
-//		 System.out.println("quantitylength=" + quantity.length);
-//		 System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx="+quantity[0]);
-//		 System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx="+quantity[1]);
 	for (int i = 0; i < buylist.size(); i++) {
 			ShoppingCart goods = buylist.get(i);
 			goods.setGoods_quantity(Integer.parseInt(quantity[i]));

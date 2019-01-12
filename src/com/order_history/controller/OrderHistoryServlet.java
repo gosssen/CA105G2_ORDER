@@ -601,7 +601,7 @@ public class OrderHistoryServlet extends HttpServlet {
 				orderHistorySvc.insertWithDetail(orderHistoryVO, list);
 				
 				req.setAttribute("orderHistoryVO", orderHistoryVO);
-				String url = "/frontend/order_history/oneMemberIsOrder.jsp";
+				String url = "/backend/order_history/addOrderHistoryAndOrderDetail.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 				
