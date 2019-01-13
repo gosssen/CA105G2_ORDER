@@ -48,45 +48,51 @@
 							 for (int index = 0; index < buylist.size(); index++) {
 								 ShoppingCart order = buylist.get(index);
 							%>
-							
-							<tbody>
-								<tr>
-									<td><%=order.getGoods_no()%></td>
-									<td><%=order.getEvetit_no()%></td>
-									<td><%=order.getGoods_name()%></td>
-									<td><img src="<%=request.getContextPath()%>/goods/goodsImg1.do?goods_no=<%=order.getGoods_no()%>" width=50px height= auto /></td>
-									<td class="price"><%=order.getGoods_price()%></td>
-									<td><%=order.getForsales_a()%></td>
-									<td>
-										<div class="input-group">
-											<div class="input-group-btn min"><input class="btn btn-default" type="button" value="-"/></div>
-											<input type="text" class="ordernum form-control" name="goods_quantity" size="1" value=<%=order.getGoods_quantity()%>>
-											<div class="input-group-btn add" ><input class="btn btn-default" type="button" value="+"/></div>
-										</div>
-									</td>
-									<td>
-									<a href="<%=request.getContextPath()%>/shopping_cart/ShoppingCart.do?action=DELETE&del=<%= index %>" class="btn btn-danger"><b>刪除</b></a>
-							        	
-							        </td>
-								</tr>
-							</tbody>
-							<input type="hidden" name="goods_no" value=<%=order.getGoods_no()%>>
-							<input type="hidden" name="evetit_no" value=<%=order.getGoods_name()%>>
-							<input type="hidden" name="goods_name" value=<%=order.getGoods_no()%>>
-							<input type="hidden" name="goods_price" value=<%=order.getGoods_price()%>>
-							<input type="hidden" name="forsales_a" value=<%=order.getForsales_a()%>>
+								<tbody>
+									<tr>
+										<td><%=order.getGoods_no()%></td>
+										<td><%=order.getEvetit_no()%></td>
+										<td><%=order.getGoods_name()%></td>
+										<td><img src="<%=request.getContextPath()%>/goods/goodsImg1.do?goods_no=<%=order.getGoods_no()%>" width=50px height= auto /></td>
+										<td class="price"><%=order.getGoods_price()%></td>
+										<td><%=order.getForsales_a()%></td>
+										<td>
+											<div class="input-group">
+												<div class="input-group-btn min"><input class="btn btn-default" type="button" value="-"/></div>
+												<input type="text" class="ordernum form-control" name="goods_quantity" size="1" value=<%=order.getGoods_quantity()%>>
+												<div class="input-group-btn add" ><input class="btn btn-default" type="button" value="+"/></div>
+											</div>
+										</td>
+										<td>
+										<a href="<%=request.getContextPath()%>/shopping_cart/ShoppingCart.do?action=DELETE&del=<%= index %>" class="btn btn-danger"><b>刪除</b></a>
+								        	
+								        </td>
+									</tr>
+								</tbody>
+								<input type="hidden" name="goods_no" value=<%=order.getGoods_no()%>>
+								<input type="hidden" name="evetit_no" value=<%=order.getGoods_name()%>>
+								<input type="hidden" name="goods_name" value=<%=order.getGoods_no()%>>
+<%-- 								<%if (order.getGoods_price() < 10){%> --%>
+									<input type="hidden" name="goods_price" value=<%=order.getGoods_price()%>>
+<%-- 								<%} else {%> --%>
+<%-- 									<input type="hidden" name="goods_price" value=<%=order.getForsales_a()%>> --%>
+<%-- 								<%}%> --%>
+								<input type="hidden" name="forsales_a" value=<%=order.getForsales_a()%>>
 							<%}%>
 						</table>
 					</div>
 				<input type="hidden" name="action" value="CHECKOUT" > 
 				<div class="container-fluid" style="margin-bottom: 400px">
 					<div class="row">
-						<div class="col-xs-12 col-sm-10"></div>
+						<div class="col-xs-12 col-sm-9"></div>
 						<div class="col-xs-12 col-sm-1">
-							<input type="button" value="返回商品 " class="btn btn-default" style="float:right;" onclick="location.href='<%=request.getContextPath()%>/frontend/shopping_cart/EShop.jsp'" >
+							<a href="<%=request.getContextPath()%>/shopping_cart/ShoppingCart.do?action=CLEAN" class="btn btn-default">清空購物車</a>
 						</div>
 						<div class="col-xs-12 col-sm-1">
-							<input type="submit" class="btn btn-default" style="float:right;" value="付款結帳">
+							<input type="button" value="返回商品 " class="btn btn-default" onclick="location.href='<%=request.getContextPath()%>/frontend/shopping_cart/EShop.jsp'" >
+						</div>
+						<div class="col-xs-12 col-sm-1">
+							<input type="submit" class="btn btn-default" value="付款結帳">
 						</div>
 					</div>
 				</div>
@@ -99,8 +105,8 @@
 				<div class="row">
 					<div class="col-xs-12 col-sm-3"></div>
 					<div class="col-xs-12 col-sm-6">
-						<h1><font color="red" size="7"><b>購物車內尚無商品</b></font><h1>
-						<input type="button" value="返回商品 " class="btn btn-default" onclick="location.href='<%=request.getContextPath()%>/frontend/shopping_cart/EShop.jsp'" >
+						<p><font color="red" size="7"><b>　　購物車內尚無商品</b></font><p>
+						<input type="button" value="返回商品" style="display:block; margin:auto;" class="btn btn-default" onclick="location.href='<%=request.getContextPath()%>/frontend/shopping_cart/EShop.jsp'" >
 					</div>
 				</div>
 			</div>

@@ -24,39 +24,37 @@ public class ShoppingCartServlet extends HttpServlet {
 		Vector<ShoppingCart> buylist = (Vector<ShoppingCart>) session.getAttribute("shoppingcart");
 		String action = req.getParameter("action");
 
-		if (!action.equals("CHECKOUT")) {
+		if (!"CHECKOUT".equals(action)) {
 
 			// 刪除購物車中的商品
-			if (action.equals("DELETE")) {
+			if ("DELETE".equals(action)) {
 				String del = req.getParameter("del");
 				int d = Integer.parseInt(del);
 				buylist.removeElementAt(d);
 			}
+			else if ("CLEAN".equals(action)){
+				buylist.removeAllElements();
+//				session.invalidate();
+			}
 			// 新增商品至購物車中
-			else if (action.equals("ADD")) {
+			else if ("ADD".equals(action)) {
 				boolean match = false;
-
 				// 取得後來新增的商品
 				ShoppingCart agoods = getShoppingCart(req);
-
 				// 新增第一項商品至購物車時
 				if (buylist == null) {
 					buylist = new Vector<ShoppingCart>();
 					buylist.add(agoods);
-					
 				} else {
-
 					for (int i = 0; i < buylist.size(); i++) {
 						ShoppingCart goods = buylist.get(i);
-
 						// 假若新增的商品和購物車的商品一樣時
 						if (goods.getGoods_no().equals(agoods.getGoods_no())) {
 							goods.setGoods_quantity(goods.getGoods_quantity() + agoods.getGoods_quantity());
 							buylist.setElementAt(goods, i);
 							match = true;
-						} // end of if name matches
-					} // end of for
-
+						} 
+					}
 					// 假若新增的商品和購物車的商品不一樣時
 					if (!match)
 						buylist.add(agoods);
@@ -66,17 +64,21 @@ public class ShoppingCartServlet extends HttpServlet {
 			String url = "/frontend/shopping_cart/ShoppingCart.jsp";
 			RequestDispatcher rd = req.getRequestDispatcher(url);
 			rd.forward(req, res);
-		}
+		}			
 	
-		else if (action.equals("CHECKOUT")) {
-				// 取得後來新增的商品
-		 ShoppingCart agoods = getShoppingCart(req);
-		 String [] quantity = req.getParameterValues("goods_quantity");
-	for (int i = 0; i < buylist.size(); i++) {
-			ShoppingCart goods = buylist.get(i);
-			goods.setGoods_quantity(Integer.parseInt(quantity[i]));
-	} 
-		session.setAttribute("shoppingcart", buylist);
+		else if ("CHECKOUT".equals(action)) {
+			// 取得後來修改的商品數量
+			ShoppingCart agoods = getShoppingCart(req);
+			String [] quantity = req.getParameterValues("goods_quantity");
+			for (int i = 0; i < buylist.size(); i++) {
+				ShoppingCart goods = buylist.get(i);
+				goods.setGoods_quantity(Integer.parseInt(quantity[i]));
+				
+				if ((Integer.parseInt(quantity[i])) >= 10 ) {
+					goods.setGoods_price(goods.getForsales_a());
+				}
+			} 
+			session.setAttribute("shoppingcart", buylist);
 			float total = 0;
 			for (int i = 0; i < buylist.size(); i++) {
 				ShoppingCart order = buylist.get(i);

@@ -439,41 +439,14 @@ public class OrderHistoryServlet extends HttpServlet {
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
 			
+			
 			try {
-				String str = req.getParameter("member_no");
-				if (str == null || (str.trim()).length() == 0) {
-					errorMsgs.add("請輸入會員編號");
-				}
-				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/frontend/order_history/selectOrder.jsp");
-					failureView.forward(req, res);
-					return;
-				}
-				String member_no = null;
-				try {
-					member_no = new String(str);				
-				} catch (Exception e) {
-					errorMsgs.add("會員編號格式不正確");
-				}
-				
-				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/frontend/order_history/selectOrder.jsp");
-					failureView.forward(req, res);
-					return;
-				}
+				String member_no = req.getParameter("member_no");
+		
 				
 				OrderHistoryService orderHistorySvc = new OrderHistoryService();
 				List<OrderHistoryVO> orderHistoryVO = (List<OrderHistoryVO>) orderHistorySvc.findByMemberNo(member_no);
 
-				if (orderHistoryVO == null) {
-					errorMsgs.add("查無資料");
-				}
-				
-				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/frontend/order_history/selectOrder.jsp");
-					failureView.forward(req, res);
-					return;
-				}
 				
 				req.setAttribute("orderHistoryVO", orderHistoryVO);
 				String url = "/frontend/order_history/oneMemberIsOrder.jsp";
@@ -482,7 +455,7 @@ public class OrderHistoryServlet extends HttpServlet {
 				
 			}  catch (Exception e) {
 				errorMsgs.add("無法取得資料：" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/frontend/order_history/selectOrder.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/frontend/index.jsp");
 				failureView.forward(req, res);
 			}
 		}
