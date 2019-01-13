@@ -8,6 +8,8 @@ import javax.servlet.http.*;
 
 import com.order_detail.model.*;
 import com.order_history.model.*;
+import com.member.model.*;
+
 
 public class OrderHistoryServlet extends HttpServlet {
 	
@@ -438,15 +440,12 @@ public class OrderHistoryServlet extends HttpServlet {
 		if ("getOne_For_MemAllOrd_Front".equals(action)) {
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
-			
-			
+			HttpSession session = req.getSession();
+			MemberVO memberVO = (MemberVO) session.getAttribute("member");
+			System.out.println("memberVO="+memberVO.getMemberNo());
 			try {
-				String member_no = req.getParameter("member_no");
-		
-				
 				OrderHistoryService orderHistorySvc = new OrderHistoryService();
-				List<OrderHistoryVO> orderHistoryVO = (List<OrderHistoryVO>) orderHistorySvc.findByMemberNo(member_no);
-
+				List<OrderHistoryVO> orderHistoryVO = (List<OrderHistoryVO>) orderHistorySvc.findByMemberNo(memberVO.getMemberNo());
 				
 				req.setAttribute("orderHistoryVO", orderHistoryVO);
 				String url = "/frontend/order_history/oneMemberIsOrder.jsp";

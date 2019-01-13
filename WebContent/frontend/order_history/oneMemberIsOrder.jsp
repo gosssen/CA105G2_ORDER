@@ -8,7 +8,7 @@
 	List<OrderHistoryVO> list = (List<OrderHistoryVO>)request.getAttribute("orderHistoryVO");
 	pageContext.setAttribute("list",list);
 	
-	MemberVO member = (MemberVO) session.getAttribute("member");
+	//MemberVO member = (MemberVO) session.getAttribute("member");
 %>
 <html>
 	<head>
@@ -37,7 +37,7 @@
 				<div class="col-xs-12 col-sm-10">
 				
 					  	<h2>訂單紀錄查詢</h2><hr>
-
+							${member.memberNo}
 				        <table id="example" class="display" style="width:100%; font-size:8px">
 							<thead>
 								<tr>
