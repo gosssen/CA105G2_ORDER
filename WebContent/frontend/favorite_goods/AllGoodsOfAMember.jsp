@@ -25,10 +25,8 @@ pageContext.setAttribute("list",list);
 			<div class="row">
 			<div class="col-xs-12 col-sm-2"></div>
 				<div class="col-xs-12 col-sm-8">
-				  		
-					  		<h2>最愛商品查詢</h2><hr>
-					
-						<table id="example" class="display" style="width:100%">
+					<h2>最愛商品查詢</h2><hr>
+					<table id="example" class="display" style="width:100%">
 							<thead>
 								<tr>
 <!-- 									<th>會員編號</th> -->
@@ -39,7 +37,6 @@ pageContext.setAttribute("list",list);
 									<th>移除最愛</th>
 								</tr>
 							</thead>
-											
 							<tbody>
 								<c:forEach var="favoriteGoodsVO" items="${list}">
 									<tr>
@@ -78,7 +75,6 @@ pageContext.setAttribute("list",list);
 					</div>
 				</div>
 			</div>
-		</div>
 		<script src="https://code.jquery.com/jquery.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>

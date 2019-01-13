@@ -8,6 +8,7 @@ import javax.servlet.http.*;
 
 import com.order_detail.model.*;
 import com.order_history.model.*;
+import com.shopping_cart.model.ShoppingCart;
 import com.member.model.*;
 
 
@@ -442,7 +443,6 @@ public class OrderHistoryServlet extends HttpServlet {
 			req.setAttribute("errorMsgs", errorMsgs);
 			HttpSession session = req.getSession();
 			MemberVO memberVO = (MemberVO) session.getAttribute("member");
-			System.out.println("memberVO="+memberVO.getMemberNo());
 			try {
 				OrderHistoryService orderHistorySvc = new OrderHistoryService();
 				List<OrderHistoryVO> orderHistoryVO = (List<OrderHistoryVO>) orderHistorySvc.findByMemberNo(memberVO.getMemberNo());
@@ -462,6 +462,8 @@ public class OrderHistoryServlet extends HttpServlet {
 		if ("insert_Front".equals(action)) {
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
+			HttpSession session = req.getSession();
+			Vector<ShoppingCart> buylist = (Vector<ShoppingCart>) session.getAttribute("shoppingcart");
 			
 			try {
 				String member_no = new String(req.getParameter("member_no").trim());
@@ -573,9 +575,12 @@ public class OrderHistoryServlet extends HttpServlet {
 				orderHistorySvc.insertWithDetail(orderHistoryVO, list);
 				
 				req.setAttribute("orderHistoryVO", orderHistoryVO);
-				String url = "/backend/order_history/addOrderHistoryAndOrderDetail.jsp";
+//				session.removeAttribute("shoppingcart");
+				buylist.removeAllElements();
+				String url = "/frontend/index.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
+				
 				
 			} catch (Exception e) {
 				errorMsgs.add(e.getMessage());
