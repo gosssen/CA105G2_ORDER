@@ -1,6 +1,8 @@
-<%@page import="com.member.model.MemberVO"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="java.util.*" %>
+<%@page import="com.member.model.MemberVO"%>
+<%@ page import="com.shopping_cart.model.ShoppingCart" %>
 
 <html>
 <head>
@@ -20,7 +22,6 @@
 	border-radius: 50px;
 	margin-top: 20px;
 }
-
 .membermenu {
 	margin-top: 100px;
 	margin-left: 200px;
@@ -36,6 +37,23 @@
 	padding: 14px 16px;
 	text-decoration: none;
 }
+/****************************************** 通知部分 ******************************************/
+.badge-pill {
+    padding: 0.2em;
+    display: inline-block;
+    padding: 0.25em 0.4em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+}
+.badge-primary {
+    color: white;
+    background-color: #3399ff;
+}
+/****************************************** 通知結束 ******************************************/
 </style>
 
 </head>
@@ -59,20 +77,31 @@
 				
 				<div class="collapse navbar-collapse navbar-ex1-collapse">
 					<!-- 右選單 -->
-					<a href="#">
 					<%if (session.getAttribute("member") == null) {%>
-					<img src="https://a.wattpad.com/useravatar/user50478190.256.326933.jpg" class="memberphoto" alt="memberphoto" style="float:right" width="80px" height="80px">
+					<a href="/CA105G2/frontend/login_front-end.jsp"><img src="https://a.wattpad.com/useravatar/user50478190.256.326933.jpg" class="memberphoto" alt="memberphoto" style="float:right" width="80px" height="80px"></a>
 					<% } else {%>
-					<img src="<%=request.getContextPath()%>/member/memberImg.do?memberno=${member.memberNo}" class="memberphoto" alt="memberphoto" style="float:right" width="80px" height="80px">
+					<a href="<%=request.getContextPath()%>/frontend/member/member_profile.jsp"><img src="<%=request.getContextPath()%>/member/memberImg.do?memberno=${member.memberNo}" class="memberphoto" alt="memberphoto" style="float:right" width="80px" height="80px"></a>
 					<%}%>
 <%-- 					<img src="${member eq null ? "https://a.wattpad.com/useravatar/user50478190.256.326933.jpg" : "<%=request.getContextPath()%>/member/memberImg.do?memberno=<%=request.getContextPath()%>"}" class="memberphoto" alt="memberphoto" style="float:right" width="80px" height="80px"> --%>
-					</a>
 					<ul class="nav navbar-nav navbar-right membermenu">
+					
+					<%Vector<ShoppingCart> buylist = (Vector<ShoppingCart>) session.getAttribute("shoppingcart");%>
+					
+						  <li>
+						  	<a href=""<%=request.getContextPath()%>/frontend/shopping_cart/ShoppingCart.jsp"">
+						  		<i class="glyphicon glyphicon-shopping-cart"></i>
+						    	<span class="badge badge-primary badge-pill">
+							    	<%if (buylist != null) {%>
+							    		<%=buylist.size()%>
+							    	<%}%>
+						    	</span>
+						    </a>
+						  </li>
 					
 						<%if (session.getAttribute("member") == null) {%>
 						
 						<% } else {%>
-						<li><a href="#">電子錢包餘額<font color="orange">${member.ewalletBalance}</font></a></li>
+						<li><a href="<%=request.getContextPath()%>/frontend/ewallet/memberEwallet.jsp">電子錢包餘額<font color="orange">${member.ewalletBalance}</font></a></li>
 						<%}%>
 						
 						
@@ -121,7 +150,7 @@
 			</div>
 			<div class="col-xs-12 col-sm-6 col-md-4 col-lg-2">
 				<div>
-					<a href="#" class="topnav" align="center">周邊商品</a>
+					<a href="/CA105G2/frontend/goods/selectGoods.jsp" class="topnav" align="center">周邊商品</a>
 				</div>
 			</div>
 			<div class="col-xs-12 col-sm-6 col-md-4 col-lg-2">
