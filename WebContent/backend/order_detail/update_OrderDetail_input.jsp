@@ -164,7 +164,7 @@
 								<input type="hidden" name="order_no" value="<%=orderDetailVO.getOrder_no()%>">
 								<input type="hidden" name="goods_no" value="<%=orderDetailVO.getGoods_no()%>">
 							<input type="button" value="返回 " class="btn btn-default" onclick="location.href='<%=request.getContextPath()%>/backend/order_detail/listAllOrderDetail.jsp'" >
-							<input type="submit" value="送出修改" class="btn btn-primary">
+							<input type="submit" value="送出修改" class="btn btn-default">
 						</FORM>      
 			        
 

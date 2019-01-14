@@ -58,7 +58,7 @@ public class FavoriteGoodsDAO implements FavoriteGoodsDAO_interface {
 			pstmt.executeUpdate();
 
 		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. " + se.getMessage());
+			throw new RuntimeException("此商品已加入該會員最愛。 ");
 		} finally {
 			if (pstmt != null) {
 				try {
