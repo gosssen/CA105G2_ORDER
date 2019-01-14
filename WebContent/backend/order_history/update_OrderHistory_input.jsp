@@ -90,8 +90,8 @@
 									<div class="form-group" style="width:10%">
 										<label>付款方式：</label>
 											<select class="form-control" size="1" name="pay_methods">
-												<option value="CREDITCARD" selected>電子錢包</option>
-												<option value="EWALLET">信用卡</option>
+												<option value="CREDITCARD" selected>信用卡</option>
+												<option value="EWALLET">電子錢包</option>
 											</select>
 									</div>
 									
