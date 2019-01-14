@@ -16,9 +16,9 @@ public class ShoppingCartServlet extends HttpServlet {
 	public void doPost(HttpServletRequest req, HttpServletResponse res)	throws ServletException, IOException {
 
 		req.setCharacterEncoding("UTF-8");	
-//		res.setHeader("Cache-Control", "no-store");
-//		res.setHeader("Pragma", "no-cache");
-//		res.setDateHeader("Expires", 0);
+		res.setHeader("Cache-Control", "no-store");
+		res.setHeader("Pragma", "no-cache");
+		res.setDateHeader("Expires", 0);
 
 		HttpSession session = req.getSession();
 		Vector<ShoppingCart> buylist = (Vector<ShoppingCart>) session.getAttribute("shoppingcart");

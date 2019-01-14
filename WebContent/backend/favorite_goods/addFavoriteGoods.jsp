@@ -11,8 +11,14 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 		<title>新增最愛商品</title>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-	<div><c:import url="/backend/navbar_back-end.jsp" charEncoding="UTF-8"/></div>
+
 	</head>
+	<jsp:include page="/backend/navbar_back-end.jsp" flush="true"/>
+	<style>
+		body{
+			font-family:微軟正黑體!important;
+		}
+	</style>
 	<body>
 		<div class="container-fluid">
 			<div class="row">

@@ -18,17 +18,13 @@
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
 		<![endif]-->
-
-		<style>
-			table {
-	 			margin-top: 1px;
-				margin-bottom: 1px;
-				font-size: 10px;
-			}
-
-		</style>
-	<div><c:import url="/backend/navbar_back-end.jsp" charEncoding="UTF-8"/></div>
 	</head>
+	<jsp:include page="/backend/navbar_back-end.jsp" flush="true"/>
+	<style>
+		body{
+			font-family:微軟正黑體!important;
+		}
+	</style>
 	<body>
 		<div class="container-fluid">
 			<div class="col-xs-12 col-sm-1"></div>

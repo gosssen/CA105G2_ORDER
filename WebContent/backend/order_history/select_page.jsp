@@ -9,9 +9,12 @@
 	<title>訂單紀錄查詢</title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
-
-<div><c:import url="/backend/navbar_back-end.jsp" charEncoding="UTF-8"/></div>
-
+<jsp:include page="/backend/navbar_back-end.jsp" flush="true"/>
+<style>
+	body{
+		font-family:微軟正黑體!important;
+	}
+</style>
 <body>
 
 	<div class="container-fluid">

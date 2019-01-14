@@ -8,7 +8,12 @@
 	<title>最愛商品查詢</title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
-<div><c:import url="/frontend/navbar_front-end.jsp" charEncoding="UTF-8"/></div>
+<jsp:include page="/frontend/navbar_front-end.jsp" flush="true"/>
+<style>
+body{
+	font-family:微軟正黑體!important;
+}
+</style>
 <body>
 	<div class="container-fluid" style="margin-bottom: 400px">
 	<div class="row">
@@ -47,5 +52,5 @@
 	<script src="https://code.jquery.com/jquery.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
-<div><c:import url="/frontend/footer_front-end.jsp" charEncoding="UTF-8"/></div>
+<jsp:include page="/frontend/footer_front-end.jsp" flush="true"/> 
 </html>

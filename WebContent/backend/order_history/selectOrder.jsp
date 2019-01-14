@@ -24,8 +24,12 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 </head>
-<div><c:import url="/backend/navbar_back-end.jsp" charEncoding="UTF-8"/></div>
-
+<jsp:include page="/backend/navbar_back-end.jsp" flush="true"/>
+<style>
+	body{
+		font-family:微軟正黑體!important;
+	}
+</style>
 <body>
 
 <div class="container-fluid" style="margin-bottom: 400px">
@@ -60,7 +64,7 @@
 			        <div role="tabpanel" class="tab-pane active" id="history">
 					
 <!-- 						<br><input type="button" class="btn btn-primary" value="查詢全部" onclick="location.href='listAllOrderHistory.jsp'"> -->
-						<hr><input type="button" class="btn btn-primary" value="新增一筆訂單" onclick="location.href='<%=request.getContextPath()%>/backend/order_history/addOrderHistoryAndOrderDetail.jsp'">
+<%-- 						<hr><input type="button" class="btn btn-primary" value="新增一筆訂單" onclick="location.href='<%=request.getContextPath()%>/backend/order_history/addOrderHistoryAndOrderDetail.jsp'"> --%>
 						<hr>
 				        <table id="example1" class="display" style="width:100%; font-size:8px">
 				            <thead>

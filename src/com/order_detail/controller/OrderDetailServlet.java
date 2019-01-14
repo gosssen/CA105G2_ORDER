@@ -235,7 +235,6 @@ public class OrderDetailServlet extends HttpServlet {
 					goods_pc = 0.0;
 					errorMsgs.add("請填入商品數量。");
 				}
-				
 				OrderDetailVO orderDetailVO = new OrderDetailVO();
 				orderDetailVO.setGoods_no(goods_no);
 				orderDetailVO.setGoods_bonus(goods_bonus);
@@ -251,7 +250,6 @@ public class OrderDetailServlet extends HttpServlet {
 				OrderDetailService orderDetailSvc = new OrderDetailService();
 				orderDetailVO = orderDetailSvc.addOrderDetail(order_no, goods_no, goods_bonus, goods_pc);
 				
-				
 				String url = "/backend/order_detail/listAllOrderDetail.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
@@ -262,7 +260,7 @@ public class OrderDetailServlet extends HttpServlet {
 				failureView.forward(req, res);
 			}		
 		}
-		
+		//刪除一筆訂單明細
 		if ("delete".equals(action)) {
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
@@ -284,41 +282,25 @@ public class OrderDetailServlet extends HttpServlet {
 			}
 		}
 		
-		
-		
+		//前台_一個訂單編號的所有明細
 		if ("getAll_OrderDetail_For_A_OrderNo_Frontend".equals(action)) {
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
-			
 			try {
 				String str = req.getParameter("order_no");
-			
-				
 				String order_no = null;
-				
-					order_no = new String(str);				
-				
-				
-				
-				
+				order_no = new String(str);				
 				OrderDetailService orderDetailSvc = new OrderDetailService();
 				List<OrderDetailVO> orderDetailVO = (List<OrderDetailVO>) orderDetailSvc.findByOrderNo(order_no);
-
-				
-				
-				
-				
 				req.setAttribute("orderDetailVO", orderDetailVO);
 				String url = "/frontend/order_history/AllOrderDetailOfAOrderNo.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
-				
 			}  catch (Exception e) {
 				errorMsgs.add("無法取得資料：" + e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher("/frontend/order_history/selectOrder.jsp");
 				failureView.forward(req, res);
 			}
 		}
-		
 	}
 }
