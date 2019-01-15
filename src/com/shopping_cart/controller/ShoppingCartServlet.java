@@ -64,7 +64,38 @@ public class ShoppingCartServlet extends HttpServlet {
 			String url = "/frontend/shopping_cart/ShoppingCart.jsp";
 			RequestDispatcher rd = req.getRequestDispatcher(url);
 			rd.forward(req, res);
-		}			
+		}		
+		
+		else if ("ADD2".equals(action)) {
+			boolean match = false;
+			// 取得後來新增的商品
+			ShoppingCart agoods = getShoppingCart(req);
+			// 新增第一項商品至購物車時
+			if (buylist == null) {
+				buylist = new Vector<ShoppingCart>();
+				buylist.add(agoods);
+			} else {
+				for (int i = 0; i < buylist.size(); i++) {
+					ShoppingCart goods = buylist.get(i);
+					// 假若新增的商品和購物車的商品一樣時
+					if (goods.getGoods_no().equals(agoods.getGoods_no())) {
+						goods.setGoods_quantity(goods.getGoods_quantity() + agoods.getGoods_quantity());
+						buylist.setElementAt(goods, i);
+						match = true;
+					} 
+				}
+				// 假若新增的商品和購物車的商品不一樣時
+				if (!match)
+					buylist.add(agoods);
+			}
+			
+			session.setAttribute("shoppingcart", buylist);
+			String url = "/frontend/shopping_cart/EShop.jsp";
+			RequestDispatcher rd = req.getRequestDispatcher(url);
+			rd.forward(req, res);
+		}
+
+		
 	
 		else if ("CHECKOUT".equals(action)) {
 			// 取得後來修改的商品數量

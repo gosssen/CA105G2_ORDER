@@ -2,7 +2,10 @@ package com.goods.model;
 
 import java.sql.Timestamp;
 import java.util.List;
-import java.io.*;
+import java.util.Map;
+import java.util.Set;
+
+
 
 public class GoodsService {
 
@@ -10,9 +13,9 @@ public class GoodsService {
 
 	public GoodsService() {
 		goodsDao = new GoodsDAO();
-
+ 
 	}
-
+  
 	public GoodsVO addGoods(String evetit_no, String goods_name, Integer goods_price, byte[] goods_picture1,
 			byte[] goods_picture2, byte[] goods_picture3, String goods_introduction, Integer forsales_a,
 			Integer favorite_count, String goods_status, Timestamp launchdate, Timestamp offdate,
@@ -43,8 +46,8 @@ public class GoodsService {
 
 	public GoodsVO updateGoods(String goods_no, String evetit_no, String goods_name, Integer goods_price,
 			byte[] goods_picture1, byte[] goods_picture2, byte[] goods_picture3, String goods_introduction,
-			Integer forsales_a, Integer favorite_count, String goods_status, Timestamp launchdate, Timestamp offdate,
-			Integer goods_group_count, Integer goods_want_count, Integer goods_sales_count) {
+			Integer forsales_a,Integer favorite_count, String goods_status, Timestamp launchdate, Timestamp offdate,Integer goods_group_count,
+			Integer goods_want_count,Integer goods_sales_count) {
 
 		GoodsVO goodsVO = new GoodsVO();
 
@@ -74,12 +77,22 @@ public class GoodsService {
 	public void deleteGoods(String goods_no) {
 		goodsDao.delete(goods_no);
 	}
-
+ 
 	public GoodsVO getOneGoods(String goods_no) {
 		return goodsDao.findByPrimarykey(goods_no);
 	}
-
 	public List<GoodsVO> getAll() {
 		return goodsDao.getAll();
 	}
-}
+	
+	public List<GoodsVO> getAllLaunched() {
+		return goodsDao.getAllLaunched();
+	}
+	
+	public List<GoodsVO> getAllLaunched(Map<String, String[]> map) {
+		return goodsDao.getAllLaunched(map);
+	}
+	public Set<GoodsVO> getEventsByEventTitle(String evetit_no) {
+		return goodsDao.getEventsByEventTitle(evetit_no);
+	}
+	}

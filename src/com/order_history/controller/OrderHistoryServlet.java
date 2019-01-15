@@ -454,7 +454,7 @@ public class OrderHistoryServlet extends HttpServlet {
 				
 			}  catch (Exception e) {
 				errorMsgs.add("無法取得資料：" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/frontend/index.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/frontend/login_front-end.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -463,9 +463,6 @@ public class OrderHistoryServlet extends HttpServlet {
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
 			HttpSession session = req.getSession();
-			System.out.println(session.isNew());
-//			System.out.println(session.removeAttribute(name););
-//			Vector<ShoppingCart> buylist = (Vector<ShoppingCart>) session.getAttribute("shoppingcart");
 			
 			try {
 				String member_no = new String(req.getParameter("member_no").trim());
@@ -579,12 +576,7 @@ public class OrderHistoryServlet extends HttpServlet {
 				req.setAttribute("orderHistoryVO", orderHistoryVO);
 				
 				session.removeAttribute("shoppingcart");
-//				res.setHeader("Cache-Control", "no-store");
-//				res.setHeader("Pragma", "no-cache");
-//				res.setDateHeader("Expires", 0);
-				
-//				buylist.removeAllElements();
-				String url = "/frontend/index.jsp";
+				String url = "/frontend/shopping_cart/CheckoutCompleted.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 				
