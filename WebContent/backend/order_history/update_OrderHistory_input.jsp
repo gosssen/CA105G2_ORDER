@@ -25,14 +25,8 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 </head>
-<jsp:include page="/backend/navbar_back-end.jsp" flush="true"/>
-<style>
-	body{
-		font-family:微軟正黑體!important;
-	}
-</style>
+<div><c:import url="/backend/navbar_back-end.jsp" charEncoding="UTF-8"/></div>
 <body>
-
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-xs-12 col-sm-2"></div>
@@ -90,8 +84,8 @@
 									<div class="form-group" style="width:10%">
 										<label>付款方式：</label>
 											<select class="form-control" size="1" name="pay_methods">
-												<option value="CREDITCARD" selected>信用卡</option>
-												<option value="EWALLET">電子錢包</option>
+												<option value="CREDITCARD" selected>電子錢包</option>
+												<option value="EWALLET">信用卡</option>
 											</select>
 									</div>
 									
@@ -145,40 +139,11 @@
 								<input type="button" value="返回 " class="btn btn-default" onclick="location.href='<%=request.getContextPath()%>/backend/order_history/selectOrder.jsp'" >
 								<input type="submit" value="送出修改" class="btn btn-default">
 							</FORM>
-						
-	
-<%-- 						<jsp:useBean id="OrderHistorySvc" scope="page" class="com.order_history.model.OrderHistoryService" /> --%>
-						
-<%-- 						<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/order_history/OrderHistory.do" > --%>
-<!-- 						  <b>選擇訂單編號:</b> -->
-<!-- 							<select size="1" name="order_no"> -->
-<%-- 								<c:forEach var="OrderHistoryVO" items="${OrderHistorySvc.all}" >  --%>
-<%-- 									<option value="${OrderHistoryVO.order_no}">${OrderHistoryVO.order_no} --%>
-<%-- 								</c:forEach>    --%>
-<!-- 							</select> -->
-<!-- 							<input type="hidden" name="action" value="getOne_For_Display"> -->
-<!-- 							<input type="submit" value="查詢" class="btn btn-info"> -->
-<!-- 						</FORM> -->
-	
-<%-- 						<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/order_history/OrderHistory.do" > --%>
-<!-- 							<b>選擇會員編號:</b> -->
-<!-- 							<select size="1" name="member_no"> -->
-<%-- 								<c:forEach var="OrderHistoryVO" items="${OrderHistorySvc.allMemberNo}" >  --%>
-<%-- 									<option value="${OrderHistoryVO}">${OrderHistoryVO} --%>
-<%-- 								</c:forEach>    --%>
-<!-- 							</select> -->
-<!-- 							<input type="hidden" name="action" value="getOne_For_MemAllOrd"> -->
-<!-- 							<input type="submit" value="查詢" class="btn btn-info"> -->
-<!-- 						</FORM> -->
-
 			        </div>
 					
 					<!-- 標籤面板：訂單明細 -->
 			        <div role="tabpanel" class="tab-pane" id="detail">
-											
-<%-- 						<br><input type="button" class="btn btn-primary" value="查詢全部" onclick="location.href='<%=request.getContextPath()%>/backend/order_detail/listAllOrderDetail.jsp'"> --%>
 						<hr>
-						
 				        <table id="example2" class="display" style="width:100%; font-size:8px">
 							<thead>
 								<tr>
@@ -195,16 +160,18 @@
 								<c:forEach var="orderDetailVO" items="${listDetail}">							
 									<tr>
 										<td>${orderDetailVO.order_no}</td>
-										<td>${orderDetailVO.goods_no}</td>
+										<td>
+											<a href="<%=request.getContextPath()%>/frontend/goods2/listOneGoods.jsp?goods_no=${orderDetailVO.goods_no}">${orderDetailVO.goods_no}</a>
+										</td>
 										<td>	
 											<c:forEach var="goodsVO" items="${goodsSvc.all}">
-												<c:if test="${orderDetailVO.goods_no == goodsVO.goods_no}">${goodsVO.goods_name}</c:if>
+												<c:if test="${orderDetailVO.goods_no == goodsVO.goods_no}">
+													<a href="<%=request.getContextPath()%>/frontend/goods2/listOneGoods.jsp?goods_no=${goodsVO.goods_no}">${goodsVO.goods_name}</a>
+												</c:if>
 											</c:forEach>
 										</td>
-										
 										<td>${orderDetailVO.goods_bonus}</td>
 										<td>${orderDetailVO.goods_pc}</td>
-										
 										<td>
 										  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/order_detail/OrderDetail.do" style="margin-bottom: 0px;">
 										     <input type="submit" value="修改" class="btn btn-warning">
@@ -244,7 +211,6 @@
 </body>
 
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.css" />
-<script src="<%=request.getContextPath()%>/datetimepicker/jquery.js"></script>
 <script src="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.full.js"></script>
 
 <style>
@@ -264,10 +230,6 @@
  	       step: 1,                //step: 60 (這是timepicker的預設間隔60分鐘)
  	       format:'Y-m-d H:i:s',         //format:'Y-m-d H:i:s',
  		   value: '<%=orderHistoryVO.getOrder_date()%>', // value:   new Date(),
-           //disabledDates:        ['2017/06/08','2017/06/09','2017/06/10'], // 去除特定不含
-           //startDate:	            '2017/07/10',  // 起始日
-           //minDate:               '-1970-01-01', // 去除今日(不含)之前
-           //maxDate:               '+1970-01-01'  // 去除今日(不含)之後
         });
 
         $('#f_date2').datetimepicker({
@@ -276,10 +238,6 @@
  	       step: 1,                //step: 60 (這是timepicker的預設間隔60分鐘)
  	       format:'Y-m-d H:i:s',         //format:'Y-m-d H:i:s',
  		   value: '<%=orderHistoryVO.getOrder_etd()%>', // value:   new Date(),
-           //disabledDates:        ['2017/06/08','2017/06/09','2017/06/10'], // 去除特定不含
-           //startDate:	            '2017/07/10',  // 起始日
-           //minDate:               '-1970-01-01', // 去除今日(不含)之前
-           //maxDate:               '+1970-01-01'  // 去除今日(不含)之後
         });
         
         $('#f_date3').datetimepicker({
@@ -288,13 +246,6 @@
  	       step: 1,                //step: 60 (這是timepicker的預設間隔60分鐘)
  	       format:'Y-m-d H:i:s',         //format:'Y-m-d H:i:s',
  		   value: '<%=orderHistoryVO.getPickup_date()%>', // value:   new Date(),
-           //disabledDates:        ['2017/06/08','2017/06/09','2017/06/10'], // 去除特定不含
-           //startDate:	            '2017/07/10',  // 起始日
-           //minDate:               '-1970-01-01', // 去除今日(不含)之前
-           //maxDate:               '+1970-01-01'  // 去除今日(不含)之後
         });
-    
-        
-        
 </script>
 </html>

@@ -27,12 +27,7 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 </head>
-<jsp:include page="/backend/navbar_back-end.jsp" flush="true"/>
-<style>
-	body{
-		font-family:微軟正黑體!important;
-	}
-</style>
+<div><c:import url="/backend/navbar_back-end.jsp" charEncoding="UTF-8"/></div>
 
 <body>
 
@@ -93,8 +88,8 @@
 										<div class="form-group" style="width:20%">
 											<label>付款方式：</label>
 												<select class="form-control" size="1" name="pay_methods">
-													<option value="CREDITCARD" selected>信用卡</option>
-													<option value="EWALLET">電子錢包</option>
+													<option value="CREDITCARD" selected>電子錢包</option>
+													<option value="EWALLET">信用卡</option>
 												</select>
 										</div>
 											
@@ -199,10 +194,14 @@
 								<c:forEach var="orderDetailVO" items="${listDetail}">							
 									<tr>
 										<td>${orderDetailVO.order_no}</td>
-										<td>${orderDetailVO.goods_no}</td>
+										<td>
+											<a href="<%=request.getContextPath()%>/frontend/goods2/listOneGoods.jsp?goods_no=${orderDetailVO.goods_no}">${orderDetailVO.goods_no}</a>
+										</td>
 										<td>	
 											<c:forEach var="goodsVO" items="${goodsSvc.all}">
-												<c:if test="${orderDetailVO.goods_no == goodsVO.goods_no}">${goodsVO.goods_name}</c:if>
+												<c:if test="${orderDetailVO.goods_no == goodsVO.goods_no}">
+													<a href="<%=request.getContextPath()%>/frontend/goods2/listOneGoods.jsp?goods_no=${goodsVO.goods_no}">${goodsVO.goods_name}</a>
+												</c:if>
 											</c:forEach>
 										</td>
 										<td>${orderDetailVO.goods_bonus}</td>

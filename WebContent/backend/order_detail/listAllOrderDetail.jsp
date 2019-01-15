@@ -24,12 +24,8 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 </head>
-<jsp:include page="/backend/navbar_back-end.jsp" flush="true"/>
-<style>
-	body{
-		font-family:微軟正黑體!important;
-	}
-</style>
+<div><c:import url="/backend/navbar_back-end.jsp" charEncoding="UTF-8"/></div>
+
 <body>
 
 <div class="container-fluid">
@@ -92,8 +88,8 @@
 				                        <td>${orderHistoryVO.member_no}</td>
 				                        <td>${orderHistoryVO.order_price}</td>
 				                        <td>
-				                            ${(orderHistoryVO.pay_methods == "CREDITCARD") ? '信用卡' : '' }
-				                            ${(orderHistoryVO.pay_methods == "EWALLET") ? '電子錢包' : '' }
+				                            ${(orderHistoryVO.pay_methods == "CREDITCARD") ? '電子錢包' : '' }
+				                            ${(orderHistoryVO.pay_methods == "EWALLET") ? '信用卡' : '' }
 				                        </td>
 				                        <td>
 				                            ${(orderHistoryVO.shipping_methods == "STOREPICKUP") ? '超商取貨' : '' }
@@ -129,40 +125,10 @@
 				                </c:forEach>
 				            </tbody>
 				        </table>
-						
-	
-<%-- 						<jsp:useBean id="OrderHistorySvc" scope="page" class="com.order_history.model.OrderHistoryService" /> --%>
-						
-<%-- 						<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/order_history/OrderHistory.do" > --%>
-<!-- 						  <b>選擇訂單編號:</b> -->
-<!-- 							<select size="1" name="order_no"> -->
-<%-- 								<c:forEach var="OrderHistoryVO" items="${OrderHistorySvc.all}" >  --%>
-<%-- 									<option value="${OrderHistoryVO.order_no}">${OrderHistoryVO.order_no} --%>
-<%-- 								</c:forEach>    --%>
-<!-- 							</select> -->
-<!-- 							<input type="hidden" name="action" value="getOne_For_Display"> -->
-<!-- 							<input type="submit" value="查詢" class="btn btn-info"> -->
-<!-- 						</FORM> -->
-	
-<%-- 						<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/order_history/OrderHistory.do" > --%>
-<!-- 							<b>選擇會員編號:</b> -->
-<!-- 							<select size="1" name="member_no"> -->
-<%-- 								<c:forEach var="OrderHistoryVO" items="${OrderHistorySvc.allMemberNo}" >  --%>
-<%-- 									<option value="${OrderHistoryVO}">${OrderHistoryVO} --%>
-<%-- 								</c:forEach>    --%>
-<!-- 							</select> -->
-<!-- 							<input type="hidden" name="action" value="getOne_For_MemAllOrd"> -->
-<!-- 							<input type="submit" value="查詢" class="btn btn-info"> -->
-<!-- 						</FORM> -->
-
 			        </div>
-					
 					<!-- 標籤面板：訂單明細 -->
 			        <div role="tabpanel" class="tab-pane active" id="detail">
-											
-<%-- 						<br><input type="button" class="btn btn-primary" value="查詢全部" onclick="location.href='<%=request.getContextPath()%>/backend/order_detail/listAllOrderDetail.jsp'"> --%>
 						<hr>
-						
 				        <table id="example2" class="display" style="width:100%; font-size:8px">
 							<thead>
 								<tr>
@@ -179,16 +145,18 @@
 								<c:forEach var="orderDetailVO" items="${listDetail}">							
 									<tr>
 										<td>${orderDetailVO.order_no}</td>
-										<td>${orderDetailVO.goods_no}</td>
+										<td>
+											<a href="<%=request.getContextPath()%>/frontend/goods2/listOneGoods.jsp?goods_no=${orderDetailVO.goods_no}">${orderDetailVO.goods_no}</a>
+										</td>
 										<td>	
 											<c:forEach var="goodsVO" items="${goodsSvc.all}">
-												<c:if test="${orderDetailVO.goods_no == goodsVO.goods_no}">${goodsVO.goods_name}</c:if>
+												<c:if test="${orderDetailVO.goods_no == goodsVO.goods_no}">
+													<a href="<%=request.getContextPath()%>/frontend/goods2/listOneGoods.jsp?goods_no=${goodsVO.goods_no}">${goodsVO.goods_name}</a>
+												</c:if>
 											</c:forEach>
-										</td>
-										
+										</td>					
 										<td>${orderDetailVO.goods_bonus}</td>
 										<td>${orderDetailVO.goods_pc}</td>
-										
 										<td>
 										  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/order_detail/OrderDetail.do" style="margin-bottom: 0px;">
 										     <input type="submit" value="修改" class="btn btn-warning">

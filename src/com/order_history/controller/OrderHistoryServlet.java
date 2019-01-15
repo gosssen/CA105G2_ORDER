@@ -453,7 +453,7 @@ public class OrderHistoryServlet extends HttpServlet {
 				successView.forward(req, res);
 				
 			}  catch (Exception e) {
-				errorMsgs.add("無法取得資料：" + e.getMessage());
+//				errorMsgs.add("無法取得資料：" + e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher("/frontend/login_front-end.jsp");
 				failureView.forward(req, res);
 			}

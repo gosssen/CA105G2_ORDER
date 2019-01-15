@@ -7,6 +7,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import com.shopping_cart.model.ShoppingCart;
 import com.goods.model.GoodsVO;
+import com.member.model.MemberVO;
 
 public class ShoppingCartServlet extends HttpServlet {
 
@@ -36,6 +37,24 @@ public class ShoppingCartServlet extends HttpServlet {
 				buylist.removeAllElements();
 //				session.invalidate();
 			}
+			else if ("BACK".equals(action)) {
+				// 取得後來修改的商品數量
+				String [] quantity = req.getParameterValues("goods_quantity");
+				for (int i = 0; i < buylist.size(); i++) {
+					ShoppingCart goods = buylist.get(i);
+					goods.setGoods_quantity(Integer.parseInt(quantity[i]));
+					if ((Integer.parseInt(quantity[i])) >= 10 ) {
+						goods.setGoods_price(goods.getForsales_a());
+					}else {
+						goods.setGoods_price(goods.getOld_price());
+					}
+				} 
+				session.setAttribute("shoppingcart", buylist);
+				String url = "/frontend/shopping_cart/EShop.jsp";
+				RequestDispatcher rd = req.getRequestDispatcher(url);
+				rd.forward(req, res);
+			}
+			
 			// 新增商品至購物車中
 			else if ("ADD".equals(action)) {
 				boolean match = false;
@@ -65,66 +84,39 @@ public class ShoppingCartServlet extends HttpServlet {
 			RequestDispatcher rd = req.getRequestDispatcher(url);
 			rd.forward(req, res);
 		}		
-		
-		else if ("ADD2".equals(action)) {
-			boolean match = false;
-			// 取得後來新增的商品
-			ShoppingCart agoods = getShoppingCart(req);
-			// 新增第一項商品至購物車時
-			if (buylist == null) {
-				buylist = new Vector<ShoppingCart>();
-				buylist.add(agoods);
-			} else {
-				for (int i = 0; i < buylist.size(); i++) {
-					ShoppingCart goods = buylist.get(i);
-					// 假若新增的商品和購物車的商品一樣時
-					if (goods.getGoods_no().equals(agoods.getGoods_no())) {
-						goods.setGoods_quantity(goods.getGoods_quantity() + agoods.getGoods_quantity());
-						buylist.setElementAt(goods, i);
-						match = true;
-					} 
-				}
-				// 假若新增的商品和購物車的商品不一樣時
-				if (!match)
-					buylist.add(agoods);
-			}
 			
-			session.setAttribute("shoppingcart", buylist);
-			String url = "/frontend/shopping_cart/EShop.jsp";
-			RequestDispatcher rd = req.getRequestDispatcher(url);
-			rd.forward(req, res);
-		}
-
-		
-	
 		else if ("CHECKOUT".equals(action)) {
 			// 取得後來修改的商品數量
-			ShoppingCart agoods = getShoppingCart(req);
 			String [] quantity = req.getParameterValues("goods_quantity");
-			for (int i = 0; i < buylist.size(); i++) {
-				ShoppingCart goods = buylist.get(i);
-				goods.setGoods_quantity(Integer.parseInt(quantity[i]));
-//				oldprice = goods.getGoods_price();
-				if ((Integer.parseInt(quantity[i])) >= 10 ) {
-					goods.setGoods_price(goods.getForsales_a());
-				}else {
-					goods.setGoods_price(goods.getOld_price());
+			MemberVO memberVO = (MemberVO) session.getAttribute("member");
+			if (memberVO != null) {
+				for (int i = 0; i < buylist.size(); i++) {
+					ShoppingCart goods = buylist.get(i);
+					goods.setGoods_quantity(Integer.parseInt(quantity[i]));
+					if ((Integer.parseInt(quantity[i])) >= 10 ) {
+						goods.setGoods_price(goods.getForsales_a());
+					}else {
+						goods.setGoods_price(goods.getOld_price());
+					}
+				} 
+				session.setAttribute("shoppingcart", buylist);
+				float total = 0;
+				for (int i = 0; i < buylist.size(); i++) {
+					ShoppingCart order = buylist.get(i);
+					int goods_price = order.getGoods_price();
+					int goods_quantity = order.getGoods_quantity();
+					total += (goods_price * goods_quantity);
 				}
-			} 
-			session.setAttribute("shoppingcart", buylist);
-			float total = 0;
-			for (int i = 0; i < buylist.size(); i++) {
-				ShoppingCart order = buylist.get(i);
-				int goods_price = order.getGoods_price();
-				int goods_quantity = order.getGoods_quantity();
-				total += (goods_price * goods_quantity);
+	
+				String amount = String.valueOf(total);
+				req.setAttribute("amount", amount);
+				String url = "/frontend/shopping_cart/Checkout.jsp";
+				RequestDispatcher rd = req.getRequestDispatcher(url);
+				rd.forward(req, res);
 			}
-
-			String amount = String.valueOf(total);
-			req.setAttribute("amount", amount);
-			String url = "/frontend/shopping_cart/Checkout.jsp";
-			RequestDispatcher rd = req.getRequestDispatcher(url);
-			rd.forward(req, res);
+		String url = "/frontend/login_front-end.jsp";
+		RequestDispatcher rd = req.getRequestDispatcher(url);
+			
 		}
 	}
 

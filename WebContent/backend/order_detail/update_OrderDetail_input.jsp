@@ -27,12 +27,8 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 </head>
-<jsp:include page="/backend/navbar_back-end.jsp" flush="true"/>
-<style>
-	body{
-		font-family:微軟正黑體!important;
-	}
-</style>
+<div><c:import url="/backend/navbar_back-end.jsp" charEncoding="UTF-8"/></div>
+
 <body>
 
 <div class="container-fluid">
@@ -95,8 +91,8 @@
 				                        <td>${orderHistoryVO.member_no}</td>
 				                        <td>${orderHistoryVO.order_price}</td>
 				                        <td>
-				                            ${(orderHistoryVO.pay_methods == "CREDITCARD") ? '信用卡' : '' }
-				                            ${(orderHistoryVO.pay_methods == "EWALLET") ? '電子錢包' : '' }
+				                            ${(orderHistoryVO.pay_methods == "CREDITCARD") ? '電子錢包' : '' }
+				                            ${(orderHistoryVO.pay_methods == "EWALLET") ? '信用卡' : '' }
 				                        </td>
 				                        <td>
 				                            ${(orderHistoryVO.shipping_methods == "STOREPICKUP") ? '超商取貨' : '' }
