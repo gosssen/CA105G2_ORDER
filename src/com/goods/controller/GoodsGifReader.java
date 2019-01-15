@@ -16,8 +16,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
-
-import com.event_title.model.EventTitleService;
 import com.goods.model.GoodsService;
 import com.utility.ImageUtil;
 
