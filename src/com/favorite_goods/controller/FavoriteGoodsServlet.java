@@ -2,7 +2,6 @@ package com.favorite_goods.controller;
 
 import java.io.*;
 import java.util.*;
-
 import javax.servlet.*;
 import javax.servlet.http.*;
 
@@ -18,7 +17,8 @@ public class FavoriteGoodsServlet extends HttpServlet {
 	public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
-		//一個會員的所有商品
+		PrintWriter out = res.getWriter();
+		
 		if ("getAll_Goods_Of_A_Member".equals(action)) {
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
@@ -70,7 +70,7 @@ public class FavoriteGoodsServlet extends HttpServlet {
 				failureView.forward(req, res);
 			}
 		}
-		//所有會員的最愛商品
+		
 		if ("getAll_Member_Of_A_Goods".equals(action)) {
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
@@ -173,64 +173,29 @@ public class FavoriteGoodsServlet extends HttpServlet {
 				failureView.forward(req, res);
 			}
 		}
-		//修改最愛商品_不需要
-//		if ("getOne_For_Update".equals(action)) {
-//			List<String> errorMsgs = new LinkedList<String>();
-//			req.setAttribute("errorMsgs", errorMsgs);
-//			
-//			try {
-//				String member_no = new  String(req.getParameter("member_no"));
-//				
-//				FavoriteGoodsService favoriteGoodsSvc = new FavoriteGoodsService();
-//				FavoriteGoodsVO favoriteGoodsVO = favoriteGoodsSvc.getOneFavoriteGoods(member_no);
-//				
-//				req.setAttribute("favoriteGoodsVO", favoriteGoodsVO);
-//				String url = "/backend/favorite_goods/update_FavoriteGoods_input.jsp";
-//				RequestDispatcher successView = req.getRequestDispatcher(url);
-//				successView.forward(req, res);
-//				
-//			} catch (Exception e) {
-//				errorMsgs.add("無法取得要修改的資料：" + e.getMessage());
-//				RequestDispatcher failureView = req.getRequestDispatcher("/backend/favorite_goods/listAllFavoriteGoods.jsp");
-//				failureView.forward(req, res);
-//			}
-//		}
-		//修改最愛商品_不需要
-//		if ("update".equals(action)) {
-//			List<String> errorMsgs = new LinkedList<String>();
-//			req.setAttribute("errorMsgs", errorMsgs);
-//			
-//			try {
-//
-//				String member_no = new String(req.getParameter("member_no").trim());
-//				String goods_no = new String(req.getParameter("goods_no").trim());
-//			
-//				FavoriteGoodsVO favoriteGoodsVO = new FavoriteGoodsVO();
-//				favoriteGoodsVO.setMember_no(member_no);
-//				favoriteGoodsVO.setGoods_no(goods_no);
-//				
-//				if (!errorMsgs.isEmpty()) {
-//					req.setAttribute("favoriteGoodsVO", favoriteGoodsVO); 
-//					RequestDispatcher failureView = req.getRequestDispatcher("/backend/favorite_goods/update_FavoriteGoods_input.jsp");
-//					failureView.forward(req, res);
-//					return;
-//				}
-//				
-//				FavoriteGoodsService favoriteGoodsSvc = new FavoriteGoodsService();
-//				favoriteGoodsVO = favoriteGoodsSvc.updateFavoriteGoods(member_no, goods_no);
-//			
-//				req.setAttribute("favoriteGoodsVO", favoriteGoodsVO); 
-//				String url = "/backend/favorite_goods/listOneFavoriteGoods.jsp";
-//				RequestDispatcher successView = req.getRequestDispatcher(url);
-//				successView.forward(req, res);
-//				
-//			} catch (Exception e) {
-//				errorMsgs.add("修改資料失敗："+e.getMessage());
-//				RequestDispatcher failureView = req.getRequestDispatcher("/backend/favorite_goods/update_FavoriteGoods_input.jsp");
-//				failureView.forward(req, res);
-//			}
-//		}
-		//新增最愛商品
+		
+		if ("getOne_For_Update".equals(action)) {
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+			
+			try {
+				String member_no = new  String(req.getParameter("member_no"));
+				
+				FavoriteGoodsService favoriteGoodsSvc = new FavoriteGoodsService();
+				FavoriteGoodsVO favoriteGoodsVO = favoriteGoodsSvc.getOneFavoriteGoods(member_no);
+				
+				req.setAttribute("favoriteGoodsVO", favoriteGoodsVO);
+				String url = "/backend/favorite_goods/update_FavoriteGoods_input.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url);
+				successView.forward(req, res);
+				
+			} catch (Exception e) {
+				errorMsgs.add("無法取得要修改的資料：" + e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher("/backend/favorite_goods/listAllFavoriteGoods.jsp");
+				failureView.forward(req, res);
+			}
+		}
+		
 		if ("insert".equals(action)) {
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
@@ -263,7 +228,7 @@ public class FavoriteGoodsServlet extends HttpServlet {
 				failureView.forward(req, res);
 			}		
 		}
-		//刪除最愛商品
+		
 		if ("delete".equals(action)) {
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
@@ -285,7 +250,7 @@ public class FavoriteGoodsServlet extends HttpServlet {
 			}
 		}
 	
-		//前台_一個會員的所有最愛商品
+		
 		if ("getAll_Goods_Of_A_Member_Front".equals(action)) {
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
@@ -309,7 +274,6 @@ public class FavoriteGoodsServlet extends HttpServlet {
 			}
 		}
 		
-		//前台_刪除一筆最愛商品
 		if ("delete_Front".equals(action)) {
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
@@ -331,5 +295,52 @@ public class FavoriteGoodsServlet extends HttpServlet {
 			}
 		}
 		
+		if ("getOneFavoriteEvent_For_Display_Front".equals(action)) {
+			try {
+				String member_no = req.getParameter("member_no");
+				String goods_no = req.getParameter("goods_no");
+				FavoriteGoodsService favoriteGoodsService = new FavoriteGoodsService();
+				boolean result = favoriteGoodsService.getOneFavoriteGoods(member_no, goods_no);
+
+				out.println(result);
+
+			} catch (Exception e) {
+				out.println("  ###" + " 查詢失敗 : " +  e.getMessage());
+			}
+		}
+		
+		if ("addFavoriteGoods_Front".equals(action)) {
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+			
+			try {
+				String member_no = new String(req.getParameter("member_no").trim());
+				String goods_no = new String(req.getParameter("goods_no").trim());			
+			
+				FavoriteGoodsVO favoriteGoodsVO = new FavoriteGoodsVO();
+				favoriteGoodsVO.setMember_no(member_no);
+				favoriteGoodsVO.setGoods_no(goods_no);
+				FavoriteGoodsService favoriteGoodsSvc = new FavoriteGoodsService();
+				favoriteGoodsVO = favoriteGoodsSvc.addFavoriteGoods(member_no, goods_no);
+				
+			} catch (Exception e) {
+				errorMsgs.add(e.getMessage());
+			}		
+		}
+		
+		if ("deleteFavoriteGoods_Front".equals(action)) {
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+		
+			try {
+				String member_no = new String(req.getParameter("member_no"));
+				String goods_no = new String(req.getParameter("goods_no"));
+				FavoriteGoodsService favoriteGoodsSvc = new FavoriteGoodsService();
+				favoriteGoodsSvc.deleteFavoriteGoods(member_no, goods_no);
+				
+			} catch (Exception e) {
+				errorMsgs.add("刪除資料失敗:" + e.getMessage());
+			}
+		}
 	}
 }

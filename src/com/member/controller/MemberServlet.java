@@ -4,20 +4,20 @@ import java.io.*;
 import java.sql.Timestamp;
 import java.util.*;
 
+import javax.mail.Session;
 import javax.servlet.*;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.*;
 
-import com.member.model.MemberService;
-import com.member.model.MemberVO;
+import com.member.model.*;
 
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 5 * 1024 * 1024, maxRequestSize = 5 * 5 * 1024 * 1024)
 public class MemberServlet extends HttpServlet {
 
-//	public void doGet(HttpServletRequest req, HttpServletResponse res)
-//			throws ServletException, IOException {
-//		doPost(req, res);
-//	}
+	public void doGet(HttpServletRequest req, HttpServletResponse res)
+			throws ServletException, IOException {
+		doPost(req, res);
+	}
 
 	public void doPost(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
@@ -25,6 +25,77 @@ public class MemberServlet extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
 		
+		if("find_By_Account".equals(action)) {
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+			HttpSession session = req.getSession();
+			try {
+				//***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
+				String member_account = req.getParameter("member_account");
+				String member_password = req.getParameter("member_password");
+				if (member_account == null || (member_account.trim()).length() == 0) {
+					errorMsgs.add("請輸入會員帳號");
+				}
+				if (member_password == null || (member_password.trim()).length() == 0) {
+					errorMsgs.add("請輸入會員密碼");
+				}
+				
+				// Send the use back to the form, if there were errors
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req
+							.getRequestDispatcher("/frontend/login_front-end.jsp");
+					failureView.forward(req, res);
+					return;//程式中斷
+				}
+				
+				/***************************2.開始查詢資料,並準備轉交(Send the Success view)*****************************************/
+				MemberService memberService = new MemberService();
+				MemberVO member = memberService.findByAccount(member_account);
+				if (member == null) {
+					errorMsgs.add("無此帳號");
+				}
+				// Send the use back to the form, if there were errors
+				if(member_password.equals(member.getMemberPassword())){
+					session.setAttribute("member", member);
+				} else {
+					errorMsgs.add("輸入的密碼有誤");
+				}
+				
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req
+							.getRequestDispatcher("/frontend/login_front-end.jsp");
+					failureView.forward(req, res);
+					return;
+				}
+				
+				String url = "/frontend/index.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneEmp.jsp
+				successView.forward(req, res);
+
+				/***************************其他可能的錯誤處理*************************************/
+			} catch (Exception e) {
+				errorMsgs.add("無法取得資料:" + e.getMessage());
+				RequestDispatcher failureView = req
+						.getRequestDispatcher("/frontend/login_front-end.jsp");
+				failureView.forward(req, res);
+			}
+		}
+		
+		
+		if("member_Logout".equals(action)) {
+			try {
+				//***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
+				req.getSession().invalidate();
+				
+				/***************************2.開始查詢資料,並準備轉交(Send the Success view)*****************************************/
+				String url = "/CA105G2/frontend/index.jsp";
+				res.sendRedirect(url);
+				
+				/***************************其他可能的錯誤處理*************************************/
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		
 		if ("getOne_For_Display".equals(action)) { // 來自select_page.jsp的請求
 
@@ -42,7 +113,7 @@ public class MemberServlet extends HttpServlet {
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/member/select_page.jsp");
+							.getRequestDispatcher("/backend/member/select_page.jsp");
 					failureView.forward(req, res);
 					return;//程式中斷
 				}
@@ -56,7 +127,7 @@ public class MemberServlet extends HttpServlet {
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/member/select_page.jsp");
+							.getRequestDispatcher("/backend/member/select_page.jsp");
 					failureView.forward(req, res);
 					return;//程式中斷
 				}
@@ -70,14 +141,14 @@ public class MemberServlet extends HttpServlet {
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/member/select_page.jsp");
+							.getRequestDispatcher("/backend/member/select_page.jsp");
 					failureView.forward(req, res);
 					return;
 				}
 				
 				/***************************3.查詢完成,準備轉交(Send the Success view)*************/
 				req.setAttribute("member", member); // 資料庫取出的empVO物件,存入req
-				String url = "/member/listOneMember.jsp";
+				String url = "/backend/member/listOneMember.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneEmp.jsp
 				successView.forward(req, res);
 
@@ -85,7 +156,7 @@ public class MemberServlet extends HttpServlet {
 			} catch (Exception e) {
 				errorMsgs.add("無法取得資料:" + e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/member/select_page.jsp");
+						.getRequestDispatcher("/backend/member/select_page.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -108,7 +179,7 @@ public class MemberServlet extends HttpServlet {
 				
 				/***************************3.查詢完成,準備轉交(Send the Success view)************/
 				req.setAttribute("member", member);         // 資料庫取出的empVO物件,存入req
-				String url = "/member/update_member_input.jsp";
+				String url = "/backend/member/update_member_input.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 update_emp_input.jsp
 				successView.forward(req, res);
 
@@ -116,7 +187,7 @@ public class MemberServlet extends HttpServlet {
 			} catch (Exception e) {
 				errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/member/listAllMember.jsp");
+						.getRequestDispatcher("/backend/member/listAllMember.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -249,7 +320,7 @@ public class MemberServlet extends HttpServlet {
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("member", member); // 含有輸入格式錯誤的empVO物件,也存入req
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/member/update_member_input.jsp");
+							.getRequestDispatcher("/backend/member/update_member_input.jsp");
 					failureView.forward(req, res);
 					return; //程式中斷
 				}
@@ -262,7 +333,7 @@ public class MemberServlet extends HttpServlet {
 				
 				/***************************3.修改完成,準備轉交(Send the Success view)*************/
 				req.setAttribute("member", member); // 資料庫update成功後,正確的的empVO物件,存入req
-				String url = "/member/listOneMember.jsp";
+				String url = "/backend/member/listOneMember.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
 				successView.forward(req, res);
 
@@ -270,7 +341,303 @@ public class MemberServlet extends HttpServlet {
 			} catch (Exception e) {
 				errorMsgs.add("修改資料失敗:"+e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/member/update_member_input.jsp");
+						.getRequestDispatcher("/backend/member/update_member_input.jsp");
+				failureView.forward(req, res);
+			}
+		}
+		
+		if ("update_front".equals(action)) {
+			
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+			HttpSession session = req.getSession();
+			MemberVO motomember = (MemberVO) session.getAttribute("member");
+			
+			try {
+				/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
+				String memberNo = new String(req.getParameter("memberno").trim());
+				
+				String memberFullname = req.getParameter("memberFullname");
+				if (memberFullname == null || memberFullname.trim().length() == 0) {
+					errorMsgs.add("姓名請勿空白");
+				}
+				
+				String email = req.getParameter("email").trim();
+				if (email == null || email.trim().length() == 0) {
+					errorMsgs.add("電子郵件請勿空白");
+				}	
+				
+				String phone = req.getParameter("phone").trim();
+				if (phone == null || phone.trim().length() == 0) {
+					errorMsgs.add("電話號碼請勿空白");
+				}
+				
+				String idcard = req.getParameter("idcard");
+				
+				String memberAccount = req.getParameter("memberAccount").trim();
+				if (memberAccount == null || memberAccount.trim().length() == 0) {
+					errorMsgs.add("帳號請勿空白");
+				}	
+				
+				String memberPassword = req.getParameter("memberPassword").trim();
+				if (memberPassword == null || memberPassword.trim().length() == 0) {
+					errorMsgs.add("密碼請勿空白");
+				}
+				
+				Integer ewalletBalance = Integer.parseInt(req.getParameter("ewalletBalance"));
+				
+				Timestamp creationDate = Timestamp.valueOf(req.getParameter("creationDate").trim());
+				
+				byte[] profilePicture = motomember.getProfilePicture();
+				
+				String memberStatus = req.getParameter("memberStatus").trim();
+
+				String thirduid = req.getParameter("thirduid").trim();
+				
+				MemberVO newmember = new MemberVO();
+				newmember.setMemberNo(memberNo);
+				newmember.setMemberFullname(memberFullname);
+				newmember.setEmail(email);
+				newmember.setPhone(phone);
+				newmember.setIdcard(idcard);
+				newmember.setMemberAccount(memberAccount);
+				newmember.setMemberPassword(memberPassword);
+				newmember.setEwalletBalance(ewalletBalance);
+				newmember.setCreationDate(creationDate);
+				newmember.setProfilePicture(profilePicture);
+				newmember.setMemberStatus(memberStatus);
+				newmember.setThirduid(thirduid);
+				
+				if (!errorMsgs.isEmpty()) {
+					session.setAttribute("member", motomember);
+					RequestDispatcher failureView = req
+							.getRequestDispatcher("/frontend/member/update_member_information.jsp");
+					failureView.forward(req, res);
+					return;
+				}
+				
+				MemberService memberService = new MemberService();
+				memberService.updateMemberFront(memberNo, memberFullname, email, phone, idcard, memberAccount, memberPassword, ewalletBalance, creationDate, profilePicture, memberStatus, thirduid);
+				
+				/***************************3.修改完成,準備轉交(Send the Success view)*************/
+				
+				session.removeAttribute("member");
+				
+				if(session.getAttribute("member") == null){
+					session.setAttribute("member", newmember);
+				} else {
+					errorMsgs.add("個人資料修改失敗");
+				}
+				
+				String url = "/frontend/member/member_profile.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneEmp.jsp
+				successView.forward(req, res);
+				
+				/***************************其他可能的錯誤處理*************************************/
+			} catch (Exception e) {
+				errorMsgs.add("修改資料失敗:"+e.getMessage());
+				RequestDispatcher failureView = req
+						.getRequestDispatcher("/frontend/member/update_member_information.jsp");
+				failureView.forward(req, res);
+			}
+		}
+		
+		if ("update_withdrawal".equals(action)) {
+			
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+			HttpSession session = req.getSession();
+			MemberVO memberVO = (MemberVO) session.getAttribute("member");
+			try {
+				/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
+				String memberNo = req.getParameter("memberno").trim();
+				
+				String memberFullname = req.getParameter("memberFullname");
+				
+				String email = req.getParameter("email").trim();
+				
+				String phone = req.getParameter("phone").trim();
+				
+				String idcard = req.getParameter("idcard").trim();
+
+				String memberAccount = req.getParameter("memberAccount").trim();
+				
+				String memberPassword = req.getParameter("memberPassword").trim();
+
+				Integer ewalletBalance = null;
+				Integer newEwalletBalance = null;
+				try {
+					ewalletBalance = new Integer(req.getParameter("ewalletBalance").trim());
+					newEwalletBalance = memberVO.getEwalletBalance() - ewalletBalance;
+					if (ewalletBalance == 0) {
+						throw new Exception();
+					} else if (ewalletBalance > memberVO.getEwalletBalance()) {
+						throw new NumberFormatException();
+					}
+				} catch (NumberFormatException e) {
+					newEwalletBalance = memberVO.getEwalletBalance();
+					errorMsgs.add("請填入正確數字");
+				} catch (Exception e) {
+					newEwalletBalance = memberVO.getEwalletBalance();
+					errorMsgs.add("數字不得為零");
+				}
+
+				String bankAccount = req.getParameter("bankAccount").trim();
+				if (bankAccount == null || bankAccount.trim().length() == 0 || bankAccount.trim().length() != 16) {
+					errorMsgs.add("銀行帳號錯誤");
+					newEwalletBalance = memberVO.getEwalletBalance();
+				}
+				
+				Timestamp creationDate = Timestamp.valueOf(req.getParameter("creationDate").trim());
+
+				byte[] profilePicture = memberVO.getProfilePicture();
+				
+				String memberStatus = req.getParameter("memberStatus").trim();
+
+				String thirduid = req.getParameter("thirduid").trim();
+
+				MemberVO member = new MemberVO();
+				member.setMemberNo(memberNo);
+				member.setMemberFullname(memberFullname);
+				member.setEmail(email);
+				member.setPhone(phone);
+				member.setIdcard(idcard);
+				member.setMemberAccount(memberAccount);
+				member.setMemberPassword(memberPassword);
+				member.setEwalletBalance(newEwalletBalance);
+				member.setCreationDate(creationDate);
+				member.setProfilePicture(profilePicture);
+				member.setMemberStatus(memberStatus);
+				member.setThirduid(thirduid);
+				
+				if (!errorMsgs.isEmpty()) {
+					session.setAttribute("member", member);
+					RequestDispatcher failureView = req
+							.getRequestDispatcher("/frontend/ewallet/withdrawal.jsp");
+					failureView.forward(req, res);
+					return;
+				}
+				
+				MemberService memberService = new MemberService();
+				memberService.memberWithdrawal(memberNo, memberFullname, email, phone, idcard, memberAccount, memberPassword, newEwalletBalance, creationDate, profilePicture, memberStatus, thirduid);
+				
+				/***************************3.修改完成,準備轉交(Send the Success view)*************/
+				
+				session.removeAttribute("member");
+				
+				if(session.getAttribute("member") == null){
+					session.setAttribute("member", member);
+				} else {
+					errorMsgs.add("提領失敗");
+				}
+				
+				String url = "/frontend/member/member_profile.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneEmp.jsp
+				successView.forward(req, res);
+				
+				/***************************其他可能的錯誤處理*************************************/
+			} catch (Exception e) {
+				RequestDispatcher failureView = req
+						.getRequestDispatcher("/frontend/ewallet/withdrawal.jsp");
+				failureView.forward(req, res);
+			}
+		}
+		
+		if ("update_deposit".equals(action)) {
+			
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+			HttpSession session = req.getSession();
+			MemberVO memberVO = (MemberVO) session.getAttribute("member");
+			try {
+				/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
+				String memberNo = req.getParameter("memberno").trim();
+				
+				String memberFullname = req.getParameter("memberFullname");
+				
+				String email = req.getParameter("email").trim();
+				
+				String phone = req.getParameter("phone").trim();
+				
+				String idcard = req.getParameter("idcard").trim();
+				
+				String memberAccount = req.getParameter("memberAccount").trim();
+				
+				String memberPassword = req.getParameter("memberPassword").trim();
+				
+				Integer ewalletBalance = null;
+				Integer newEwalletBalance = null;
+				try {
+					ewalletBalance = new Integer(req.getParameter("ewalletBalance").trim());
+					newEwalletBalance = memberVO.getEwalletBalance() + ewalletBalance;
+					if (ewalletBalance == 0) {
+						throw new Exception();
+					}
+				} catch (NumberFormatException e) {
+					newEwalletBalance = memberVO.getEwalletBalance();
+					errorMsgs.add("請填入數字");
+				} catch (Exception e) {
+					newEwalletBalance = memberVO.getEwalletBalance();
+					errorMsgs.add("數字不得為零");
+				}
+				
+				String bankAccount = req.getParameter("bankAccount").trim();
+				if (bankAccount == null || bankAccount.trim().length() == 0 || bankAccount.trim().length() != 16) {
+					errorMsgs.add("銀行帳號錯誤");
+					newEwalletBalance = memberVO.getEwalletBalance();
+				}
+				
+				Timestamp creationDate = Timestamp.valueOf(req.getParameter("creationDate").trim());
+				
+				byte[] profilePicture = memberVO.getProfilePicture();
+				
+				String memberStatus = req.getParameter("memberStatus").trim();
+				
+				String thirduid = req.getParameter("thirduid").trim();
+				
+				MemberVO member = new MemberVO();
+				member.setMemberNo(memberNo);
+				member.setMemberFullname(memberFullname);
+				member.setEmail(email);
+				member.setPhone(phone);
+				member.setIdcard(idcard);
+				member.setMemberAccount(memberAccount);
+				member.setMemberPassword(memberPassword);
+				member.setEwalletBalance(newEwalletBalance);
+				member.setCreationDate(creationDate);
+				member.setProfilePicture(profilePicture);
+				member.setMemberStatus(memberStatus);
+				member.setThirduid(thirduid);
+				
+				if (!errorMsgs.isEmpty()) {
+					session.setAttribute("member", member);
+					RequestDispatcher failureView = req
+							.getRequestDispatcher("/frontend/ewallet/deposit.jsp");
+					failureView.forward(req, res);
+					return;
+				}
+				
+				MemberService memberService = new MemberService();
+				memberService.memberWithdrawal(memberNo, memberFullname, email, phone, idcard, memberAccount, memberPassword, newEwalletBalance, creationDate, profilePicture, memberStatus, thirduid);
+				
+				/***************************3.修改完成,準備轉交(Send the Success view)*************/
+				
+				session.removeAttribute("member");
+				
+				if(session.getAttribute("member") == null){
+					session.setAttribute("member", member);
+				} else {
+					errorMsgs.add("儲值失敗");
+				}
+				
+				String url = "/frontend/member/member_profile.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneEmp.jsp
+				successView.forward(req, res);
+				
+				/***************************其他可能的錯誤處理*************************************/
+			} catch (Exception e) {
+				RequestDispatcher failureView = req
+						.getRequestDispatcher("/frontend/ewallet/deposit.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -406,7 +773,7 @@ public class MemberServlet extends HttpServlet {
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("member", member); // 含有輸入格式錯誤的empVO物件,也存入req
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/member/addMember.jsp");
+							.getRequestDispatcher("/backend/member/addMember.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -416,7 +783,7 @@ public class MemberServlet extends HttpServlet {
 				member = memberService.addMember(memberFullname, email, phone, idcard, account, password, ewalletBalance, profilePicture, states, thirduid);
 				
 				/***************************3.新增完成,準備轉交(Send the Success view)***********/
-				String url = "/member/listAllMember.jsp";
+				String url = "/backend/member/listAllMember.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
 				successView.forward(req, res);				
 				
@@ -424,7 +791,7 @@ public class MemberServlet extends HttpServlet {
 			} catch (Exception e) {
 				errorMsgs.add(e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/member/addMember.jsp");
+						.getRequestDispatcher("/backend/member/addMember.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -446,7 +813,7 @@ public class MemberServlet extends HttpServlet {
 				memberService.deleteMember(memberNo);
 				
 				/***************************3.刪除完成,準備轉交(Send the Success view)***********/								
-				String url = "/member/listAllMember.jsp";
+				String url = "/backend/member/listAllMember.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);// 刪除成功後,轉交回送出刪除的來源網頁
 				successView.forward(req, res);
 				
@@ -454,7 +821,7 @@ public class MemberServlet extends HttpServlet {
 			} catch (Exception e) {
 				errorMsgs.add("刪除資料失敗:"+e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/member/listAllMember.jsp");
+						.getRequestDispatcher("/backend/member/listAllMember.jsp");
 				failureView.forward(req, res);
 			}
 		}

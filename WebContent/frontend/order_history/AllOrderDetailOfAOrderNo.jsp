@@ -19,7 +19,7 @@ pageContext.setAttribute("historylist",historylist);
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-		<title>訂單明細查詢</title>
+		<title>ETIckeTs - 訂單明細查詢</title>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 	</head>
@@ -59,22 +59,23 @@ pageContext.setAttribute("historylist",historylist);
 								<c:forEach var="orderDetailVO" items="${detaillist}">
 									<tr>
 										<td>
-											<a href="<%=request.getContextPath()%>/frontend/order_history/oneMemberIsOrder.jsp?member_no=${memberVO.memberNo}">${orderDetailVO.order_no}</a>
+<%-- 											<a href="<%=request.getContextPath()%>/frontend/order_history/oneMemberIsOrder.jsp?member_no=${memberVO.memberNo}">${orderDetailVO.order_no}</a> --%>
+										${orderDetailVO.order_no}
 										</td>
 										<td>
-											<a href="<%=request.getContextPath()%>/frontend/goods/listOneGoods.jsp?goods_no=${orderDetailVO.goods_no}">${orderDetailVO.goods_no}</a>
+											<a href="<%=request.getContextPath()%>/frontend/goods2/listOneGoods.jsp?goods_no=${orderDetailVO.goods_no}">${orderDetailVO.goods_no}</a>
 										</td>
 										<td>	
 											<c:forEach var="goodsVO" items="${goodsSvc.all}">
 												<c:if test="${orderDetailVO.goods_no == goodsVO.goods_no}">
-													<a href="<%=request.getContextPath()%>/frontend/goods/listOneGoods.jsp?goods_no=${orderDetailVO.goods_no}">${goodsVO.goods_name}</a>
+													<a href="<%=request.getContextPath()%>/frontend/goods2/listOneGoods.jsp?goods_no=${orderDetailVO.goods_no}">${goodsVO.goods_name}</a>
 												</c:if>
 											</c:forEach>
 										</td>
 										<td>	
 											<c:forEach var="goodsVO" items="${goodsSvc.all}">
 												<c:if test="${orderDetailVO.goods_no == goodsVO.goods_no}">
-													<a href="<%=request.getContextPath()%>/frontend/goods/listOneGoods.jsp?goods_no=${orderDetailVO.goods_no}">
+													<a href="<%=request.getContextPath()%>/frontend/goods2/listOneGoods.jsp?goods_no=${orderDetailVO.goods_no}">
 														<img src="<%=request.getContextPath()%>/goods/goodsImg1.do?goods_no=${goodsVO.goods_no}" width=50px height= auto />
 													</a>
 												</c:if>

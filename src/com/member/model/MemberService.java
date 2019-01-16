@@ -55,6 +55,75 @@ public class MemberService {
 
 		return member;
 	}
+	
+	public MemberVO updateMemberFront(String memberNo, String memberFullname, String email, String phone, String idcard, String memberAccount,
+			String memberPassword, Integer ewalletBalance, Timestamp creationDate, byte[] profilePicture,
+			String memberStatus, String thirduid) {
+		
+		MemberVO member = new MemberVO();
+		
+		member.setMemberNo(memberNo);
+		member.setMemberFullname(memberFullname);
+		member.setEmail(email);
+		member.setPhone(phone);
+		member.setIdcard(idcard);
+		member.setMemberAccount(memberAccount);
+		member.setMemberPassword(memberPassword);
+		member.setEwalletBalance(ewalletBalance);
+		member.setCreationDate(creationDate);
+		member.setProfilePicture(profilePicture);
+		member.setMemberStatus(memberStatus);
+		member.setThirduid(thirduid);
+		dao.update_front(member);
+		
+		return member;
+	}
+	
+	public MemberVO memberWithdrawal(String memberNo, String memberFullname, String email, String phone, String idcard, String memberAccount,
+			String memberPassword, Integer ewalletBalance, Timestamp creationDate, byte[] profilePicture,
+			String memberStatus, String thirduid) {
+		
+		MemberVO member = new MemberVO();
+		
+		member.setMemberNo(memberNo);
+		member.setMemberFullname(memberFullname);
+		member.setEmail(email);
+		member.setPhone(phone);
+		member.setIdcard(idcard);
+		member.setMemberAccount(memberAccount);
+		member.setMemberPassword(memberPassword);
+		member.setEwalletBalance(ewalletBalance);
+		member.setCreationDate(creationDate);
+		member.setProfilePicture(profilePicture);
+		member.setMemberStatus(memberStatus);
+		member.setThirduid(thirduid);
+		dao.withdrawal(member);
+		
+		return member;
+	}
+	
+	public MemberVO memberDeposit(String memberNo, String memberFullname, String email, String phone, String idcard, String memberAccount,
+			String memberPassword, Integer ewalletBalance, Timestamp creationDate, byte[] profilePicture,
+			String memberStatus, String thirduid) {
+		
+		MemberVO member = new MemberVO();
+		
+		member.setMemberNo(memberNo);
+		member.setMemberFullname(memberFullname);
+		member.setEmail(email);
+		member.setPhone(phone);
+		member.setIdcard(idcard);
+		member.setMemberAccount(memberAccount);
+		member.setMemberPassword(memberPassword);
+		member.setEwalletBalance(ewalletBalance);
+		member.setCreationDate(creationDate);
+		member.setProfilePicture(profilePicture);
+		member.setMemberStatus(memberStatus);
+		member.setThirduid(thirduid);
+		dao.withdrawal(member);
+		
+		return member;
+	}
 
 	public void deleteMember(String memberNo) {
 		dao.delete(memberNo);
@@ -68,4 +137,11 @@ public class MemberService {
 		return dao.getAll();
 	}
 	
+	public MemberVO findByAccount(String member_account) {
+		return dao.findByAccount(member_account);
+	}
+	
+	public MemberVO memberCheck(String member_account, String member_password,String thirdUID) {
+		return dao.memberCheck(member_account,member_password,thirdUID);
+	}
 }

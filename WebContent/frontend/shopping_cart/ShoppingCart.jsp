@@ -10,7 +10,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-	<title>購物車內容</title>
+	<title>ETIckeTs - 購物車內容</title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 	<jsp:include page="/frontend/navbar_front-end.jsp" flush="true"/>
@@ -102,7 +102,7 @@
 						</div>
 						<div class="col-xs-12 col-sm-1">
 <%-- 							<a href="<%=request.getContextPath()%>/shopping_cart/ShoppingCart.do?action=BACK" class="btn btn-default">返回商品</a> --%>
-							<input type="button" value="返回商品 " class="btn btn-default" onclick="location.href='<%=request.getContextPath()%>/frontend/shopping_cart/EShop.jsp'" >
+							<input type="button" value="返回商品 " class="btn btn-default" onclick="location.href='<%=request.getContextPath()%>/frontend/goods/selectGoods.jsp'" >
 						</div>
 						<div class="col-xs-12 col-sm-1">
 							<input type="submit" class="btn btn-default" value="付款結帳">
@@ -119,7 +119,7 @@
 					<div class="col-xs-12 col-sm-3"></div>
 					<div class="col-xs-12 col-sm-6">
 						<p><font color="red" size="7"><b>　　購物車內尚無商品</b></font><p>
-						<input type="button" value="返回商品" style="display:block; margin:auto;" class="btn btn-default" onclick="location.href='<%=request.getContextPath()%>/frontend/shopping_cart/EShop.jsp'" >
+						<input type="button" value="返回商品" style="display:block; margin:auto;" class="btn btn-default" onclick="location.href='<%=request.getContextPath()%>/frontend/goods/selectGoods.jsp'" >
 					</div>
 				</div>
 			</div>
