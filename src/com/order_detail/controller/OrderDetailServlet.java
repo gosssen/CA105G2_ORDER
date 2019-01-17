@@ -26,51 +26,19 @@ public class OrderDetailServlet extends HttpServlet {
 		if ("getAll_OrderDetail_For_A_OrderNo".equals(action)) {
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
-			
 			try {
 				String str = req.getParameter("order_no");
-				if (str == null || (str.trim()).length() == 0) {
-					errorMsgs.add("請輸入訂單編號");
-				}
-				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_detail/listAllOrderDetail.jsp");
-					failureView.forward(req, res);
-					return;
-				}
 				String order_no = null;
-				try {
-					order_no = new String(str);				
-				} catch (Exception e) {
-					errorMsgs.add("訂單編號格式不正確");
-				}
-				
-				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_detail/listAllOrderDetail.jsp");
-					failureView.forward(req, res);
-					return;
-				}
-				
+				order_no = new String(str);				
 				OrderDetailService orderDetailSvc = new OrderDetailService();
 				List<OrderDetailVO> orderDetailVO = (List<OrderDetailVO>) orderDetailSvc.findByOrderNo(order_no);
-
-				if (orderDetailVO == null) {
-					errorMsgs.add("查無資料");
-				}
-				
-				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_detail/listAllOrderDetail.jsp");
-					failureView.forward(req, res);
-					return;
-				}
-				
 				req.setAttribute("orderDetailVO", orderDetailVO);
-				String url = "/backend/order_detail/AllOrderDetailOfAOrderNo.jsp";
+				String url = "/backend/order_history/oneMemberIsOrderDetail.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
-				
 			}  catch (Exception e) {
 				errorMsgs.add("無法取得資料：" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_detail/listAllOrderDetail.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_history/selectOrder.jsp");
 				failureView.forward(req, res);
 			}
 		}
