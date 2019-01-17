@@ -4,12 +4,23 @@ import java.io.*;
 import java.sql.Timestamp;
 import java.util.*;
 
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
 import com.order_detail.model.*;
 import com.order_history.model.*;
 import com.shopping_cart.model.ShoppingCart;
+import com.favorite_goods.model.FavoriteGoodsService;
+import com.goods.model.GoodsDAO;
+import com.goods.model.GoodsVO;
 import com.member.model.*;
 
 
@@ -78,7 +89,6 @@ public class OrderHistoryServlet extends HttpServlet {
 			}
 		}
 		
-				
 		if ("getOne_For_Display".equals(action)) {
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
@@ -99,7 +109,6 @@ public class OrderHistoryServlet extends HttpServlet {
 				} catch (Exception e) {
 					errorMsgs.add("訂單編號格式不正確");
 				}
-				
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_history/selectOrder.jsp");
 					failureView.forward(req, res);
@@ -343,7 +352,7 @@ public class OrderHistoryServlet extends HttpServlet {
 				String goodsno[] = req.getParameterValues("goods_no");
 				String goodsbonus[] = req.getParameterValues("goods_bonus");
 				String goodspc[] = req.getParameterValues("goods_pc");
-				
+
 				List<OrderDetailVO> list = new ArrayList<OrderDetailVO>(); 			
 				if (goodsno != null) { 
 					
@@ -443,7 +452,6 @@ public class OrderHistoryServlet extends HttpServlet {
 			try {
 				OrderHistoryService orderHistorySvc = new OrderHistoryService();
 				List<OrderHistoryVO> orderHistoryVO = (List<OrderHistoryVO>) orderHistorySvc.findByMemberNo(memberVO.getMemberNo());
-				
 				req.setAttribute("orderHistoryVO", orderHistoryVO);
 				String url = "/frontend/order_history/oneMemberIsOrder.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
@@ -461,17 +469,11 @@ public class OrderHistoryServlet extends HttpServlet {
 			req.setAttribute("errorMsgs", errorMsgs);
 			HttpSession session = req.getSession();
 			MemberVO memberVO = (MemberVO) session.getAttribute("member");
+			Vector<ShoppingCart> buylist = (Vector<ShoppingCart>) session.getAttribute("shoppingcart");
+					
 			try {
 				String member_no = new String(req.getParameter("member_no").trim());
-				
-				Double order_price = null;
-				try {
-					order_price = new Double(req.getParameter("order_price").trim());
-				} catch (NumberFormatException e) {
-					order_price = 0.0;
-					errorMsgs.add("訂單總金額請填金額。");
-				}
-				
+				Double order_price = new Double(req.getParameter("order_price").trim());
 				String pay_methods = new String(req.getParameter("pay_methods").trim());
 				String shipping_methods = new String(req.getParameter("shipping_methods").trim());
 				
@@ -481,6 +483,10 @@ public class OrderHistoryServlet extends HttpServlet {
 				
 				String receiver_add = req.getParameter("receiver_add");
 				if (receiver_add == null || receiver_add.trim().length() == 0) {
+					errorMsgs.add("送貨地址請勿空白。");
+				}
+				String street = req.getParameter("street");
+				if (street == null || street.trim().length() == 0) {
 					errorMsgs.add("送貨地址請勿空白。");
 				}
 				
@@ -495,19 +501,21 @@ public class OrderHistoryServlet extends HttpServlet {
 				}
 				String order_status = new String(req.getParameter("order_status").trim());
 				String goods_no = new String(req.getParameter("goods_no").trim());
-				Double goods_bonus = null;
-				try {
-					goods_bonus = new Double(req.getParameter("goods_bonus").trim());
-				} catch (NumberFormatException e) {
-					goods_bonus = 0.0;
-					errorMsgs.add("請填入實際交易金額。");
-				}
-				Double goods_pc = null;
-				try {
-					goods_pc = new Double(req.getParameter("goods_pc").trim());
-				} catch (NumberFormatException e) {
-					goods_pc = 0.0;
-					errorMsgs.add("請填入商品數量。");
+				Double goods_bonus = new Double(req.getParameter("goods_bonus").trim());
+				Double goods_pc = new Double(req.getParameter("goods_pc").trim());
+				if ("CREDITCARD".equals(pay_methods)) {
+					String creditcard_no = req.getParameter("creditcard_no");
+					if (creditcard_no == null || creditcard_no.trim().length() == 0) {
+						errorMsgs.add("信用卡卡號請勿空白。");
+					}else if(creditcard_no.trim().length() < 16){
+						errorMsgs.add("請填入正確信用卡卡號16碼。");
+					}
+					String creditcard_no_safe = req.getParameter("creditcard_no_safe");
+					if (creditcard_no_safe == null || creditcard_no_safe.trim().length() == 0) {
+						errorMsgs.add("信用卡安全碼請勿空白。");
+					}else if(creditcard_no_safe.trim().length() < 3){
+						errorMsgs.add("請填入正確信用卡安全碼3碼。");
+					}
 				}
 				
 				OrderHistoryVO orderHistoryVO = new OrderHistoryVO();
@@ -527,7 +535,8 @@ public class OrderHistoryServlet extends HttpServlet {
 				String goodsbonus[] = req.getParameterValues("goods_bonus");
 				String goodspc[] = req.getParameterValues("goods_pc");
 				
-				List<OrderDetailVO> list = new ArrayList<OrderDetailVO>(); 			
+				List<OrderDetailVO> list = new ArrayList<OrderDetailVO>(); 	
+
 				if (goodsno != null) { 
 					
 					for (int i=0; i<goodsno.length; i++) { 
@@ -537,7 +546,7 @@ public class OrderHistoryServlet extends HttpServlet {
 						orderDetailVO.setGoods_pc(new Double(goodspc[i]));
 						list.add(orderDetailVO);
 					} 
-				} 
+				}
 				
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("orderHistoryVO", orderHistoryVO); 
@@ -603,14 +612,109 @@ public class OrderHistoryServlet extends HttpServlet {
 					MemberService memberSvc = new MemberService();
 					memberSvc.memberWithdrawal(memberNo, memberFullname, email, phone, idcard, memberAccount, memberPassword, newEwalletBalance, creationDate, profilePicture, memberStatus, thirduid);
 				}
+				
+				
 				OrderHistoryService orderHistorySvc = new OrderHistoryService();
 				orderHistorySvc.insertWithDetail(orderHistoryVO, list);
+				//新增商品累計銷售量開始
+				GoodsDAO goodsVO = new GoodsDAO();
+				goodsVO.updateGOODS_SALES_COUNT(list);
+
+				//完成結帳後寄E-mail通知
+				try {
+					// 設定使用SSL連線至 Gmail smtp Server
+				   Properties props = new Properties();
+				   props.put("mail.smtp.host", "smtp.gmail.com");
+				   props.put("mail.smtp.socketFactory.port", "465");
+				   props.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory");
+				   props.put("mail.smtp.auth", "true");
+				   props.put("mail.smtp.port", "465");
+				
+				   // ●設定 gmail 的帳號 & 密碼 (將藉由你的Gmail來傳送Email)
+				   // ●須將myGmail的【安全性較低的應用程式存取權】打開
+				final String myGmail = "ixlogic.wu@gmail.com";
+				final String myGmail_password = "BBB45678";
+				String subject = "安安你好";
+				String messageText = "安安你好";
+//				String to = "shou198175aa@gmail.com";
+				String to = memberVO.getEmail(); 
+				Session session_mail = Session.getInstance(props, new Authenticator() {
+					protected PasswordAuthentication getPasswordAuthentication() {
+						return new PasswordAuthentication(myGmail, myGmail_password);
+					}
+				});
+				
+				   Message message = new MimeMessage(session_mail);
+				   message.setFrom(new InternetAddress(myGmail));
+				   message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(to));
+				  
+
+				   //設定信中的主旨  
+				   message.setSubject(subject);
+				   //設定信中的內容 
+				   message.setText(messageText);
+				
+				   Transport.send(message);
+				   System.out.println("傳送成功!");
+				}catch (MessagingException e){
+					System.out.println("傳送失敗!");
+					e.printStackTrace();
+				}
+				
+				
+//				//結帳完成後寄簡訊通知
+//				try {
+//					String server = "203.66.172.131"; //Socket to Air Gateway IP
+//					int port = 8000;            //Socket to Air Gateway Port
+//
+//					String user    = "85559671"; //帳號
+//					String passwd  = "2irioiai"; //密碼
+//					String messageBig5 = new String(message.getBytes(),"big5"); //簡訊內容
+//
+//				      //----建立連線 and 檢查帳號密碼是否錯誤
+//					sock2air mysms = new sock2air();
+//					int ret_code = mysms.create_conn(server,port,user,passwd) ;
+//					if( ret_code == 0 ) {
+//						System.out.println("帳號密碼Login OK!");
+//					} else {
+//						System.out.println("帳號密碼Login Fail!");
+//						System.out.println("ret_code="+ret_code + ",ret_content=" + mysms.get_message());
+//						//結束連線
+//						mysms.close_conn();
+//						return ;
+//					}
+//
+//					//傳送文字簡訊
+//					//如需同時傳送多筆簡訊，請多次呼叫send_message()即可。
+//					for(int i=0 ; i<tel.length ; i++){  
+//						ret_code=mysms.send_message(tel[i],messageBig5);
+//						if( ret_code == 0 ) {
+//							System.out.println("簡訊已送到簡訊中心!");
+//							System.out.println("MessageID="+mysms.get_message()); //取得MessageID
+//						} else {
+//							System.out.println("簡訊傳送發生錯誤!");
+//							System.out.print("ret_code="+ret_code+",");
+//							System.out.println("ret_content="+mysms.get_message());//取得錯誤的訊息
+//							//結束連線
+//							mysms.close_conn();
+//							return ;
+//						}
+//					}
+//
+//					//結束連線
+//					mysms.close_conn();
+//
+//				}catch (Exception e)  {
+//
+//					System.out.println("I/O Exception : " + e);
+//				}
+				
+			
 				
 				session.setAttribute("member", memberVO);
 				req.setAttribute("orderHistoryVO", orderHistoryVO);
 				session.removeAttribute("shoppingcart");
 				String url = "/frontend/shopping_cart/CheckoutCompleted.jsp";
-				
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 				
