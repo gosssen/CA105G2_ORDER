@@ -1,285 +1,264 @@
 package com.goods_qa.controller;
 
 import java.io.*;
-import java.util.LinkedList;
 import java.util.*;
-
+import java.sql.Timestamp;
 import javax.servlet.*;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-import com.goods_qa.model.*;
+import com.goods_qa.model.GoodsQaService;
 
 public class GoodsQaServlet extends HttpServlet {
-
+	
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		doPost(req, res);
 	}
-
-	public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-
+	public void doPost(HttpServletRequest req, HttpServletResponse res)throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
-
-		if ("getOne_For_Display".equals(action)) { // 來自select_page.jsp的請求
-
+		
+		if ("getAll_OrderDetail_For_A_OrderNo".equals(action)) {
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
-
 			try {
-				/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/
-				String str = req.getParameter("gfaq_no");
+				String str = req.getParameter("order_no");
+				String order_no = null;
+				order_no = new String(str);				
+				OrderDetailService orderDetailSvc = new OrderDetailService();
+				List<OrderDetailVO> orderDetailVO = (List<OrderDetailVO>) orderDetailSvc.findByOrderNo(order_no);
+				req.setAttribute("orderDetailVO", orderDetailVO);
+				String url = "/backend/order_history/oneMemberIsOrderDetail.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url);
+				successView.forward(req, res);
+			}  catch (Exception e) {
+				errorMsgs.add("無法取得資料：" + e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_history/selectOrder.jsp");
+				failureView.forward(req, res);
+			}
+		}
+		
+		if ("getOne_For_Display".equals(action)) {
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+			
+			try {
+				String str = req.getParameter("order_no");
 				if (str == null || (str.trim()).length() == 0) {
-					errorMsgs.add("請輸入問題編號");
+					errorMsgs.add("請輸入訂單編號");
 				}
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/backend/goodsqa/select_page.jsp");
-					failureView.forward(req, res);
-					return;// 程式中斷
-				}
-
-				String gfaq_no = null;
-				try {
-					gfaq_no = new String(str);
-				} catch (Exception e) {
-					errorMsgs.add("問題編號格式不正確");
-				}
-				// Send the use back to the form, if there were errors
-				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/backend/goodsqa/select_page.jsp");
-					failureView.forward(req, res);
-					return;// 程式中斷
-				}
-
-				/*************************** 2.開始查詢資料 *****************************************/
-				GoodsQaService goodsqaSvc = new GoodsQaService();
-				GoodsQaVO goodsQaVO = goodsqaSvc.getOneGoodsQa(gfaq_no);
-				if (goodsQaVO == null) {
-					errorMsgs.add("查無資料");
-				}
-				// Send the use back to the form, if there were errors
-				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/backend/goodsqa/select_page.jsp");
-					failureView.forward(req, res);
-					return;// 程式中斷
-				}
-
-				/*************************** 3.查詢完成,準備轉交(Send the Success view) *************/
-				req.setAttribute("goodsQaVO", goodsQaVO); // 資料庫取出的empVO物件,存入req
-				String url = "/backend/goodsqa/listOneGoodsqa.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneEmp.jsp
-				successView.forward(req, res);
-
-				/*************************** 其他可能的錯誤處理 *************************************/
-			} catch (Exception e) {
-				errorMsgs.add("無法取得資料:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/backend/goodsqa/select_page.jsp");
-				failureView.forward(req, res);
-			}
-		}
-
-		if ("getOne_For_Update".equals(action)) { // 來自listAllEmp.jsp的請求
-
-			List<String> errorMsgs = new LinkedList<String>();
-			// Store this set in the request scope, in case we need to
-			// send the ErrorPage view.
-			req.setAttribute("errorMsgs", errorMsgs);
-
-			try {
-				/*************************** 1.接收請求參數 ****************************************/
-				String gfaq_no = new String(req.getParameter("gfaq_no"));
-
-				/*************************** 2.開始查詢資料 ****************************************/
-				GoodsQaService goodsqaSvc = new GoodsQaService();
-				GoodsQaVO goodsQaVO = goodsqaSvc.getOneGoodsQa(gfaq_no);
-
-				/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
-				req.setAttribute("goodsQaVO", goodsQaVO); // 資料庫取出的empVO物件,存入req
-				String url = "/backend/goodsqa/update_goodsqa_input.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 update_emp_input.jsp
-				successView.forward(req, res);
-
-				/*************************** 其他可能的錯誤處理 **********************************/
-			} catch (Exception e) {
-				errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/backend/goodsqa/listAllGoodsqa.jsp");
-				failureView.forward(req, res);
-			}
-		}
-
-		if ("update".equals(action)) { // 來自update_emp_input.jsp的請求
-
-			List<String> errorMsgs = new LinkedList<String>();
-			// Store this set in the request scope, in case we need to
-			// send the ErrorPage view.
-			req.setAttribute("errorMsgs", errorMsgs);
-
-			try {
-				/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/
-				String gfaq_no = new String(req.getParameter("gfaq_no").trim());
-				String goods_no = new String(req.getParameter("goods_no").trim());
-				String member_no = new String(req.getParameter("member_no").trim());
-				String administrator_no = new String(req.getParameter("administrator_no").trim());
-				String questions_content = req.getParameter("questions_content").trim();
-				if (questions_content == null || questions_content.trim().length() == 0) {
-					errorMsgs.add("問題請勿空白");
-				}
-				String answer_content = req.getParameter("answer_content").trim();
-				if (answer_content == null || answer_content.trim().length() == 0) {
-					errorMsgs.add("回答請勿空白");
-				}
-				java.sql.Timestamp questions_date = null;
-				try {
-					questions_date = java.sql.Timestamp.valueOf(req.getParameter("questions_date").trim());
-				} catch (IllegalArgumentException e) {
-					questions_date = new java.sql.Timestamp(System.currentTimeMillis());
-					errorMsgs.add("請輸入發問日期。");
-				}
-
-				java.sql.Timestamp answer_date = null;
-				try {
-					answer_date = java.sql.Timestamp.valueOf(req.getParameter("answer_date").trim());
-				} catch (IllegalArgumentException e) {
-					answer_date = new java.sql.Timestamp(System.currentTimeMillis());
-					errorMsgs.add("請輸入回答日期。");
-				}
-
-				GoodsQaVO goodsQaVO = new GoodsQaVO();
-				goodsQaVO.setGfaq_no(gfaq_no);
-				goodsQaVO.setGoods_no(goods_no);
-				goodsQaVO.setMember_no(member_no);
-				goodsQaVO.setAdministrator_no(administrator_no);
-				goodsQaVO.setQuestions_content(questions_content);
-				goodsQaVO.setAnswer_content(answer_content);
-				goodsQaVO.setQuestions_date(questions_date);
-				goodsQaVO.setAnswer_date(answer_date);
-
-				// Send the use back to the form, if there were errors
-				if (!errorMsgs.isEmpty()) {
-					req.setAttribute("goodsQaVO", goodsQaVO); // 含有輸入格式錯誤的empVO物件,也存入req
-					RequestDispatcher failureView = req
-							.getRequestDispatcher("/backend/goodsqa/update_goodsqa_input.jsp");
-					failureView.forward(req, res);
-					return; // 程式中斷
-				}
-
-				/*************************** 2.開始修改資料 *****************************************/
-				GoodsQaService goodsqaSvc = new GoodsQaService();
-				goodsQaVO = goodsqaSvc.updateGoodsQa(gfaq_no, goods_no, member_no, administrator_no, questions_content,
-						answer_content, questions_date, answer_date);
-
-				/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
-				req.setAttribute("goodsQaVO", goodsQaVO); // 資料庫update成功後,正確的的empVO物件,存入req
-				String url = "/backend/goodsqa/listOneGoodsqa.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
-				successView.forward(req, res);
-
-				/*************************** 其他可能的錯誤處理 *************************************/
-			} catch (Exception e) {
-				errorMsgs.add("修改資料失敗:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/backend/goodsqa/update_goodsqa_input.jsp");
-				failureView.forward(req, res);
-			}
-		}
-
-		if ("insert".equals(action)) { // 來自addEmp.jsp的請求
-
-			List<String> errorMsgs = new LinkedList<String>();
-			// Store this set in the request scope, in case we need to
-			// send the ErrorPage view.
-			req.setAttribute("errorMsgs", errorMsgs);
-
-			try {
-				/*********************** 1.接收請求參數 - 輸入格式的錯誤處理 *************************/
-				String goods_no = new String(req.getParameter("goods_no").trim());
-				String member_no = new String(req.getParameter("member_no").trim());
-				String administrator_no = new String(req.getParameter("administrator_no").trim());
-				String questions_content = req.getParameter("questions_content").trim();
-				if (questions_content == null || questions_content.trim().length() == 0) {
-					errorMsgs.add("問題請勿空白");
-				}
-				String answer_content = req.getParameter("answer_content").trim();
-				if (answer_content == null || answer_content.trim().length() == 0) {
-					errorMsgs.add("回答請勿空白");
-				}
-//				java.sql.Timestamp questions_date = null;
-//				try {
-//					questions_date = java.sql.Timestamp.valueOf(req.getParameter("questions_date").trim());
-//				} catch (IllegalArgumentException e) {
-//					questions_date = new java.sql.Timestamp(System.currentTimeMillis());
-//					errorMsgs.add("請輸入發問日期。");
-//				}
-//
-//				java.sql.Timestamp answer_date = null;
-//				try {
-//					answer_date = java.sql.Timestamp.valueOf(req.getParameter("answer_date").trim());
-//				} catch (IllegalArgumentException e) {
-//					answer_date = new java.sql.Timestamp(System.currentTimeMillis());
-//					errorMsgs.add("請輸入回答日期。");
-//				}
-
-				GoodsQaVO goodsQaVO = new GoodsQaVO();
-				goodsQaVO.setGoods_no(goods_no);
-				goodsQaVO.setMember_no(member_no);
-				goodsQaVO.setAdministrator_no(administrator_no);
-				goodsQaVO.setQuestions_content(questions_content);
-				goodsQaVO.setAnswer_content(answer_content);
-//				goodsQaVO.setQuestions_date(questions_date);
-//				goodsQaVO.setAnswer_date(answer_date);
-
-				// Send the use back to the form, if there were errors
-				if (!errorMsgs.isEmpty()) {
-					req.setAttribute("goodsQaVO", goodsQaVO); // 含有輸入格式錯誤的empVO物件,也存入req
-					RequestDispatcher failureView = req.getRequestDispatcher("/backend/goodsqa/addGoodsqa.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_detail/listAllOrderDetail.jsp");
 					failureView.forward(req, res);
 					return;
 				}
-
-				/*************************** 2.開始新增資料 ***************************************/
-				GoodsQaService goodsqaSvc = new GoodsQaService();
-				goodsQaVO = goodsqaSvc.addGoodsQa(goods_no, member_no, administrator_no, questions_content,
-						answer_content);
-
-				/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
-				String url = "/backend/goodsqa/listAllGoodsqa.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
+				String order_no = null;
+				try {
+					order_no = new String(str);				
+				} catch (Exception e) {
+					errorMsgs.add("訂單編號格式不正確");
+				}
+				
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_detail/listAllOrderDetail.jsp");
+					failureView.forward(req, res);
+					return;
+				}
+				
+				String goods_no = null;
+				try {
+					goods_no = new String(str);				
+				} catch (Exception e) {
+					errorMsgs.add("商品編號格式不正確");
+				}
+				
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_detail/listAllOrderDetail.jsp");
+					failureView.forward(req, res);
+					return;
+				}
+				OrderDetailService orderDetailSvc = new OrderDetailService();
+				OrderDetailVO orderDetailVO = orderDetailSvc.getOneOrderDetail(order_no, goods_no);
+				if (orderDetailVO == null) {
+					errorMsgs.add("查無資料");
+				}
+				
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_detail/listAllOrderDetail.jsp");
+					failureView.forward(req, res);
+					return;
+				}
+				
+				req.setAttribute("orderDetailVO", orderDetailVO);
+				String url = "/backend/order_detail/listOneOrderDetail.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
-
-				/*************************** 其他可能的錯誤處理 **********************************/
-			} catch (Exception e) {
-				errorMsgs.add(e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/backend/goodsqa/addGoodsqa.jsp");
+				
+			}  catch (Exception e) {
+				errorMsgs.add("無法取得資料：" + e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_detail/listAllOrderDetail.jsp");
 				failureView.forward(req, res);
 			}
 		}
-
-		if ("delete".equals(action)) { // 來自listAllEmp.jsp
-
+		
+		if ("getOne_For_Update".equals(action)) {
 			List<String> errorMsgs = new LinkedList<String>();
-			// Store this set in the request scope, in case we need to
-			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
-
+			
 			try {
-				/*************************** 1.接收請求參數 ***************************************/
+				String order_no = new  String(req.getParameter("order_no"));
+				String goods_no = new  String(req.getParameter("goods_no"));
+				
+				OrderDetailService orderDetailSvc = new OrderDetailService();
+				OrderDetailVO orderDetailVO = orderDetailSvc.getOneOrderDetail(order_no, goods_no);
+				
+				req.setAttribute("orderDetailVO", orderDetailVO);
+				String url = "/backend/order_detail/update_OrderDetail_input.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url);
+				successView.forward(req, res);
+				
+			} catch (Exception e) {
+				errorMsgs.add("無法取得要修改的資料：" + e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_detail/listAllOrderDetail.jsp");
+				failureView.forward(req, res);
+			}
+		}
+		
+		if ("update".equals(action)) {
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+			
+			try {
+				String order_no = new String(req.getParameter("order_no").trim());
+				String goods_no = new String(req.getParameter("goods_no").trim());
+				Double goods_bonus = null;
+				try {
+					goods_bonus = new Double(req.getParameter("goods_bonus").trim());
+				} catch (NumberFormatException e) {
+					goods_bonus = 0.0;
+					errorMsgs.add("請填入實際交易金額。");
+				}
+				Double goods_pc = null;
+				try {
+					goods_pc = new Double(req.getParameter("goods_pc").trim());
+				} catch (NumberFormatException e) {
+					goods_pc = 0.0;
+					errorMsgs.add("請填入商品數量。");
+				}
+				
+								
+				OrderDetailVO orderDetailVO = new OrderDetailVO();
+				orderDetailVO.setOrder_no(order_no);
+				orderDetailVO.setGoods_no(goods_no);
+				orderDetailVO.setGoods_bonus(goods_bonus);
+				orderDetailVO.setGoods_pc(goods_pc);
+	
+				
+				if (!errorMsgs.isEmpty()) {
+					req.setAttribute("orderDetailVO", orderDetailVO); 
+					RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_detail/update_OrderDetail_input.jsp");
+					failureView.forward(req, res);
+					return;
+				}
+				
+				OrderDetailService orderDetailSvc = new OrderDetailService();
+				orderDetailVO = orderDetailSvc.updateOrderDetail(goods_bonus, goods_pc, order_no, goods_no);
+			
+				req.setAttribute("orderDetailVO", orderDetailVO); 
+				String url = "/backend/order_detail/listAllOrderDetail.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url);
+				successView.forward(req, res);
+				
+			} catch (Exception e) {
+				errorMsgs.add("修改資料失敗："+e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_detail/update_OrderDetail_input.jsp");
+				failureView.forward(req, res);
+			}
+		}
+		
+		if ("insert".equals(action)) {
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+			
+			try {
+				String order_no = new String(req.getParameter("order_no").trim());
+				String goods_no = new String(req.getParameter("goods_no").trim());
+				
+				Double goods_bonus = null;
+				try {
+					goods_bonus = new Double(req.getParameter("goods_bonus").trim());
+				} catch (NumberFormatException e) {
+					goods_bonus = 0.0;
+					errorMsgs.add("請填入實際交易金額。");
+				}
+				Double goods_pc = null;
+				try {
+					goods_pc = new Double(req.getParameter("goods_pc").trim());
+				} catch (NumberFormatException e) {
+					goods_pc = 0.0;
+					errorMsgs.add("請填入商品數量。");
+				}
+				OrderDetailVO orderDetailVO = new OrderDetailVO();
+				orderDetailVO.setGoods_no(goods_no);
+				orderDetailVO.setGoods_bonus(goods_bonus);
+				orderDetailVO.setGoods_pc(goods_pc);
+				
+				if (!errorMsgs.isEmpty()) {
+					req.setAttribute("orderDetailVO", orderDetailVO); 
+					RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_detail/addOrderDetail.jsp");
+					failureView.forward(req, res);
+					return;
+				}
+				
+				OrderDetailService orderDetailSvc = new OrderDetailService();
+				orderDetailVO = orderDetailSvc.addOrderDetail(order_no, goods_no, goods_bonus, goods_pc);
+				
+				String url = "/backend/order_detail/listAllOrderDetail.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url);
+				successView.forward(req, res);
+				
+			} catch (Exception e) {
+				errorMsgs.add(e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_detail/addOrderDetail.jsp");
+				failureView.forward(req, res);
+			}		
+		}
+		//刪除一筆訂單明細
+		if ("delete".equals(action)) {
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+		
+			try {
 				String gfaq_no = new String(req.getParameter("gfaq_no"));
-
-				/*************************** 2.開始刪除資料 ***************************************/
 				GoodsQaService goodsqaSvc = new GoodsQaService();
 				goodsqaSvc.deleteGoodsQa(gfaq_no);
-
-				/*************************** 3.刪除完成,準備轉交(Send the Success view) ***********/
-				String url = "/backend/goodsqa/listAllGoodsqa.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url);// 刪除成功後,轉交回送出刪除的來源網頁
+				
+				String url = "/backend/order_detail/listAllOrderDetail.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
-
-				/*************************** 其他可能的錯誤處理 **********************************/
 			} catch (Exception e) {
 				errorMsgs.add("刪除資料失敗:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/backend/goodsqa/listAllGoodsqa.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/backend/order_detail/listAllOrderDetail.jsp");
+				failureView.forward(req, res);
+			}
+		}
+		
+		//前台_一個訂單編號的所有明細
+		if ("getAll_OrderDetail_For_A_OrderNo_Frontend".equals(action)) {
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+			try {
+				String str = req.getParameter("order_no");
+				String order_no = null;
+				order_no = new String(str);				
+				OrderDetailService orderDetailSvc = new OrderDetailService();
+				List<OrderDetailVO> orderDetailVO = (List<OrderDetailVO>) orderDetailSvc.findByOrderNo(order_no);
+				req.setAttribute("orderDetailVO", orderDetailVO);
+				String url = "/frontend/order_history/AllOrderDetailOfAOrderNo.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url);
+				successView.forward(req, res);
+			}  catch (Exception e) {
+				errorMsgs.add("無法取得資料：" + e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher("/frontend/order_history/selectOrder.jsp");
 				failureView.forward(req, res);
 			}
 		}
